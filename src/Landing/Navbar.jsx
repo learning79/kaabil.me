@@ -10,7 +10,7 @@ const Navbar = () => {
       </div>
       <div className="flex space-x-8 text-gray-700">
         {navItems.map((item, index) => (
-          <p key={index} className="hover:text-blue-500 cursor-pointer">
+          <p key={index} className="hover:text-green-500 cursor-pointer">
             {item.text}
           </p>
         ))}
