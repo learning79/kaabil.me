@@ -1,8 +1,10 @@
 import React from "react";
+import Footer from "./Footer";
 import Navbar from "./Navbar";
 import hero from "../assets/hero.png";
 import banner from "../assets/banner.png";
-import { FiArrowRight } from "react-icons/fi";
+import HowItWorks from "./howitworks";
+
 import { Button } from "@/components/ui/button";
 import WhatWeDo from "./whatwedo";
 
@@ -13,7 +15,7 @@ const Home = () => {
       <div className="flex flex-col w-full h-[790px] mt-40"> 
         <div className="flex flex-col sm:flex-row items-center"> 
           <div className="flex-grow px-24 mr-8 sm:mr-0 mb-8 sm:mb-0"> 
-            <h1 className="text-6xl font-bold mb-4 mt-8">
+            <h1 className="text-6xl font-bold mb-4">
               AI-Powered Exam <br /> 
               <span className="whitespace-no-wrap">Preparation Platform</span>
             </h1>
@@ -36,6 +38,8 @@ const Home = () => {
           <img src={banner} alt="banner"></img>
         </div>
         <WhatWeDo />
+        <HowItWorks />
+        <Footer />
       </div>
       
     </div>
