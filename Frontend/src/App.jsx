@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './Landing/home';
-
+import Dashboard from './Dashboard/dboard';
 import Navbar from './components/Navbar';
 
 function App() {
@@ -12,8 +12,8 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
-        {/* Add other routes here */}
+        <Route path="/dashboard" element={<Dashboard />} />
+       
       </Routes>
     </Router>
   );
