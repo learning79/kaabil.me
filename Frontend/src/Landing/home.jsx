@@ -4,15 +4,15 @@ import Navbar from "./Navbar";
 import hero from "../assets/hero.png";
 import banner from "../assets/banner.png";
 import HowItWorks from "./howitworks";
-
 import { Button } from "@/components/ui/button";
 import WhatWeDo from "./whatwedo";
 
 const Home = () => {
   return (
+    <section id="home">
     <div className="flex flex-col">
       <Navbar />
-      <div className="flex flex-col w-full h-[790px] mt-40"> 
+      <div className="flex flex-col w-full h-[790px] mt-24"> 
         <div className="flex flex-col sm:flex-row items-center"> 
           <div className="flex-grow px-24 mr-8 sm:mr-0 mb-8 sm:mb-0"> 
             <h1 className="text-6xl font-bold mb-4">
@@ -25,24 +25,26 @@ const Home = () => {
               gaining real-world communication skills.
             </p>
             <div className="flex items-center">
-              <Button className="py-8 px-12 rounded-full flex items-center">
+              <Button className="py-8 px-12 rounded-full flex mt-16 items-center">
                 Get Started
               </Button>
             </div>
           </div>
-          <div className="flex-grow mt-24 flex justify-center sm:justify-end">
+          <div className="flex-grow mt-40 flex justify-center sm:justify-end">
             <img src={hero} className="w-[1728px] h-auto" alt="hero" />
           </div>
         </div>
         <div className="relative w-full h-[429px]">
           <img src={banner} alt="banner"></img>
         </div>
-        <WhatWeDo />
-        <HowItWorks />
+       <WhatWeDo />
+          <HowItWorks />
+      
         <Footer />
       </div>
       
     </div>
+    </section>
     
   );
 };

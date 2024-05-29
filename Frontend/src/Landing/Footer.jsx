@@ -5,6 +5,7 @@ import { Icons } from "./Menus";
 
 const Footer = () => {
   return (
+    <section id="footer">
     <footer className="bg-graybg text-white">
         <div className=" text-center pt-16 ">
             <h1 className="font-bold text-5xl py-4 text-orange">Kaabil.</h1>
@@ -23,6 +24,7 @@ const Footer = () => {
         <SocialIcons Icons={Icons} />
       </div>
     </footer>
+    </section>
   );
 };
 

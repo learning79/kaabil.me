@@ -5,6 +5,7 @@ import what_we_do from "../assets/whatwedo_.png";
 
 const WhatWeDo = () => {
   return (
+    <section id="whatWeDo">
     <div className="relative bg-bluebg w-full py-40 h-screen font-Space Grotesk flex items-center justify-center">
         <img
             src={bgcloud}
@@ -46,6 +47,7 @@ const WhatWeDo = () => {
         </div>
       </div>
     </div>
+    </section>
   );
 };
 
