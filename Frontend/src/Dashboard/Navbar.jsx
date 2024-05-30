@@ -3,6 +3,7 @@ import logo from '../assets/logo/logo.png';
 import menu from '../assets/menu.png';
 import close from '../assets/close.png';
 
+
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
@@ -15,23 +16,31 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-bluebg shadow-md border-b border-gray-300 z-10 px-4 md:px-6 md:flex justify-between items-center">
+    <nav className="fixed top-0 left-0 w-full bg-bluebg shadow-md border-b border-gray-300 px-4 md:px-  6 md:flex justify-between items-center">
       <div className="flex justify-between items-center w-full md:w-auto">
-        <img className="h-10 w-30 md:h-40 md:w-50" src={logo} alt="logo" />
+        <img className="h-20 w-30 md:h-40 md:w-50" src={logo} alt="logo" />
         <div className="text-3xl cursor-pointer md:hidden" onClick={() => setOpen(!open)}>
           {open ? (
-            <img src={close} className="h-[20px] w-[40px]" alt="close" />
+            <img src={close} className="h-[20px] w-[20px]" alt="close" />
           ) : (
-            <img src={menu} className="h-[20px] w-40" alt="menu" />
+            <img src={menu} className="h-[20px] w-[20px]" alt="menu" />
           )}
         </div>
       </div>
       <div className="flex items-center">
         <input
           type="text"
-          placeholder="Search..."
+          placeholder="Search"
           className="px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:border-blue-500"
         />
+        <div className="p-4">
+          <button className="focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={24} height={24} color={"#000000"} fill={"none"}>
+              <path d="M17.5 17.5L22 22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M20 11C20 6.02944 15.9706 2 11 2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20C15.9706 20 20 15.9706 20 11Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
         {/* Profile picture option (to be rendered from backend) */}
         <div className="ml-4">
           {/* Render profile picture from backend */}
