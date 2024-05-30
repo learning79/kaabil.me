@@ -6,8 +6,8 @@ import wave from '../assets/Dashboard/wave.png';
 import CourseCard from "@/components/CourseCard";
 
 const Dashboard = () => {
-  // Use state to track the number of visible CourseCards
-  const [visibleCards, setVisibleCards] = useState(5); // Initial visible cards
+  
+  const [visibleCards, setVisibleCards] = useState(5); 
 
   return (
     <div className="absolute text-black bg-slate-100 flex font-Space Grotesk min-h-screen w-full">
@@ -21,9 +21,11 @@ const Dashboard = () => {
           <CourseBtn />
         </div>
         <h1 className="py-8">My Courses</h1>
-        <div className="flex flex-row py-8 flex-wrap">
+        <div className="flex flex-row flex-wrap px-12">
           {[...Array(visibleCards)].map((_, index) => (
-            <CourseCard key={index} className="mr-4 mb-4" />
+            <div key={index} className="mr-4 mb-8">
+              <CourseCard />
+            </div>
           ))}
         </div>
       </div>
