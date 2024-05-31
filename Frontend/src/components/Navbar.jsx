@@ -38,14 +38,14 @@ const Navbar = () => {
             <Link
               to={item.link}
               key={index}
-              className="hover:text-green-500 duration-500 md:ml-8 text-xl md:my-0 my-7 cursor-pointer bg-green-500 text-white py-2 px-4 rounded"
+              className="hover:text-black hover:bg-orange duration-500 md:ml-8 text-xl md:my-0 my-7 cursor-pointer bg-green-500 text-white py-2 px-4 rounded-full border-black border-2 border-b-4 active:border-b-2 "
             >
               {item.text}
             </Link>
           ) : (
             <p
               key={index}
-              className="hover:text-green-500 duration-500 md:ml-8 text-xl md:my-0 my-7 cursor-pointer"
+              className="hover:text-green-500  duration-500 md:ml-8 text-xl md:my-0 my-7 cursor-pointer"
               onClick={() => scrollToSection(item.id)}
             >
               {item.text}
