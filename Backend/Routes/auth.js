@@ -3,7 +3,7 @@ const passport = require('passport')
 const router = express.Router()
 
 const userController = require('../Controllers/user.controller');
-
+const { ensureAuth, ensureGuest } = require('../Middleware/auth')
 router.get('/google', userController.googleAuth);
 
 //router.get('/google/callback', userController.handleGoogleCallback);
@@ -18,6 +18,21 @@ router.get(
   )
 
 router.get('/logout', userController.logout);
+
+
+// auth/login/sucess
+router.get("/login/sucess",ensureAuth, async(req,res)=>{
+  //  res.render('index',{userinfo:req.user})
+  if (req.user) {
+    res.status(200).json({
+        error: false,
+        message: "Successfully Loged In",
+        user: req.user,
+    });
+} else {
+    res.status(403).json({ error: true, message: "Not Authorized" });
+}
+})
 
 module.exports = router;
 

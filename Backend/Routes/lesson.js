@@ -24,6 +24,7 @@ router.get('/', ensureGuest ,(req, res) => {
     res.render('login')
   })
 
+  /*
 router.get("/login/sucess",ensureAuth, async(req,res)=>{
   //  res.render('index',{userinfo:req.user})
   if (req.user) {
@@ -36,5 +37,5 @@ router.get("/login/sucess",ensureAuth, async(req,res)=>{
     res.status(403).json({ error: true, message: "Not Authorized" });
 }
 })
-
+*/
 module.exports=router;
