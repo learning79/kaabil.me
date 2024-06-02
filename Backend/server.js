@@ -4,13 +4,14 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const dbConfig = require("./Config/db.config.js");
 //const dotenv = require('dotenv')
+const path = require('path');
 const passport = require('passport')
 const session = require('express-session')
 // const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const configurePassport = require('./Controllers/user.controller');
 const app = express();
 
-
+/*
 app.use(
 	cors({
 		origin: "http://localhost:5173",
@@ -18,6 +19,16 @@ app.use(
 		credentials: true,
 	})
 );
+*/
+app.use(cors())
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true }));   /* bodyParser.urlencoded() is deprecated */
+// Serve static files from the React app
+
+
+
+//uncomment for production
+// app.use(express.static(path.join(__dirname, 'dist')));
 
 
 /*
@@ -65,14 +76,13 @@ app.use(cors(corsOptions));
 */
 
 // Enable CORS with default options
-app.use(cors());
+//app.use(cors());
 
 
 // parse requests of content-type - application/json
 app.use(express.json());  /* bodyParser.json() is deprecated */
 
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }));   /* bodyParser.urlencoded() is deprecated */
+
 
 const db = require("./Model");
 
@@ -93,10 +103,10 @@ configurePassport(passport);
 
 
 // Middleware
-app.use(express.urlencoded({extended:true}))
- app.use(express.static('public'))
+// app.use(express.urlencoded({extended:true}))
+ //app.use(express.static('public'))
 
- app.set('view engine','ejs');
+ // app.set('view engine','ejs');
 
  
 app.use(
@@ -133,15 +143,25 @@ app.use(session({
 */
 
 
-app.use(require("./Routes/lesson"))
-app.use('/auth', require('./Routes/auth'))
+app.use('/api',require("./Routes/lesson"))
+app.use('/api/auth', require('./Routes/auth'))
 
 
 //health check
+
 app.get("/health", (req, res) => {
-  res.json({ message: "Welcome to Kaabil application." });
+  res.status(200).json({ message: "Welcome to Kaabil application." });
 });
 
+
+//uncomment for production
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+/*
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/dist/index.html'));
+});
+*/
 //require("./app/routes/turorial.routes")(app);
 
 // set port, listen for requests

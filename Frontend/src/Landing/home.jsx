@@ -12,11 +12,15 @@ const Home = () => {
   const navigate = useNavigate(); // Initialize useNavigate
 
   const handleGetStarted = () => {
-   // navigate('/dashboard'); // Navigate to /dashboard on button click
    //navigate("http://localhost:3000/auth/google")
    //http://localhost:3000/auth/google/callback
-    window.open("http://localhost:3000/auth/google?scope=email",
- //  window.open("http://localhost:3000/auth/google/callback",
+   
+
+   //uncomment for production
+   // window.open("https://www.kaabil.me/api/auth/google?scope=email",
+
+   window.open("http://localhost:3000/api/auth/google?scope=email",
+ 
     "_self"
   );
   };

@@ -10,14 +10,20 @@ router.get('/google', userController.googleAuth);
 //http://localhost:5173
 router.get(
     '/google/callback',
-    passport.authenticate('google', { failureRedirect: 'http://localhost:5173/' }),
+    passport.authenticate('google', { failureRedirect: 'http://localhost:3000/' }),
+   //uncomment for production
+
+   // passport.authenticate('google', { failureRedirect: 'https://www.kaabil.me/' }),
     (req, res) => {
     //  res.redirect('/log')
-     res.redirect("http://localhost:5173/dashboard")
+     res.redirect("http://localhost:3000/dashboard")
+   //uncomment for production
+    //   res.redirect("https://www.kaabil.me/dashboard")
     }
   )
 
 router.get('/logout', userController.logout);
+
 
 
 // auth/login/sucess
@@ -29,6 +35,7 @@ router.get("/login/sucess",ensureAuth, async(req,res)=>{
         message: "Successfully Loged In",
         user: req.user,
     });
+    console.log("req user = ",req.user)
 } else {
     res.status(403).json({ error: true, message: "Not Authorized" });
 }

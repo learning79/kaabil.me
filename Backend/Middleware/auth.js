@@ -3,14 +3,16 @@ module.exports = {
       if (req.isAuthenticated()) {
         return next()
       } else {
-        res.redirect('/')
+        res.redirect('http://localhost:3000/')
+      //uncomment for production
+    // res.redirect('https://www.kaabil.me/')
       }
     },
     ensureGuest: function (req, res, next) {
       if (!req.isAuthenticated()) {
         return next();
       } else {
-        res.redirect('/log');
+        res.redirect('/http://localhost:3000/dashboard');
       }
     },
   }

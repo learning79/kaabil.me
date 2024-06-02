@@ -11,7 +11,9 @@ module.exports = function (passport) {
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: 'http://localhost:3000/auth/google/callback',
+        callbackURL: 'http://localhost:3000/api/auth/google/callback',
+       //uncomment for production
+     // callbackURL: 'https://www.kaabil.me/api/auth/google/callback',
       },
       async (accessToken, refreshToken, profile, done) => {
         //get the user data from google 
@@ -77,7 +79,10 @@ async function handleGoogleCallback(req, res) {
 
 module.exports.logout = (req, res) => {
   req.logout();
-  res.redirect('/');
+  // uncomment for production
+//  res.redirect('/');
+
+ res.redirect('http://localhost:5173/');
 };
 
 // module.exports = handleGoogleCallback;
