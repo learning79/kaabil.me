@@ -21,6 +21,10 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
- db.lesson = require("./lesson.model.js")(sequelize, Sequelize);
+db.lesson = require("./lesson.model.js")(sequelize, Sequelize);
 db.user = require("./user.model.js")(sequelize, Sequelize);
+
+db.user.hasMany(db.lesson);
+db.lesson.belongsTo(db.user);
+
 module.exports = db;

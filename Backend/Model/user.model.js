@@ -1,5 +1,5 @@
 //const Sequelize = require('sequelize');
-const Lesson = require('./lesson.model.js');
+// const Lesson = require('./lesson.model.js');
 module.exports= (sequelize, Sequelize) => {
     const User = sequelize.define('User', {
       id: {
@@ -45,7 +45,7 @@ module.exports= (sequelize, Sequelize) => {
       // Model options (optional)
       tableName: 'users' // Explicitly set table name if different
     });
-    User.hasMany(Lesson); // A HasMany B
+ //   User.hasMany(Lesson); // A HasMany B
     return User;
   };
   

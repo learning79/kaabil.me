@@ -1,8 +1,9 @@
+// const { user } = require('./index.js');
 
 
 
-const User = require('./user.model.js');
-
+//const User = require('./user.model.js')(sequelize, Sequelize, User);
+//const User = createUserModel(sequelize);
 module.exports = (sequelize, Sequelize) => {
     const Lesson = sequelize.define('Lesson', {
       id: {
@@ -10,6 +11,7 @@ module.exports = (sequelize, Sequelize) => {
         primaryKey: true,
         autoIncrement: true
       },
+      /*
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -18,6 +20,7 @@ module.exports = (sequelize, Sequelize) => {
           key: 'id'
         }
       },
+      */
       title: {
         type: Sequelize.STRING
       },
@@ -39,12 +42,12 @@ module.exports = (sequelize, Sequelize) => {
       }
     }, {
       // Model options (optional)
-      tableName: 'lessons' // Explicitly set table name if different
+      tableName: 'lessons' 
     });
    // Lesson.belongsTo(User, { foreignKey: 'userId' });
    // User.hasMany(Lesson); // A HasMany B
    
-   Lesson.belongsTo(User, { foreignKey: 'userId' });
+  // Lesson.belongsTo(User, { foreignKey: 'userId' });
      return Lesson;
     
   };
