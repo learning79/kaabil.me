@@ -37,7 +37,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
       
-        <Route path="/dashboard" element={ <Dashboard user={user} /> } />
+        <Route path="/dashboard" element={user ? <Dashboard user={user} /> : <Home />} />
        
       </Routes>
     </Router>

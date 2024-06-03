@@ -1,6 +1,6 @@
 
 
-/*
+
 const User = require('./user.model.js');
 
 module.exports = (sequelize, Sequelize) => {
@@ -42,6 +42,10 @@ module.exports = (sequelize, Sequelize) => {
       tableName: 'lessons' // Explicitly set table name if different
     });
    // Lesson.belongsTo(User, { foreignKey: 'userId' });
-    return Lesson;
+   // User.hasMany(Lesson); // A HasMany B
+   
+   Lesson.belongsTo(User, { foreignKey: 'userId' });
+     return Lesson;
+    
   };
-  */
+  
