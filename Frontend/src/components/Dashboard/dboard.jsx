@@ -1,8 +1,8 @@
 import { useState } from 'react'; // Import useState hook
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
-import CourseBtn from "../components/CourseBtn";
-import wave from '../assets/Dashboard/wave.png';
+import CourseBtn from "../CourseBtn";
+import wave from '/src/assets/Dashboard/wave.png';
 import CourseCard from "@/components/CourseCard";
 import Footer from '@/components/Footer';
 
@@ -25,7 +25,7 @@ const Dashboard = ({user}) => {
           {[...Array(visibleCards)].map((_, index) => (
             <div key={index} className="mr-4 mb-8">
               <CourseCard />
-            </div>
+            </div>  
           ))}
         </div>
       </div>
