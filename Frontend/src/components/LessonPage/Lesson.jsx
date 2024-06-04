@@ -13,9 +13,10 @@ const Lesson = () => {
       <div className="flex justify-center items-center w-full mt-40 px-32 text-2xl md:text-3xl"> 
         <LessonCard />
       </div>
-      <div className="flex justify-center w-full mt-16">
+      <div className="flex flex-col  w-full justify-center items-center ml-16 mt-16">
         <ToggleSwitch label="Levels" onChange={handleToggle} checked={false} />
       </div>
+
     </div>
   );
 }

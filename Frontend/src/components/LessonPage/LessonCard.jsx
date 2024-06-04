@@ -4,7 +4,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PublicSharpIcon from '@mui/icons-material/PublicSharp';
 import TimelineSharpIcon from '@mui/icons-material/TimelineSharp';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-
+import {Button} from '../ui/button';
 import {
   Card,
   CardContent,
@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import {Button} from '../ui/button';
+
 
 const LessonCard = ({
   title = 'UPSC Exam- Complete',
