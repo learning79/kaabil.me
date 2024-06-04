@@ -7,9 +7,9 @@ module.exports = {
         return next()
       } else {
          // If the user is not authenticated, redirect them to the Home page
-        res.redirect('http://localhost:5173/')
+      //  res.redirect('http://localhost:5173/')
       //uncomment for production
-    // res.redirect('https://www.kaabil.me/')
+     res.redirect('https://www.kaabil.me/')
       }
     },
      // ensureGuest checks if the user is not authenticated before proceeding, will not be used
@@ -19,7 +19,9 @@ module.exports = {
         return next();
       } else {
          // If the user is authenticated, redirect them to the dashboard
-        res.redirect('/http://localhost:5173/dashboard');
+      //  res.redirect('/http://localhost:5173/dashboard');
+      // uncomment for production
+        res.redirect('https://www.kaabil.me/dashboard')
       }
     },
   }

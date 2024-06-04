@@ -13,8 +13,9 @@ const configurePassport = require('./Controllers/user.controller'); // Include t
 const app = express();
 
 // Enable CORS with default settings for all origins
- // app.use(cors())
+  app.use(cors())
 
+ /*
 app.use(
 	cors({
 		origin: "http://localhost:5173",
@@ -22,7 +23,7 @@ app.use(
 		credentials: true,
 	})
 );
-
+*/
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
@@ -30,7 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Serve static files from the React app
 //uncomment for production
-// app.use(express.static(path.join(__dirname, 'dist')));
+ app.use(express.static(path.join(__dirname, 'dist')));
 
 
 
@@ -113,11 +114,11 @@ app.get("/health", (req, res) => {
 //uncomment for production
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
-/*
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/dist/index.html'));
 });
-*/
+
 
 
 // set port, listen for requests
