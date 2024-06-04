@@ -207,6 +207,7 @@ $\Rightarrow$ Nothing can be said about the sign of $\frac{\sin 3 \alpha}{\cos 2
 Comprehension Passage Based ( Questions)
 
 Let $\mathrm{O}$ be the origin, and $\overrightarrow{\mathrm{OX}}, \overrightarrow{\mathrm{OY}}, \overrightarrow{\mathrm{OZ}}$ be three unit vectors in the directions of the sides $\overrightarrow{\mathrm{QR}}, \overrightarrow{\mathrm{RP}}, \overrightarrow{\mathrm{PQ}}$ respectively, of a triangle $\mathrm{PQR}$.
+
 10. $|\overrightarrow{\mathrm{OX}} \times \overrightarrow{\mathrm{OY}}|=$
 (a) $\sin (\mathrm{P}+\mathrm{Q})$
 (b) $\sin 2 \mathrm{R}$
