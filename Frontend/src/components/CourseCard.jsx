@@ -12,7 +12,7 @@ import { Button } from './ui/button';
 
 const ExampleCard = () => {
   return (
-    <Card className="max-w-sm bg-slate-200 px-4 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <Card className="max-w-sm hover:scale-105 duration-500 bg-slate-200 px-4 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <CardHeader className="p-5">
         <img src={cover}  className='rounded-lg h-[230px] w-[290px]'/>
         <CardTitle className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
