@@ -37,7 +37,7 @@ const Navbar = ({user}) => {
         </div>
         {/* Profile picture option (to be rendered from backend) */}
         <div className="ml-2 sm:ml-4 h-8 w-8 sm:h-10 sm:w-10">
-          <img src={user?.image || pp} className="rounded-full" alt="profile" />
+          <img src={user && user.image ? user.image : pp} className="rounded-full" alt="profile" />
           {/* Render profile picture from backend */}
           {/* Example: <img src={profilePictureUrl} className="h-10 w-10 rounded-full" alt="Profile" /> */}
         </div>

@@ -19,7 +19,7 @@ const Dashboard = ({ user }) => {
       <Navbar user={user} />
       <div className="flex-grow md:text-3xl sm:text-2xl flex flex-col text-left px-32 justify-start items-start mt-56">
         <div className="flex flex-row justify-start w-120">
-          <h1 className="mb-4">Welcome Back, {user?.displayName || 'Guest'}!</h1>
+          <h1 className="mb-4">Welcome Back, {user && user.displayName ? user.displayName : 'Guest'}!</h1>
           <img src={wave} className="h-[50px] w-[50px] p-2 " alt="hand wave" />
         </div>
         <div className="bg-slate-200 p-16 rounded-xl w-full sm:w-3/4 md:px-36 px-20">

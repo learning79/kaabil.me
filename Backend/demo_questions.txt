@@ -204,7 +204,7 @@ $\therefore(\mathrm{A})$ corresponds to $(\mathrm{r})$
 (s) If $\alpha \in(0, \pi / 2)$, then $0<3 \alpha<3 \pi / 2$ and $2<2 \alpha<\pi$
 $\Rightarrow$ Nothing can be said about the sign of $\frac{\sin 3 \alpha}{\cos 2 \alpha}$ over the given interval.
 
-Comprehension Passage Based ( Qrestions
+Comprehension Passage Based ( Questions)
 
 Let $\mathrm{O}$ be the origin, and $\overrightarrow{\mathrm{OX}}, \overrightarrow{\mathrm{OY}}, \overrightarrow{\mathrm{OZ}}$ be three unit vectors in the directions of the sides $\overrightarrow{\mathrm{QR}}, \overrightarrow{\mathrm{RP}}, \overrightarrow{\mathrm{PQ}}$ respectively, of a triangle $\mathrm{PQR}$.
 10. $|\overrightarrow{\mathrm{OX}} \times \overrightarrow{\mathrm{OY}}|=$
