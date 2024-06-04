@@ -34,7 +34,7 @@ const LessonCard = ({
         <CardDescription className="flex-grow mb-4 text-gray-700 dark:text-gray-400 overflow-auto">
           <p>{description}</p>
         </CardDescription>
-        <div className="flex flex-col md:flex-row mb-4 text-sm">
+        <div className="flex  md:flex-row mb-4 text-sm">
           <div className="flex flex-col mr-8 mb-8">
             <p className="flex items-center hover:text-blue-900 duration-500">
               <AccessTimeIcon fontSize="small" className="m-2" />{duration}

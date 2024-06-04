@@ -7,7 +7,7 @@ module.exports = {
         return next()
       } else {
          // If the user is not authenticated, redirect them to the Home page
-      //  res.redirect('http://localhost:5173/')
+       //  res.redirect('http://localhost:5173/')
       //uncomment for production
      res.redirect('https://www.kaabil.me/')
       }

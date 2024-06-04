@@ -15,15 +15,14 @@ function App() {
       //https://kaabil-api.kaabil.me
       //http://localhost:3000
       //uncomment for production
-			const url = "https://www.kaabil.me/api/auth/login/sucess";
-    //  const url = "http://localhost:3000/api/auth/login/sucess";
+		//	const url = "https://www.kaabil.me/api/auth/login/sucess";
+      const url = "http://localhost:3000/api/auth/login/sucess";
 			const { data } = await axios.get(url, { withCredentials: true });
       console.log("i am here")
       console.log("this is the data = ",data)
       console.log("hi i am here 22")
 			setUser(data.user);
-      console.log("user name =",user.displayName);
-      console.log("i am here 23")
+     
 		} catch (err) {
 		//	console.log(err);
     
@@ -42,7 +41,7 @@ function App() {
         <Route path="/" element={<Home />} />
       
         <Route path="/dashboard" element={user ? <Dashboard user={user} /> : <Dashboard />} />
-        <Route path='/dashboard/lesson' element={<Lesson/>}/>
+        <Route path='/dashboard/lesson' element={<Lesson user={user}/>}/>
         
       </Routes>
     </Router>
