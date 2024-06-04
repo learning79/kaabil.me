@@ -22,8 +22,7 @@ function App() {
       console.log("this is the data = ",data)
       console.log("hi i am here 22")
 			setUser(data.user);
-      console.log("user name =",user.displayName);
-      console.log("i am here 23")
+     
 		} catch (err) {
 		//	console.log(err);
     
@@ -42,7 +41,7 @@ function App() {
         <Route path="/" element={<Home />} />
       
         <Route path="/dashboard" element={user ? <Dashboard user={user} /> : <Dashboard />} />
-        <Route path='/dashboard/lesson' element={<Lesson/>}/>
+        <Route path='/dashboard/lesson' element={<Lesson user={user}/>}/>
         
       </Routes>
     </Router>

@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/card';
 import { Button } from './ui/button';
 
-const ExampleCard = () => {
+const ExampleCard = ({ onStartNewLesson }) => {
   return (
     <Card className="max-w-sm hover:scale-105 duration-500 bg-slate-200 px-4 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <CardHeader className="p-5">
@@ -27,7 +27,7 @@ const ExampleCard = () => {
       </CardContent>
       <CardFooter className="p-5">
         <p className="font-normal text-gray-700 dark:text-gray-400">
-            <Button><p className='underline'>Resume Course</p></Button>
+            <Button onClick={onStartNewLesson}><p className='underline'>Start Course</p></Button>
         </p>
       </CardFooter>
     </Card>

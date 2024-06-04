@@ -9,10 +9,10 @@ const HowItWorks = () => {
       <div className="bg-slate-200 w-full min-h-full font-Space Grotesk flex flex-col md:items-center items-center md:justify-center p-8">
         <div className="align items-center"></div>
         <h1 className="text-5xl font-bold mt-16 text-center">How it Works?</h1>
-        <span className="px-40 text-center mt-8">
+        <span className="md:px-40 px-8 text-center mt-8">
             Kaabil.me is a self-learning platform designed to keep you engaged and motivated. Our platform tailors courses to your unique learning style, ensuring that you stay interested and make consistent progress. With Kaabil.me, you get personalized content that adapts to your needs, making learning more effective and enjoyable. The platform includes interactive quizzes and real-world projects that reinforce your knowledge. Join Kaabil.me today and experience a new way of learning that’s tailored just for you.
         </span>
-        <div className="flex flex-col md:flex-row mt-16 p-16 justify-center space-x-16">
+        <div className="flex flex-col md:flex-row mt-16 p-16 justify-center px-4">
             <div className="flex flex-col justify-center items-center text-center space-y-4">
                 <img src={signup} className="h-40 w-40" alt="signup" />
                 <Button className="rounded-full">1</Button>

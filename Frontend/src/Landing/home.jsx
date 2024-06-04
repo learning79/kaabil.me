@@ -19,9 +19,7 @@ const Home = () => {
    //uncomment for production
    // window.open("https://www.kaabil.me/api/auth/google?scope=email",
 
-   window.open("http://localhost:3000/api/auth/google?scope=email",
- 
-    "_self"
+   window.open("http://localhost:3000/api/auth/google?scope=email","_self"
   );
   };
 
@@ -29,9 +27,9 @@ const Home = () => {
     <section id="home" className="min-h-screen w-full">
       <div className="md:flex min-h-screen sm:items-center w-full flex-col">
         <Navbar onGetStarted={handleGetStarted}/>
-        <div className="flex flex-col w-full h-[790px] mt-24">
+        <div className="flex flex-col w-full  mt-24">
           <div className="flex flex-col md:flex-row items-center md:justify-between">
-            <div className="flex-grow text-center md:text-left py-8 px-24 mr-8 sm:mr-0 mb-8 sm:mb-0">
+            <div className="flex-grow text-center px-12 md:text-left sm:mr-0 mb-8 sm:mb-0">
               <h1 className="text-6xl font-bold mb-4">
                 AI-Powered Exam <br />
                 <span className="whitespace-no-wrap">Preparation Platform</span>
@@ -48,10 +46,10 @@ const Home = () => {
               </div>
             </div>
             <div className="flex-grow mt-40 flex justify-center sm:justify-end">
-              <img src={hero} className="w-[1728px] h-auto" alt="hero" />
+              <img src={hero} className="w-full h-auto" alt="hero" />
             </div>
           </div>
-          <div className="relative w-full h-[429px]">
+          <div className="relative w-full ">
             <img src={banner} alt="banner"></img>
           </div>
           <WhatWeDo />
