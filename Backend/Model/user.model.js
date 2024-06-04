@@ -1,5 +1,6 @@
-//const Sequelize = require('sequelize');
-// const Lesson = require('./lesson.model.js');
+
+
+// Define a Sequelize model for Users, particularly for managing user information post-authentication
 module.exports= (sequelize, Sequelize) => {
     const User = sequelize.define('User', {
       id: {
@@ -9,7 +10,7 @@ module.exports= (sequelize, Sequelize) => {
       },
       googleId: {
         type: Sequelize.STRING,
-        allowNull: false, // Same as required: true in Mongoose
+        allowNull: false, 
       },
       displayName: {
         type: Sequelize.STRING,
@@ -29,7 +30,7 @@ module.exports= (sequelize, Sequelize) => {
       email: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
+        unique: true // Ensures email addresses are unique within the table
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -43,9 +44,9 @@ module.exports= (sequelize, Sequelize) => {
       }
     }, {
       // Model options (optional)
-      tableName: 'users' // Explicitly set table name if different
+      tableName: 'users' // Explicitly defines the table name in the database
     });
- //   User.hasMany(Lesson); // A HasMany B
+ 
     return User;
   };
   

@@ -4,19 +4,21 @@ const User = db.user;
 const GoogleStrategy = require('passport-google-oauth20').Strategy
 
 
-
+// Module exports to configure passport for Google OAuth authentication
 module.exports = function (passport) {
+  // Use GoogleStrategy within Passport to handle Google authentication
   passport.use(
     new GoogleStrategy(
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: 'http://localhost:3000/api/auth/google/callback',
-       //uncomment for production
+        callbackURL: 'http://localhost:3000/api/auth/google/callback',// Local development callback URL
+
+      // Uncomment the following line for production environment callback URL
      // callbackURL: 'https://www.kaabil.me/api/auth/google/callback',
       },
       async (accessToken, refreshToken, profile, done) => {
-        //get the user data from google 
+         // Extract user information from Google profile
         const newUser = {
           googleId: profile.id,
           displayName: profile.displayName,
@@ -27,7 +29,7 @@ module.exports = function (passport) {
         }
 
         try {
-            // Find the user in our database
+            // Attempt to find the user in the database by googleId
             let user = await User.findOne({ where: { googleId: profile.id } });
           
             if (user) {
@@ -39,6 +41,7 @@ module.exports = function (passport) {
               done(null, user);
             }
           } catch (err) {
+            // Log any server errors
             console.error(err);
           }
 
@@ -47,12 +50,12 @@ module.exports = function (passport) {
     )
   )
 
-  // used to serialize the user for the session
+   // Serialize the user session by saving only the user ID into the session
   passport.serializeUser((user, done) => {
     done(null, user.id)
   })
 
-  // used to deserialize the user
+ // Deserialize the user session by fetching the user from the database by ID
   passport.deserializeUser((id, done) => {
     User.findByPk(id)
       .then(user => done(null, user))
@@ -61,22 +64,11 @@ module.exports = function (passport) {
 } 
 
 
-
+// Authenticate requests using Google OAuth with required scopes for profile and email
 module.exports.googleAuth = passport.authenticate('google', { scope: ['profile', 'email'] });
 
 
-/*
-async function handleGoogleCallback(req, res) {
-    try {
-      await passport.authenticate('google', { failureRedirect: '/' })(req, res,next);
-      res.redirect('/log'); // Redirect to desired location after successful authentication
-    } catch (error) {
-      console.error('Error during Google authentication callback:', error);
-      res.status(500).send('Internal Server Error'); // Handle errors appropriately
-    }
-    
-  }*/
-
+// Logout function to end the user session and redirect to home page
 module.exports.logout = (req, res) => {
   req.logout();
   // uncomment for production
@@ -85,4 +77,3 @@ module.exports.logout = (req, res) => {
  res.redirect('http://localhost:5173/');
 };
 
-// module.exports = handleGoogleCallback;

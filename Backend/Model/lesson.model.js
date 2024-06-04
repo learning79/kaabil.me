@@ -1,53 +1,38 @@
-// const { user } = require('./index.js');
 
-
-
-//const User = require('./user.model.js')(sequelize, Sequelize, User);
-//const User = createUserModel(sequelize);
+// Define a Sequelize model for Lessons
 module.exports = (sequelize, Sequelize) => {
     const Lesson = sequelize.define('Lesson', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
-      /*
-      userId: {
-        type: Sequelize.INTEGER,
+      question: {
+        type: Sequelize.STRING,
         allowNull: false,
-        references: {
-          model: User, // Reference the User model
-          key: 'id'
-        }
       },
-      */
-      title: {
-        type: Sequelize.STRING
+      options: {
+        type: Sequelize.ARRAY(Sequelize.STRING), // Stores an array of strings for multiple choice options
+        // some questions might not have options
       },
-      content: {
+      solution: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
-      subject: {
+      reference: {  // Optional field for additional references, like a textbook page, year of question
         type: Sequelize.STRING,
-        allowNull: false
+       
       },
       level: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM('easy', 'medium', 'hard'), // Restricts the level to specific values
+        defaultValue: 'easy',  // Sets 'easy' as the default difficulty level
       },
-      createdAt: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-        allowNull: false
-      }
+
+     
     }, {
       // Model options (optional)
       tableName: 'lessons' 
     });
-   // Lesson.belongsTo(User, { foreignKey: 'userId' });
-   // User.hasMany(Lesson); // A HasMany B
-   
-  // Lesson.belongsTo(User, { foreignKey: 'userId' });
      return Lesson;
     
   };
