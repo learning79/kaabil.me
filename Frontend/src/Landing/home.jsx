@@ -26,9 +26,9 @@ const Home = () => {
   };
 
   return (
-    <section id="home">
-      <div className="md:flex min-h-screen w-full flex-col">
-        <Navbar />
+    <section id="home" className="min-h-screen w-full">
+      <div className="md:flex min-h-screen sm:items-center w-full flex-col">
+        <Navbar onGetStarted={handleGetStarted}/>
         <div className="flex flex-col w-full h-[790px] mt-24">
           <div className="flex flex-col md:flex-row items-center md:justify-between">
             <div className="flex-grow text-center md:text-left py-8 px-24 mr-8 sm:mr-0 mb-8 sm:mb-0">

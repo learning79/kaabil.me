@@ -1,8 +1,9 @@
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ContentPage from './ContentPage';  // Adjust the import path as necessary
+import LevelsPage from './LevelsPage';
 
 const ToggleSwitch = ({ onLevelsClick, onContentClick }) => {
-  // Ensure these functions are called when the respective tab is selected
   const handleSelectLevels = () => {
     onLevelsClick();
   };
@@ -18,12 +19,10 @@ const ToggleSwitch = ({ onLevelsClick, onContentClick }) => {
         <TabsTrigger value="content" onInteract={handleSelectContent}>Content</TabsTrigger>
       </TabsList>
       <TabsContent value="levels">
-        {/* Content or actions related to 'Levels' tab can be placed here */}
-        <div>Levels content or actions go here.</div>
+        <LevelsPage />  
       </TabsContent>
       <TabsContent value="content">
-        {/* Content or actions related to 'Content' tab can be placed here */}
-        <div>Content actions or display here.</div>
+        <ContentPage />  
       </TabsContent>
     </Tabs>
   );
