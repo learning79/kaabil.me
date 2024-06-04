@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import axios from 'axios';
 import Home from './Landing/home';
-import Dashboard from './Dashboard/dboard';
+import Dashboard from './components/Dashboard/dboard';
+import Lesson from './components/LessonPage/Lesson';
 
 function App() {
 
@@ -20,9 +21,11 @@ function App() {
       console.log("i am here")
       console.log("this is the data = ",data)
 			setUser(data.user);
+      console.log(user.displayName);
       console.log("i am here 23")
 		} catch (err) {
 		//	console.log(err);
+    
     console.error("Error fetching user data:", err);
 		}
 	};
@@ -37,8 +40,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
       
-        <Route path="/dashboard" element={user ? <Dashboard user={user} /> : <Home />} />
-       
+        <Route path="/dashboard" element={user ? <Dashboard user={user} /> : <Dashboard />} />
+        <Route path='/dashboard/lesson' element={<Lesson/>}/>
+        
       </Routes>
     </Router>
   );

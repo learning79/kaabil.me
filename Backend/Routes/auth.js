@@ -10,13 +10,13 @@ router.get('/google', userController.googleAuth);
 //http://localhost:5173
 router.get(
     '/google/callback',
-    passport.authenticate('google', { failureRedirect: 'http://localhost:3000/' }),
+    passport.authenticate('google', { failureRedirect: 'http://localhost:5173/' }),
    //uncomment for production
 
    // passport.authenticate('google', { failureRedirect: 'https://www.kaabil.me/' }),
     (req, res) => {
     //  res.redirect('/log')
-     res.redirect("http://localhost:3000/dashboard")
+     res.redirect("http://localhost:5173/dashboard")
    //uncomment for production
     //   res.redirect("https://www.kaabil.me/dashboard")
     }

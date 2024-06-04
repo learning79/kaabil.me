@@ -3,7 +3,7 @@ module.exports = {
       if (req.isAuthenticated()) {
         return next()
       } else {
-        res.redirect('http://localhost:3000/')
+        res.redirect('http://localhost:5173/')
       //uncomment for production
     // res.redirect('https://www.kaabil.me/')
       }
@@ -12,7 +12,7 @@ module.exports = {
       if (!req.isAuthenticated()) {
         return next();
       } else {
-        res.redirect('/http://localhost:3000/dashboard');
+        res.redirect('/http://localhost:5173/dashboard');
       }
     },
   }
