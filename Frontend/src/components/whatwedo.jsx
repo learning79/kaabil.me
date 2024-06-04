@@ -28,7 +28,7 @@ const WhatWeDo = () => {
           </div>
           <div className="flex flex-col text-white max-w-lg order-1 md:order-2 text-center md:text-left">
             <h1 className="font-bold text-5xl mb-4">What We Do</h1>
-            <span className="mb-4 mt-12">
+            <span className="mb-4 px-2 md:px-0 mt-12">
               Sit at nisl tincidunt tortor. Varius bibendum gravida cras egestas.
               Placerat neque risus id elementum et laoreet non dignissim. Ipsum
               tincidunt vitae nunc blandit elementum varius. Nulla velit blandit
@@ -36,7 +36,7 @@ const WhatWeDo = () => {
               id bibendum tincidunt. Egestas neque fringilla vulputate tristique
               ullamcorper volutpat egestas pellentesque parturient.
             </span>
-            <span>
+            <span className="mb-4 px-2 md:px-0 ">
               Sit at nisl tincidunt tortor. Varius bibendum gravida cras egestas.
               Placerat neque risus id elementum et laoreet non dignissim. Ipsum
               tincidunt vitae nunc blandit elementum varius. Nulla velit blandit
