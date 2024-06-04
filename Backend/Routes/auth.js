@@ -43,14 +43,16 @@ router.get('/logout', userController.logout);
 // auth/login/sucess
 // Route to validate successful login, only accessible to authenticated users
 router.get("/login/sucess",ensureAuth, async(req,res)=>{
+  console.log("req user = ",req.user) // Log user data for debugging purposes
   if (req.user) {
+ //   console.log("req user = ",req.user)
      // If user is authenticated, return success message and user data
     res.status(200).json({
         error: false,
         message: "Successfully Loged In",
         user: req.user,
     });
-    console.log("req user = ",req.user) // Log user data for debugging purposes
+   // console.log("req user = ",req.user)
 } else {
    // If user is not authenticated, return error
     res.status(403).json({ error: true, message: "Not Authorized" });

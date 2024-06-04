@@ -13,7 +13,16 @@ const configurePassport = require('./Controllers/user.controller'); // Include t
 const app = express();
 
 // Enable CORS with default settings for all origins
-app.use(cors())
+ // app.use(cors())
+
+app.use(
+	cors({
+		origin: "http://localhost:5173",
+	//	methods: "GET,POST,PUT,DELETE",
+		credentials: true,
+	})
+);
+
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
@@ -47,8 +56,7 @@ db.sequelize.sync()
 // Call the imported function with the passport instance
 // Initialize Passport authentication
 configurePassport(passport);
-app.use(passport.initialize())
-app.use(passport.session())
+
 
 
 
@@ -70,7 +78,10 @@ app.use(
   )
 
 
-  
+  app.use(passport.initialize())
+app.use(passport.session())
+
+
 
 
 
@@ -89,11 +100,14 @@ app.use('/api',require("./Routes/lesson"))
 app.use('/api/auth', require('./Routes/auth'))
 
 
-
 // Simple health check endpoint
 app.get("/health", (req, res) => {
   res.status(200).json({ message: "Welcome to Kaabil application." });
 });
+
+
+
+
 
 
 //uncomment for production
@@ -104,7 +118,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/dist/index.html'));
 });
 */
-//require("./app/routes/turorial.routes")(app);
+
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

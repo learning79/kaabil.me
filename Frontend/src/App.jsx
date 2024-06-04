@@ -17,11 +17,12 @@ function App() {
       //uncomment for production
 			//const url = "https://www.kaabil.me/api/auth/login/sucess";
       const url = "http://localhost:3000/api/auth/login/sucess";
-			const { data } = await axios.get(url);
+			const { data } = await axios.get(url, { withCredentials: true });
       console.log("i am here")
       console.log("this is the data = ",data)
+      console.log("hi i am here 22")
 			setUser(data.user);
-      console.log(user.displayName);
+      console.log("user name =",user.displayName);
       console.log("i am here 23")
 		} catch (err) {
 		//	console.log(err);
