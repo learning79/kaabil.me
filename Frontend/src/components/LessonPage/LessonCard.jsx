@@ -21,7 +21,8 @@ const LessonCard = ({
   duration = '40 minutes',
   language = 'English',
   xp = '200 XP',
-  level = 'Beginner'
+  level = 'Beginner',
+  onClickStartChapter
 }) => {
   return (
     <Card className="flex flex-col md:flex-row w-full bg-slate-200 border border-gray-200 rounded-2xl shadow dark:bg-gray-800 dark:border-gray-700">
@@ -53,7 +54,7 @@ const LessonCard = ({
           </div>
         </div>
         <CardFooter>
-          <Button className="rounded-full mb-8">
+          <Button onClick={onClickStartChapter} className="rounded-full mb-8">
             <p className='p-4'>Start Now</p>
           </Button>
         </CardFooter>

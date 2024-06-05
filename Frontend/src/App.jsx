@@ -4,6 +4,7 @@ import axios from 'axios';
 import Home from './Landing/home';
 import Dashboard from './components/Dashboard/dboard';
 import Lesson from './components/LessonPage/Lesson';
+import Chapter from './components/ChapterPage/Chapter';
 
 function App() {
 
@@ -40,8 +41,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
       
-        <Route path="/dashboard" element={user ? <Dashboard user={user} /> : <Dashboard />} />
-        <Route path='/dashboard/lesson' element={<Lesson user={user}/>}/>
+        <Route path="/dashboard" element={user ? <Dashboard user={user} /> : <Home/>} />
+        <Route path='/dashboard/lesson' element={user ?<Lesson user={user}/>: <Home/>}/>
+        <Route path='/dashboard/Lesson/chapter' element={user ? <Chapter user={user}/>: <Home/>}/>
         
       </Routes>
     </Router>

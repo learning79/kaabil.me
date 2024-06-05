@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import logo from '../../assets/logo/logo.png';
 import pp from '../../assets/Dashboard/pp.png';
 
-const Navbar = ({user}) => {
+const Navbar = ({ user }) => {
   const [open, setOpen] = useState(false);
 
   const scrollToSection = (id) => {
@@ -15,13 +15,14 @@ const Navbar = ({user}) => {
   };
 
   return (
-    <nav className="fixed shadow-md top-0 left-0 w-full bg-bluebg border-b border-gray-300 px-2 sm:px-4 md:px-6 flex justify-between backdrop-blur-sm items-center">
+    <nav className="fixed shadow-md top-0 left-0 w-full bg-bluebg border-b border-gray-300 px-2 flex justify-between backdrop-blur-sm items-center">
       <div className="flex flex-row justify-between items-center w-full md:w-auto">
         <Link to="/">
-          <img className="h-12 w-12 sm:h-24 sm:w-24 md:h-24 md:w-24" src={logo} alt="logo" />
+          {/* Increased the max-height and adjusted margins */}
+          <img className="h-auto w-auto max-h-16 max-w-16 sm:max-h-32 sm:max-w-24 md:max-h-24 md:max-w-32" src={logo} alt="logo" style={{ margin: 'auto' }} />
         </Link>
       </div>
-      <div className="flex items-center">
+      <div className="flex items-center ">
         <input
           type="text"
           placeholder="Search"
@@ -35,11 +36,8 @@ const Navbar = ({user}) => {
             </svg>
           </button>
         </div>
-        {/* Profile picture option (to be rendered from backend) */}
         <div className="ml-2 sm:ml-4 h-8 w-8 sm:h-10 sm:w-10">
           <img src={user && user.image ? user.image : pp} className="rounded-full" alt="profile" />
-          {/* Render profile picture from backend */}
-          {/* Example: <img src={profilePictureUrl} className="h-10 w-10 rounded-full" alt="Profile" /> */}
         </div>
       </div>
     </nav>
