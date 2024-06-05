@@ -5,9 +5,11 @@ import wave from "/src/assets/Dashboard/wave.png";
 import CourseCard from "@/components/CourseCard";
 import Footer from "@/components/Footer";
 
+
 const Dashboard = ({ user }) => {
-  const [visibleCards, setVisibleCards] = useState(10);
+  const [visibleCards, setVisibleCards] = useState(1);
   const navigate = useNavigate();
+
 
   const handleStartNewLesson = () => {
     navigate("/dashboard/Lesson");
@@ -32,7 +34,7 @@ const Dashboard = ({ user }) => {
         </div>
 
         <h1 className="py-8">My Courses</h1>
-        <div className="flex absolute flex-row flex-wrap justify-center">
+        <div className="flex flex-row flex-wrap justify-center">
           {[...Array(visibleCards)].map((_, index) => (
             <div key={index} className="mr-4 mb-8">
               <CourseCard onStartNewLesson={handleStartNewLesson} />
