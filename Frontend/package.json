@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ebereplenty/chatbot": "^1.0.1",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
@@ -27,6 +28,7 @@
     "clsx": "^2.1.1",
     "hamburger-react": "^2.5.1",
     "lucide-react": "^0.379.0",
+    "openai": "^4.48.2",
     "react": "^18.2.0",
     "react-confetti": "^6.1.0",
     "react-confetti-explosion": "^2.1.2",

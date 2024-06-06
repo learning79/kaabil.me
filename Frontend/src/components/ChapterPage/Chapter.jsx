@@ -187,7 +187,8 @@ const Chapter = ({ user }) => {
                   handleCheckAnswer(q.id, userInputs[q.id] || "")
                 }
               />
-            ))}
+            ))} 
+   
           </div>
           <div className="flex justify-end py-2">
             <Button className="mr-2 rounded-full" onClick={() => setCurrentQuestions(currentQuestions.slice(0, -1))}>Back</Button>
