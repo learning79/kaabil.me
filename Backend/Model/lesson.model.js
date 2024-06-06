@@ -27,10 +27,16 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.ENUM('easy', 'medium', 'hard'), // Restricts the level to specific values
         defaultValue: 'easy',  // Sets 'easy' as the default difficulty level
       },
-
+      question_type: {
+        type: Sequelize.ENUM('comprehension', 'list based', 'mcq'), // New field for the type of question
+      },
+      comprehension_question: {
+        type: Sequelize.STRING, // New field for comprehension question text
+        allowNull: true, // Allows null values as not all questions may be comprehension-based
+      },
      
     }, {
-      // Model options (optional)
+      // Model options
       tableName: 'lessons' 
     });
      return Lesson;

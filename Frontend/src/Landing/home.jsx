@@ -17,9 +17,9 @@ const Home = () => {
    
 
    //uncomment for production
-  //  window.open("https://www.kaabil.me/api/auth/google?scope=email",
+    window.open("https://www.kaabil.me/api/auth/google?scope=email",
 
-   window.open("http://localhost:3000/api/auth/google?scope=email",
+  // window.open("http://localhost:3000/api/auth/google?scope=email",
    "_self"
   );
   };
@@ -28,9 +28,9 @@ const Home = () => {
     <section id="home" className="min-h-screen w-full">
       <div className="md:flex min-h-screen sm:items-center w-full flex-col">
         <Navbar onGetStarted={handleGetStarted}/>
-        <div className="flex flex-col w-full  mt-24">
+        <div className="flex flex-col w-full mt-24">
           <div className="flex flex-col md:flex-row items-center md:justify-between">
-            <div className="flex-grow text-center px-12 md:text-left sm:mr-0 mb-8 sm:mb-0">
+            <div className="flex-grow text-center md:px-12 md:text-left sm:mr-0 mb-8 sm:mb-0">
               <h1 className="text-6xl font-bold mb-4">
                 AI-Powered Exam <br />
                 <span className="whitespace-no-wrap">Preparation Platform</span>
