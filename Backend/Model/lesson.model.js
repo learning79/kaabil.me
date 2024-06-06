@@ -1,7 +1,8 @@
-
 // Define a Sequelize model for Lessons
 module.exports = (sequelize, Sequelize) => {
-    const Lesson = sequelize.define('Lesson', {
+  const Lesson = sequelize.define(
+    "Lesson",
+    {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -19,13 +20,13 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      reference: {  // Optional field for additional references, like a textbook page, year of question
+      reference: {
+        // Optional field for additional references, like a textbook page, year of question
         type: Sequelize.STRING,
-       
       },
       level: {
-        type: Sequelize.ENUM('easy', 'medium', 'hard'), // Restricts the level to specific values
-        defaultValue: 'easy',  // Sets 'easy' as the default difficulty level
+        type: Sequelize.ENUM("easy", "medium", "hard"), // Restricts the level to specific values
+        defaultValue: "easy", // Sets 'easy' as the default difficulty level
       },
       question_type: {
         type: Sequelize.ENUM('comprehension', 'list based', 'mcq'), // New field for the type of question
