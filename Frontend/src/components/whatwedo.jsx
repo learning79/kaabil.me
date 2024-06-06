@@ -29,18 +29,10 @@ const WhatWeDo = () => {
           <div className="flex flex-col text-white max-w-lg order-1 md:order-2 text-center md:text-left">
             <h1 className="font-bold text-5xl mb-4">What We Do</h1>
             <span className="mb-4 px-2 md:px-0 mt-12">
-              Sit at nisl tincidunt tortor. Varius bibendum gravida cras egestas.
-              Placerat neque risus id elementum et laoreet non dignissim. Ipsum
-              tincidunt vitae nunc blandit elementum varius. Nulla velit blandit
-              gravida gravida sodales nunc habitant semper fringilla. Sapien vitae
-              id bibendum tincidunt. Egestas neque fringilla vulputate tristique
-              ullamcorper volutpat egestas pellentesque parturient.
+              At Kaabil, we revolutionize learning by providing an engaging, interactive, and personalized experience for learners of all ages and backgrounds. Our courses, designed by industry experts, combine video lessons, quizzes, and practical exercises for a comprehensive learning experience. Using advanced algorithms, we create personalized learning paths that allow learners to progress at their own pace and focus on areas needing improvement. 
             </span>
             <span className="mb-4 px-2 md:px-0 ">
-              Sit at nisl tincidunt tortor. Varius bibendum gravida cras egestas.
-              Placerat neque risus id elementum et laoreet non dignissim. Ipsum
-              tincidunt vitae nunc blandit elementum varius. Nulla velit blandit
-              gravida gravida sodales nunc habitant semper fringilla.
+              By joining Kaabil, take a step towards a brighter future. Let's make learning a lifelong adventure together.
             </span>
           </div>
         </div>
