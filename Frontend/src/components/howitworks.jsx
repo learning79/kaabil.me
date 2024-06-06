@@ -17,19 +17,19 @@ const HowItWorks = () => {
                 <img src={signup} className="h-40 w-40" alt="signup" />
                 <Button className="rounded-full">1</Button>
                 <h1 className="text-2xl text-slate-800">Create Account</h1>
-                <span>Condimentum ultricies in imperdiet viverra massa. Non ac varius a ornare posuere sed placerat sed.</span>
+                <span>Create account now to receive latest updates and information on our courses</span>
             </div>
             <div className="flex flex-col justify-center items-center text-center space-y-4">
                 <img src={search} className="h-40 w-40" alt="signup" />
                 <Button className="rounded-full">2</Button>
-                <h1 className="text-2xl text-slate-800">Create Account</h1>
-                <span>Condimentum ultricies in imperdiet viverra massa. Non ac varius a ornare posuere sed placerat sed.</span>
+                <h1 className="text-2xl text-slate-800">Explore Courses</h1>
+                <span>Click to explore our engaging courses and embark on your learning adventure now!</span>
             </div>
             <div className="flex flex-col justify-center items-center text-center space-y-4">
                 <img src={elearning} className="h-40 w-40" alt="signup" />
                 <Button className="rounded-full">3</Button>
-                <h1 className="text-2xl text-slate-800">Create Account</h1>
-                <span>Condimentum ultricies in imperdiet viverra massa. Non ac varius a ornare posuere sed placerat sed.</span>
+                <h1 className="text-2xl text-slate-800">Start Learning</h1>
+                <span>Enter into the new age of learning with your own personalised tutor</span>
             </div>
         </div>
         {/* <div className="flex flex-row p-16 justify-center space-x-16 relative z-50">
