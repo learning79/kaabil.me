@@ -11,7 +11,7 @@ import { Button } from "./ui/button";
 
 const ExampleCard = ({ onStartNewLesson }) => {
   return (
-    <Card className="max-w-sm hover:scale-105 duration-500 bg-slate-200 px-4 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transform transition-transform relative">
+    <Card className="max-w-sm hover:scale-105 overflow-hidden duration-500 bg-slate-200 px-4 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transform transition-transform relative">
       <CardHeader className="p-5">
         <img
           src={cover}

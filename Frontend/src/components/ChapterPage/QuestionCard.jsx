@@ -4,16 +4,28 @@ import { MathJax, MathJaxContext } from 'better-react-mathjax';
 
 const QuestionCard = ({ question, options, userInput, setUserInput, handleCheckAnswer }) => {
     const optionKeys = Object.keys(options);
+    
+
 
     // UseEffect to re-render MathJax upon option changes
-    // useEffect(() => {
-    //     if (window.MathJax) {
-    //         window.MathJax.typesetPromise();
-    //     }
-    // }, [options, userInput]);
+    
+    useEffect(() => {
+        async function typesetMath() {
+            if (window.MathJax) {
+                try {
+                    await window.MathJax.typesetPromise();
+                } catch (error) {
+                    console.error('MathJax typesetting failed:', error);
+                }
+            }
+        }
+
+        typesetMath();
+    }, [question, options, userInput]);
 
     return (
         <MathJaxContext version={3} config={{
+    
           loader: { load: ['input/tex', 'output/svg'] },
           tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
         }}>
@@ -21,7 +33,7 @@ const QuestionCard = ({ question, options, userInput, setUserInput, handleCheckA
                 <div className='px-8 py-4 flex flex-col'>
                     <h1 className='py-4'>{question}</h1>
                     {optionKeys.map((key) => (
-                        <label key={key} className="text-lg mb-2 flex items-center">
+                        <label key={key} className="text-lg mb-2 flex hover:bg-slate-300 rounded-xl w-1/2 p-1 px-2 duration-500 items-center">
                             <input
                                 type="radio"
                                 name="option"

@@ -124,9 +124,16 @@ const Chapter = ({ user }) => {
  
   const [userInputs, setUserInputs] = useState({});
   const [currentQuestions, setCurrentQuestions] = useState([questions[0]]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [interactionHistory, setInteractionHistory] = useState([]);
+  const currentQuestion = questions[currentQuestionIndex];
 
   const handleCheckAnswer = (id, userInput) => {
+    const userInputExists = userInputs[currentQuestion.id];
+  if (!userInputExists) {
+    alert('Please select an option before talking to the assistant');
+    return;
+  }
     const question = questions.find(q => q.id === id);
     setUserInputs(prev => ({ ...prev, [id]: userInput }));
 
@@ -134,55 +141,100 @@ const Chapter = ({ user }) => {
       alert("Correct answer!");
       setInteractionHistory(prev => prev.filter(interaction => interaction.questionId !== id));
     } else {
-      const initialPrompt = `
-     
-
+      const initialPrompt = `But the student doesn't know about you so introduce urself in one sentence (make a mythical identiy) and mention that you have selected the wrong option
       Help the student stepwise answer in maths with proper spacing and let them conclude to answer, be quick with replies`;
       setInteractionHistory(prev => [...prev, { questionId: id, initialPrompt }]);
     }
   };
+  const handleNext = () => {
+    const userInputExists = userInputs[currentQuestion.id];
+  if (!userInputExists) {
+    alert('Please select an option before moving to the next question.');
+    return;
+  }
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    }
+  };
   
-  return (
+  const handleBack = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+    }
+  };
+  
+  // return (
 
-    <div className=" flex flex-col min-h-screen bg-slate-100">
+  //   <div className=" flex flex-col min-h-screen bg-slate-100">
      
+  //     <Navbar user={user}/>
+  //     <div className="flex flex-col mt-16 mx-auto w-full md:w-3/4">
+  //       <h1 className="font-bold text-slate-800 text-3xl">Advanced Mathematics Quiz</h1>
+  //       <span className="text-slate-500 py-4">Detailed context for the quiz or other informative text.</span>
+  //       <div className="flex flex-col items-center py-12">
+      
+  //         {currentQuestions.map((question, index) => (
+  //           <React.Fragment key={question.id}>
+  //             <QuestionCard
+  //               question={question.question}
+  //               options={question.options}
+  //               userInput={userInputs[question.id] || ""}
+  //               setUserInput={(input) => setUserInputs({ ...userInputs, [question.id]: input })}
+  //               handleCheckAnswer={() => handleCheckAnswer(question.id, userInputs[question.id] || "")}
+  //             />
+  //             {interactionHistory
+  //               .filter(interaction => interaction.questionId === question.id)
+  //               .map(interaction => (
+  //                 <GPTCard
+  //                   key={`gpt-${interaction.questionId}`}
+  //                   questionId={interaction.questionId}
+  //                   initialPrompt={interaction.initialPrompt}
+  //                 />
+  //               ))}
+  //           </React.Fragment>
+  //         ))}
+         
+  //       </div>
+  //       <div className="flex justify-end py-2">
+  //         <Button className="mr-2 rounded-full" onClick={() => setCurrentQuestions(currentQuestions.slice(0, -1))}>Back</Button>
+  //         <Button className="rounded-full">Next</Button>
+  //       </div>
+      
+  //     </div>
+      
+  //   </div>
+  
+  // );
+  return (
+    <div className="flex flex-col min-h-screen bg-slate-100">
       <Navbar user={user}/>
-      <div className="flex flex-col mt-40 mx-auto w-full md:w-3/4">
+      <div className="flex flex-col mt-16 mx-auto w-full md:w-3/4">
         <h1 className="font-bold text-slate-800 text-3xl">Advanced Mathematics Quiz</h1>
         <span className="text-slate-500 py-4">Detailed context for the quiz or other informative text.</span>
         <div className="flex flex-col items-center py-12">
-      
-          {currentQuestions.map((question, index) => (
-            <React.Fragment key={question.id}>
-              <QuestionCard
-                question={question.question}
-                options={question.options}
-                userInput={userInputs[question.id] || ""}
-                setUserInput={(input) => setUserInputs({ ...userInputs, [question.id]: input })}
-                handleCheckAnswer={() => handleCheckAnswer(question.id, userInputs[question.id] || "")}
+          <QuestionCard
+            question={currentQuestion.question}
+            options={currentQuestion.options}
+            userInput={userInputs[currentQuestion.id] || ""}
+            setUserInput={(input) => setUserInputs({ ...userInputs, [currentQuestion.id]: input })}
+            handleCheckAnswer={() => handleCheckAnswer(currentQuestion.id, userInputs[currentQuestion.id] || "")}
+          />
+          {interactionHistory
+            .filter(interaction => interaction.questionId === currentQuestion.id)
+            .map(interaction => (
+              <GPTCard
+                key={`gpt-${interaction.questionId}`}
+                questionId={interaction.questionId}
+                initialPrompt={interaction.initialPrompt}
               />
-              {interactionHistory
-                .filter(interaction => interaction.questionId === question.id)
-                .map(interaction => (
-                  <GPTCard
-                    key={`gpt-${interaction.questionId}`}
-                    questionId={interaction.questionId}
-                    initialPrompt={interaction.initialPrompt}
-                  />
-                ))}
-            </React.Fragment>
-          ))}
-         
+            ))}
         </div>
         <div className="flex justify-end py-2">
-          <Button className="mr-2 rounded-full" onClick={() => setCurrentQuestions(currentQuestions.slice(0, -1))}>Back</Button>
-          <Button className="rounded-full">Next</Button>
+          <Button className="mr-2 rounded-full" onClick={handleBack}>Back</Button>
+          <Button className="rounded-full" onClick={handleNext}>Next</Button>
         </div>
-      
       </div>
-      
     </div>
-  
   );
 };
 
