@@ -11,6 +11,8 @@ router.get('/', ensureGuest ,(req, res) => {
   })
   */
   router.post('/openai', lessonController.lessonai);
+  router.get('/lessons/',lessonController.getLessons);
+  router.get('/lessons/type/:type',lessonController.gtLessonsByType);
   
 module.exports=router;
 
