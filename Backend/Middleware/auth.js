@@ -22,6 +22,7 @@ module.exports = {
         res.redirect('/http://localhost:5173/dashboard');
       // uncomment for production
       //  res.redirect('https://www.kaabil.me/dashboard')
+      //  res.redirect('https://www.kaabil.me/dashboard')
       }
     },
   }

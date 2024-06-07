@@ -17,7 +17,7 @@ const Home = () => {
    
 
    //uncomment for production
-  //  window.open("https://www.kaabil.me/api/auth/google?scope=email",
+   // window.open("https://www.kaabil.me/api/auth/google?scope=email",
 
    window.open("http://localhost:3000/api/auth/google?scope=email",
    "_self"

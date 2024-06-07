@@ -72,7 +72,7 @@ module.exports.googleAuth = passport.authenticate('google', { scope: ['profile',
 module.exports.logout = (req, res) => {
   req.logout();
   // uncomment for production
-  res.redirect('/');
+  res.redirect('http://localhost:5173/');
 
 // res.redirect('http://localhost:5173/');
 };

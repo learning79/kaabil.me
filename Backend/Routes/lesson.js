@@ -1,6 +1,3 @@
-
-
-
 const router = require('express').Router()
 const lessonController = require('../Controllers/lesson.controller');
 const { ensureAuth, ensureGuest } = require('../Middleware/auth')
