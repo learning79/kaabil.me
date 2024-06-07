@@ -24,7 +24,7 @@ router.get('/google', userController.googleAuth);
 router.get(
     '/google/callback',
     passport.authenticate('google', { failureRedirect: 'http://localhost:5173/' }),
-    passport.authenticate('google', { failureRedirect: 'http://localhost:5173/' }),
+    
 
    //uncomment for production
   //  passport.authenticate('google', { failureRedirect: 'https://www.kaabil.me/' }),
@@ -32,7 +32,7 @@ router.get(
     // On successful authentication, redirect to the dashboard
      res.redirect("http://localhost:5173/dashboard")
    // res.redirect("https://www.kaabil.me/dashboard") // Use for production environment
-     res.redirect("http://localhost:5173/dashboard")
+    
    // res.redirect("https://www.kaabil.me/dashboard") // Use for production environment
     }
   )

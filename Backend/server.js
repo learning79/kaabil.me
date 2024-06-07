@@ -48,13 +48,7 @@ app.use(session({
     store: sessionStore,
     resave: false,
     saveUninitialized: false,
-    cookie: {
-      //  secure: process.env.NODE_ENV === 'production', // secure: true in production for https use
-      //  sameSite: 'None',
-      secure: false, // Secure must be true if SameSite is None
-     
-        maxAge: 24 * 60 * 60 * 1000 // 24 hours
-    }
+    
 }));
 
 // Ensure the session store is ready
@@ -62,17 +56,12 @@ sessionStore.sync();
 
 // Passport configuration
 configurePassport(passport);
+
 app.use(passport.initialize());
 app.use(passport.session());
 
 // Synchronize the Sequelize models with the database
-db.sequelize.sync()
-    .then(() => {
-        console.log("Database connection successful!");
-    })
-    .catch((error) => {
-        console.error("Error connecting to database:", error);
-    });
+
 
 // API routes
 app.use('/api', require("./Routes/lesson"));
