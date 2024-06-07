@@ -1,6 +1,7 @@
 
-
-const processTutoringStep = require("../openai");
+const db = require('../Model/index.js'); // Adjust the path according to your project structure
+const Lesson = db.lesson; 
+const processTutoringStep = require("../openai.js");
 
 // Logout function to end the user session and redirect to home page
 module.exports.lessonai = async (req, res) => {
@@ -67,3 +68,34 @@ let { userInput, sessionMessages } = req.body;
 
   };
   
+
+
+
+  module.exports.getLessons = async (req, res) => {
+    try {
+        const lessons = await Lesson.findAll();
+        console.log("these are the lessons   = ",
+          lessons
+         )
+        res.status(200).json(lessons);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+
+module.exports.gtLessonsByType = async (req, res) => {
+  try {
+      const { type } = req.params;
+      console.log("lessons type = ",type)
+      const lessons = await Lesson.findAll({
+          where: {
+              question_type: type
+          }
+      });
+      console.log("lessons found  = ",lessons)
+      res.status(200).json(lessons);
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+}

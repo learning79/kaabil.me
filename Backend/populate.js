@@ -1,76 +1,3 @@
-const fs = require('fs');
-const katex = require('katex');
-
-// Function to parse questions from a file
-function parseQuestions(filePath) {
-  return new Promise((resolve, reject) => {
-    fs.readFile(filePath, 'utf8', (err, content) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-
-      // Regex to split the questions. Each question ends with a line that contains 'Solution'
-      const questions = content.split(/\n(?=Solution)/);
-
-      const parsedQuestions = questions.map(question => {
-        const questionDict = {};
-
-        // Extract the reference, which is within square brackets
-        const refMatch = question.match(/\[(.*?)\]/);
-        if (refMatch) {
-          questionDict.reference = refMatch[1];
-        }
-
-        // Extract the options which end with (d)
-        const optionsMatch = question.match(/\(a\)(.*?)\(d\)\s*([^\(]*)/s);
-        if (optionsMatch) {
-          const options = optionsMatch[0].match(/\([a-d]\)\s*([^\(]*)/g).map(opt => opt.trim());
-          questionDict.options = options;
-        }
-
-        // Extract the question text itself
-        const questionText = optionsMatch ? question.substring(0, optionsMatch.index).trim() : question.trim();
-        questionDict.question = questionText;
-
-        // Extract the solution after the options
-        const solutionMatch = question.match(/Solution\s*([\s\S]*)/);
-        if (solutionMatch) {
-          let solutionText = solutionMatch[1].trim();
-          // Render LaTeX to plain text using KaTeX (if needed, depends on the purpose)
-          try {
-            solutionText = katex.renderToString(solutionText, { throwOnError: false });
-          } catch (error) {
-            console.error("KaTeX rendering error:", error);
-          }
-          questionDict.solution = solutionText;
-        }
-
-        return questionDict;
-      });
-
-      resolve(parsedQuestions);
-    });
-  });
-}
-
-
-
-
-
-
-// Example file path
-const filePath = 'path_to_your_demo_questions.txt';
-
-// Parse the questions
-parseQuestions(filePath)
-  .then(parsedQuestions => {
-    console.log(JSON.stringify(parsedQuestions, null, 4));
-  })
-  .catch(error => {
-    console.error('Error parsing questions:', error);
-  });
-
 
 
   /*
@@ -94,4 +21,74 @@ const insertLessons = async (lessons) => {
     console.error('Failed to insert data:', err);
   });
 */
+
+
+require('dotenv').config(); 
+const fs = require('fs');
+const path = require('path');
+
+const dbConfig = require("./Config/db.config.js");
+//import Sequelize from "sequelize";
+const Sequelize = require("sequelize")
+const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
+  host: dbConfig.HOST,
+  dialect: dbConfig.dialect,
+  dialectOptions: {
+  // Uncomment this line to automatically create the database (if not existing)
+    // createDatabase: true
+  },
+  pool: {
+    max: dbConfig.pool.max,    // Maximum number of connections in pool
+    min: dbConfig.pool.min,    // Minimum number of connections in pool
+    acquire: dbConfig.pool.acquire, // Maximum time (in ms) the pool will try to get connection before throwing error
+    idle: dbConfig.pool.idle   // Maximum time (in ms) a connection can be idle before being released
+  }
+});
+
+
+
+const db = {}; // Initialize an empty database object to store models
+
+// Assign Sequelize library and connection instance to the database object
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+
+// Import the model
+
+db.lesson = require("./Model/lesson.model.js")(sequelize, Sequelize);
+// Function to seed data
+async function seedData() {
+  try {
+   // await sequelize.authenticate();
+   // console.log('Connection has been established successfully.');
+  //  await sequelize.sync({ force: true }); // This line will drop the table if it already exists
+
+  // Read JSON data from file as a string
+  const filePath = path.join(__dirname, 'output2.json');
+  let rawData = fs.readFileSync(filePath);
+   
+  // Replace single backslashes with double backslashes for JSON compatibility
+  //rawData = rawData.replace(/\\(?!\\)/g, '\\\\');
+
+  // Parse the JSON
+  const lessons = JSON.parse(rawData);
+
+ // Database operations
+  await sequelize.authenticate();
+ console.log('Connection has been established successfully.');
+ await sequelize.sync(); // This line will drop the table if it already exists
+ await db.lesson.bulkCreate(lessons);
+ console.log('Data has been inserted successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database or seed data:', error);
+  } finally {
+    await sequelize.close();
+    console.log('Database connection closed.');
+  }
+}
+
+// Run the seeding function
+seedData();
+
+
 
