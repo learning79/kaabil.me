@@ -8,12 +8,13 @@ import GPTCard from "./gptCard";
 const questions = [
   {
       id: 1,
-      question: "For any \\(\\theta \\in (\\pi/4, \\pi/2)\\), the expression \\(3(\\sin \\theta - \\cos \\theta)^4 + 6(\\sin \\theta + \\cos \\theta)^2 + 4 \\sin^6 \\theta\\) equals:",
+      question: " For any \\(\\theta \\in (\\pi/4, \\pi/2)\\), the expression \\(3(\\sin \\theta - \\cos \\theta)^4 + 6(\\sin \\theta + \\cos \\theta)^2 + 4 \\sin^6 \\theta\\) equals:",
       options: {
         a: "13 - 4 \\cos^2 \\theta + 6 \\sin^2 \\theta \\cos^2 \\theta",
         b: "13 - 4 \\cos^6 \\theta",
         c: "13 - 4 \\cos^2 \\theta + 6 \\cos^4 \\theta",
-        d: "13 - 4 \\cos^4 \\theta + 2 \\sin^2 \\theta \\cos^2 \\theta",
+        d:"13 - 4 \\cos^4 \\theta + 2 \\sin^2 \\theta \\cos^2 \\theta"
+      
       },
       solution: "b",
       reference: "Main Jan. 9, 2019 (I)",
@@ -22,10 +23,12 @@ const questions = [
       id: 2,
       question: "Let \\(f_k(x) = \\frac{1}{k} (\\sin^k x + \\cos^k x)\\) where \\(x \\in \\mathbb{R}\\) and \\(k \\geq 1\\). Then \\(f_4(x) - f_6(x)\\) equals:",
       options: {
+
         a: "\\frac{1}{4}",
         b: "\\frac{1}{12}",
         c: "\\frac{1}{6}",
         d: "\\frac{1}{3}"
+    
       },
       solution: "b",
       reference: "Main 2014"
@@ -131,16 +134,19 @@ const Chapter = ({ user }) => {
       alert("Correct answer!");
       setInteractionHistory(prev => prev.filter(interaction => interaction.questionId !== id));
     } else {
-      const initialPrompt = `Help the student stepwise and let them conclude to answer, be quick with replies`;
+      const initialPrompt = `
+     
+
+      Help the student stepwise answer in maths with proper spacing and let them conclude to answer, be quick with replies`;
       setInteractionHistory(prev => [...prev, { questionId: id, initialPrompt }]);
     }
   };
   
   return (
 
-    <div className="flex flex-col min-h-screen bg-slate-100">
+    <div className=" flex flex-col min-h-screen bg-slate-100">
      
-      <Navbar user={user} />
+      <Navbar user={user}/>
       <div className="flex flex-col mt-40 mx-auto w-full md:w-3/4">
         <h1 className="font-bold text-slate-800 text-3xl">Advanced Mathematics Quiz</h1>
         <span className="text-slate-500 py-4">Detailed context for the quiz or other informative text.</span>
