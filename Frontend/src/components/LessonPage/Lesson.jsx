@@ -16,7 +16,7 @@ const Lesson = ({ user }) => {
     <>
       <div className="flex flex-col mt-20 min-h-screen bg-slate-100 font-Space Grotesk">
         <Navbar user={user} />
-        <div className="flex justify-center items-center px-6  md:px-12 md:mt-16">
+        <div className="flex justify-center items-center px-6  md:px-12 mt-8 lg:mt-16 md:mt-16">
           <LessonCard onClickStartChapter={handleStartChapter} />
         </div>
         <div className="flex justify-center mt-16">

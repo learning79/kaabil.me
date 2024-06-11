@@ -15,7 +15,7 @@ const Navbar = ({ user }) => {
   };
 
   return (
-    <nav className="fixed shadow-md top-0 left-0 w-full bg-bluebg border-b border-gray-300 px-8 py-4 flex justify-between backdrop-blur-sm items-center">
+    <nav className="fixed shadow-md overflow-hidden top-0 left-0 w-full bg-bluebg border-b border-gray-300 px-8 py-4 flex justify-between backdrop-blur-sm items-center">
       <div className="w-full md:w-auto">
         <Link to="/">
           {/* Increased the max-height and adjusted margins */}

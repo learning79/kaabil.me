@@ -31,10 +31,10 @@ const QuestionCard = ({ questionType, question, options, userInput, setUserInput
         }}>
         
             <div className="flex flex-col  bg-slate-200 rounded-md justify-start w-full my-4 transition-opacity duration-500 ease-in-out">
-                <div className='px-8 py-4 flex flex-col '>
-                    <h1 className='py-4'>{question}</h1>
+                <div className='px-6 py-4 flex flex-col '>
+                    <h1 className='py-4 font-bold'>{`Q) `+question}</h1>
                     {optionKeys.map((key) => (
-                        <label key={key} className="text-lg mb-2 flex hover:bg-slate-300 rounded-xl w-1/2 p-1 px duration-500 items-center">
+                        <label key={key} className="text-lg mb-2 flex hover:bg-slate-300 rounded-xl lg:w-3/4 w-full md:w-3/4 p-1 px duration-500 items-center">
                             <input
                                 type="radio"
                                 name="option"

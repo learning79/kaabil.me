@@ -80,16 +80,16 @@ const Chapter = ({ user }) => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className="flex flex-col min-h-screen w-full text-blacks bg-slate-100 ">
+    <div className="flex flex-col min-h-screen w-full text-black bg-slate-100 ">
       <Navbar user={user} />
-      <div className="flex flex-col mt-28 w-full md:w-3/4 md:mx-auto lg:mx-auto px-2">
-        <h1 className="font-bold text-slate-800 text-3xl">
+      <div className="flex flex-col mt-28 w-full md:w-3/4 md:mx-auto lg:mx-auto">
+        {/* <h1 className="font-bold text-slate-800 text-3xl">
           Advanced Mathematics Quiz
         </h1>
         <span className="text-slate-500 py-4">
           Detailed context for the quiz or other informative text.
-        </span>
-        <div className="flex flex-col items-center py-12">
+        </span> */}
+        <div className="flex flex-col items-center px-2 py-12">
           {currentQuestion && (
             <QuestionCard
               key={currentQuestion.id}
@@ -108,6 +108,7 @@ const Chapter = ({ user }) => {
               }
             />
           )}
+          <div className="flex flex-col items-center">
           {interactionHistory
             .filter(
               (interaction) => interaction.questionId === currentQuestion.id
@@ -119,6 +120,7 @@ const Chapter = ({ user }) => {
                 initialPrompt={interaction.initialPrompt}
               />
             ))}
+            </div>
         </div>
         <div className="flex justify-end py-2">
           <Button className="mr-2 rounded-full" onClick={handleBack}>
