@@ -17,9 +17,9 @@ const Navbar = ({onGetStarted}) => {
   };
 
   return (
-    <nav className="shadow-md fixed top-0 left-0 w-full bg-white backdrop-blur-sm border-b border-gray-300 z-10 px-6 md:py-6 py-6 md:flex justify-between items-center">
+    <nav className="shadow-md fixed top-0 left-0 w-full bg-white backdrop-blur-sm border-b border-gray-300 z-20 px-6 md:py-6 py-6 md:flex justify-between items-center">
       <div className="flex justify-between items-center w-full md:w-auto sm:w-auto sm:h-auto">
-        <img className="h-10 mx-4 cursor-pointer" src={logo} alt="logo" onClick={() => window.location.href = '/'} />
+        <img className="h-6 mx-4 cursor-pointer" src={logo} alt="logo" onClick={() => window.location.href = '/'} />
         <div className="text-3xl cursor-pointer md:hidden " onClick={() => setOpen(!open)}>
           {open ? (
             <img src={close} className="h-[20px] w-[20px]" alt="close" />

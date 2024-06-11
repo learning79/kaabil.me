@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { Button } from '../ui/button';
 import { MathJax, MathJaxContext } from 'better-react-mathjax';
 
-const QuestionCard = ({ question, options, userInput, setUserInput, handleCheckAnswer }) => {
+const QuestionCard = ({ questionType, question, options, userInput, setUserInput, handleCheckAnswer }) => {
     const optionKeys = Object.keys(options);
     
 
-
+    console.log("This question type is:",{questionType});
     // UseEffect to re-render MathJax upon option changes
     
     useEffect(() => {
@@ -29,11 +29,12 @@ const QuestionCard = ({ question, options, userInput, setUserInput, handleCheckA
           loader: { load: ['input/tex', 'output/svg'] },
           tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
         }}>
-            <div className="flex flex-col bg-slate-200 rounded-md justify-start w-full my-4 transition-opacity duration-500 ease-in-out">
-                <div className='px-8 py-4 flex flex-col'>
+        
+            <div className="flex flex-col  bg-slate-200 rounded-md justify-start w-full my-4 transition-opacity duration-500 ease-in-out">
+                <div className='px-8 py-4 flex flex-col '>
                     <h1 className='py-4'>{question}</h1>
                     {optionKeys.map((key) => (
-                        <label key={key} className="text-lg mb-2 flex hover:bg-slate-300 rounded-xl w-1/2 p-1 px-2 duration-500 items-center">
+                        <label key={key} className="text-lg mb-2 flex hover:bg-slate-300 rounded-xl w-1/2 p-1 px duration-500 items-center">
                             <input
                                 type="radio"
                                 name="option"
