@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Navbar from "../Dashboard/Navbar";
 import QuestionCard from "./QuestionCard";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import back from "../../assets/back.png";
 import GPTCard from "./gptCard";
@@ -12,6 +13,11 @@ const Chapter = ({ user }) => {
   const [interactionHistory, setInteractionHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
+  const handleGoBack = () => {
+    navigate("/dashboard/Lesson");
+  };
 
   // Fetch questions from the backend
   useEffect(() => {
@@ -106,10 +112,12 @@ const Chapter = ({ user }) => {
       <Navbar user={user} />
       
       <div className="flex flex-col mt-28 w-full md:w-3/4 md:mx-auto lg:mx-auto">
-      <Button className="h-10 flex w-32 rounded-full bg-bluebg hover:bg-blue-700">
-        <img src={back} className="h-[10px] w-[10px]"></img>
+      <div className="px-2">
+      <Button className="h-12 flex w-36 rounded-full bg-purple hover:bg-blue-700" onClick={handleGoBack}>
+        <img src={back} className="h-[10px] w-[10px] mr-1"></img>
         Back to Lesson
       </Button>
+      </div>
         <div className="flex flex-col items-center px-2 py-12">
           {questions[currentQuestionIndex] && (
             <QuestionCard
