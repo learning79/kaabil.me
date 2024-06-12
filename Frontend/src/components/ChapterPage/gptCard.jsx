@@ -21,8 +21,31 @@ function GPTCard({ questionId, initialPrompt }) {
     if (initialPrompt) {
       fetchHelp(initialPrompt, -1,true);
     }
-  }, []);
-
+  }, [initialPrompt]);
+  
+  useEffect(() => {
+    const loadData = async () => {
+      const storedData = localStorage.getItem(`interactionHistory-${questionId}`);
+      if (storedData) {
+        const history = JSON.parse(storedData);
+        if (history.length > 0 && helpText.length === 0) {
+          setHelpText(history);
+          setCurrentInteractionIndex(history.length - 1);
+        }
+      }
+    };
+  
+    loadData();
+  }, [questionId]); // Ensure this only runs when `questionId` changes
+  
+  // Save interaction history to local storage
+  useEffect(() => {
+    // Only save to localStorage if there's meaningful data
+    if (helpText.length > 0 && !helpText.every(item => Object.keys(item).length === 0)) {
+      console.log('Saving to Local Storage', helpText);
+      localStorage.setItem(`interactionHistory-${questionId}`, JSON.stringify(helpText));
+    }
+  }, [helpText, questionId]);
   useEffect(() => {
     if (endOfMessagesRef.current) {
       endOfMessagesRef.current.scrollIntoView({ behavior: "smooth" });
@@ -35,6 +58,7 @@ function GPTCard({ questionId, initialPrompt }) {
     } else {
       setLoading((prev) => ({ ...prev, [index]: true })); // Set loading true for the specific index
     }
+    
 
     try {
       const response = await fetch("http://localhost:3000/api/openai", {
@@ -78,7 +102,9 @@ function GPTCard({ questionId, initialPrompt }) {
       }
       setLoading((prev) => ({ ...prev, [index]: false })); // Turn off loading for the specific index
     }
+
   };
+  
 
   return (
     <MathJaxContext

@@ -4,24 +4,28 @@ import { MathJax, MathJaxContext } from 'better-react-mathjax';
 
 const QuestionCard = ({ questionType, question, options, userInput, setUserInput, handleCheckAnswer }) => {
     const optionKeys = Object.keys(options);
-    
+   // const [buttonDisabled, setButtonDisabled] = useState(false);
+
 
     console.log("This question type is:",{questionType});
     // UseEffect to re-render MathJax upon option changes
-    
-    useEffect(() => {
-        async function typesetMath() {
-            if (window.MathJax) {
-                try {
-                    await window.MathJax.typesetPromise();
-                } catch (error) {
-                    console.error('MathJax typesetting failed:', error);
-                }
-            }
-        }
+        
+        // useEffect(() => {
+        //     async function typesetMath() {
+        //         if (window.MathJax) {
+        //             try {
+        //                 await window.MathJax.typesetPromise();
+        //             } catch (error) {
+        //                 console.error('MathJax typesetting failed:', error);
+        //             }
+        //         }
+        //     }
 
-        typesetMath();
-    }, [question, options, userInput]);
+        //     typesetMath();
+        // }, [question, options, userInput]);
+
+
+
 
     return (
         <MathJaxContext version={3} config={{
@@ -32,7 +36,7 @@ const QuestionCard = ({ questionType, question, options, userInput, setUserInput
         
             <div className="flex flex-col  bg-slate-200 rounded-md justify-start w-full my-4 transition-opacity duration-500 ease-in-out">
                 <div className='px-6 py-4 flex flex-col '>
-                    <h1 className='py-4 font-bold'>{`Q) `+question}</h1>
+                    <MathJax><h1 className='py-4 font-bold'>{`Q) `+question}</h1></MathJax>
                     {optionKeys.map((key) => (
                         <label key={key} className="text-lg mb-2 flex hover:bg-slate-300 rounded-xl lg:w-3/4 w-full md:w-3/4 p-1 px duration-500 items-center">
                             <input
