@@ -5,24 +5,27 @@ import { MathJax, MathJaxContext } from 'better-react-mathjax';
 const QuestionCard = ({ questionType, question, options, userInput, setUserInput, handleCheckAnswer }) => {
     const optionKeys = Object.keys(options);
    // const [buttonDisabled, setButtonDisabled] = useState(false);
-
+   const preprocessLatex = (latexString) => {
+    // Remove unwanted outer braces or adjust based on your specific needs
+    return latexString.replace(/^\{|\}$/g, ''); // This regex removes braces at the start or end of the string
+};
 
     console.log("This question type is:",{questionType});
     // UseEffect to re-render MathJax upon option changes
         
-        // useEffect(() => {
-        //     async function typesetMath() {
-        //         if (window.MathJax) {
-        //             try {
-        //                 await window.MathJax.typesetPromise();
-        //             } catch (error) {
-        //                 console.error('MathJax typesetting failed:', error);
-        //             }
-        //         }
-        //     }
+        useEffect(() => {
+            async function typesetMath() {
+                if (window.MathJax) {
+                    try {
+                        await window.MathJax.typesetPromise();
+                    } catch (error) {
+                        console.error('MathJax typesetting failed:', error);
+                    }
+                }
+            }
 
-        //     typesetMath();
-        // }, [question, options, userInput]);
+            typesetMath();
+        }, [question, options, userInput]);
 
 
 
@@ -47,7 +50,7 @@ const QuestionCard = ({ questionType, question, options, userInput, setUserInput
                                 onChange={() => setUserInput(key)}
                                 className="mr-2"
                             />
-                            <MathJax inline>{`$${options[key]}$`}</MathJax>
+                           <MathJax>{preprocessLatex(options[key])}</MathJax>
                         </label>
                     ))}
                     <Button onClick={() => handleCheckAnswer(userInput)} className="mt-4 h-10 w-28 rounded-full px-4 py-2">
