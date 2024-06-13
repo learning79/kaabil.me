@@ -1,128 +1,79 @@
 require('dotenv').config(); // Load environment variables from .env file
 
 const express = require("express");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const dbConfig = require("./Config/db.config.js");
-const path = require('path');
-const passport = require('passport')
-const session = require('express-session')
-
+const session = require('express-session');
+const Sequelize = require('sequelize');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const passport = require('passport');
 const configurePassport = require('./Controllers/user.controller'); // Include the user controller to configure Passport strategies
 const app = express();
 
-// Enable CORS with default settings for all origins
-//  app.use(cors())
+// CORS configuration
+app.use(cors({
+    origin: "http://localhost:5173", // Adjust for production if necessary
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true, // This allows session cookies from the browser to be passed back
+}));
 
- 
-app.use(
-	cors({
-		origin: "http://localhost:5173",
-		methods: "GET,POST,PUT,DELETE",
-		credentials: true,
-	})
-);
-
-
-// parse requests of content-type - application/x-www-form-urlencoded
+// Body parser for forms and json data
 app.use(express.urlencoded({ extended: true }));
-
-
-// Serve static files from the React app
-//uncomment for production
- //app.use(express.static(path.join(__dirname, 'dist')));
-
-
-
-
-// Parse JSON requests using Express built-in middleware
 app.use(express.json());  
-
 
 // Database connection setup
 const db = require("./Model");
 
-// Synchronize the Sequelize models with the database
-db.sequelize.sync()
-  .then(() => {
-    console.log("Database connection successful!");
-   
-  })
-  .catch((error) => {
-    console.error("Error connecting to database:", error);
-   
-  });
+// Sequelize instance configuration
+const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
+    host: dbConfig.HOST,
+    dialect: dbConfig.dialect,
+    pool: {
+        max: dbConfig.pool.max,
+        min: dbConfig.pool.min,
+        acquire: dbConfig.pool.acquire,
+        idle: dbConfig.pool.idle
+    }
+});
 
-// Call the imported function with the passport instance
-// Initialize Passport authentication
+// Session configuration with Sequelize store
+const sessionStore = new SequelizeStore({
+    db: sequelize,
+    checkExpirationInterval: 15 * 60 * 1000, // The interval at which to cleanup expired sessions in milliseconds.
+    expiration: 24 * 60 * 60 * 1000  // The maximum age (in milliseconds) of a valid session.
+});
+
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    store: sessionStore,
+    resave: false,
+    saveUninitialized: false,
+    
+}));
+
+// Ensure the session store is ready
+sessionStore.sync();
+
+// Passport configuration
 configurePassport(passport);
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Synchronize the Sequelize models with the database
 
 
+// API routes
+app.use('/api', require("./Routes/lesson"));
+app.use('/api/auth', require('./Routes/auth'));
 
-// Middleware
-// app.use(express.urlencoded({extended:true}))
- //app.use(express.static('public'))
-
- // app.set('view engine','ejs');
-
- 
- // Initialize session management with session secret from environment variables
-app.use(
-    session({
-     secret: process.env.SESSION_SECRET,
-      resave: false,
-      saveUninitialized: false,
-    //  store: new MongoStore({ mongooseConnection: mongoose.connection }),
-    })
-  )
-
-
-  app.use(passport.initialize())
-app.use(passport.session())
-
-
-
-
-
-// Initialize session middleware
-/*
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: true,
- // cookie: { secure: true }
-}));
-*/
-
-// Setup API routes
-app.use('/api',require("./Routes/lesson"))
-app.use('/api/auth', require('./Routes/auth'))
-
-
-// Simple health check endpoint
+// Health check endpoint
 app.get("/health", (req, res) => {
-  res.status(200).json({ message: "Welcome to Kaabil application." });
+    res.status(200).json({ message: "Welcome to Kaabil application." });
 });
 
-
-
-
-
-
-//uncomment for production
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
-/*
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/dist/index.html'));
-});
-*/
-
-
-
-// set port, listen for requests
+// Set port and start server
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
+    console.log(`Server is running on port ${PORT}.`);
 });

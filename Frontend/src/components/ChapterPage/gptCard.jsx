@@ -1,84 +1,191 @@
-import React, { useEffect, useState } from "react";
-import { Button } from "../ui/button"; 
-import  loader  from "../../assets/loader.json";
+import React, { useEffect, useRef, useState } from "react";
+import { Button } from "../ui/button";
+
 import Lottie from "lottie-react";
-
-
+import loader from "../../assets/loader.json";
+import { MathJax, MathJaxContext } from "better-react-mathjax";
+import MathInput from "react-math-keyboard";
 
 function GPTCard({ questionId, initialPrompt }) {
+  
+  
   const [helpText, setHelpText] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [userInput, setUserInput] = useState("");
+  const [loading, setLoading] = useState(true); // General loading state
+  const [initialLoading, setInitialLoading] = useState(false); // Specific state for initial loading
+  const [latexInput, setLatexInput] = useState("");
+  const [currentInteractionIndex, setCurrentInteractionIndex] = useState(-1);
+  const endOfMessagesRef = useRef(null);
+  const mf = useRef(null);
 
-  // Fetch initial help upon mounting if an initial prompt is provided
   useEffect(() => {
-    if (initialPrompt && helpText.length === 0) {
-      fetchHelp(initialPrompt,true);
+    if (initialPrompt) {
+      fetchHelp(initialPrompt, -1,true);
     }
   }, [initialPrompt]);
+  
+  useEffect(() => {
+    const loadData = async () => {
+      const storedData = localStorage.getItem(`interactionHistory-${questionId}`);
+      if (storedData) {
+        const history = JSON.parse(storedData);
+        if (history.length > 0 && helpText.length === 0) {
+          setHelpText(history);
+          setCurrentInteractionIndex(history.length - 1);
+        }
+      }
+    };
+  
+    loadData();
+  }, [questionId]); // Ensure this only runs when `questionId` changes
+  
+  // Save interaction history to local storage
+  useEffect(() => {
+    // Only save to localStorage if there's meaningful data
+    if (helpText.length > 0 && !helpText.every(item => Object.keys(item).length === 0)) {
+      console.log('Saving to Local Storage', helpText);
+      localStorage.setItem(`interactionHistory-${questionId}`, JSON.stringify(helpText));
+    }
+  }, [helpText, questionId]);
+  useEffect(() => {
+    if (endOfMessagesRef.current) {
+      endOfMessagesRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [helpText]);
 
-  const fetchHelp = async (userMessage, isInitial = false) => {
-    setLoading(true);
-    const message = { role: "user", content: userMessage };
+  const fetchHelp = async (userMessage, index, isInitial = false) => {
+    if (isInitial) {
+      setInitialLoading(true); // Start initial loading
+    } else {
+      setLoading((prev) => ({ ...prev, [index]: true })); // Set loading true for the specific index
+    }
+    
+
     try {
-    //  const sessionMessages = [...helpText, { role: "user", content: userMessage }];
-      const response = await fetch('http://localhost:3000/api/openai', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3000/api/openai", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userInput: userMessage || 'hint',
+          userInput: userMessage || "hint",
           sessionMessages: isInitial ? [] : helpText,
         }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        // Directly set the fetched data without adding the user input to the array
-        setHelpText(data.updatedMessages);
+        const messagesToSet = data.updatedMessages.map((message, index) => ({
+          ...message,
+          visible: index > 1,
+        }));
+        if (JSON.stringify(messagesToSet) !== JSON.stringify(helpText)) {
+          setHelpText(messagesToSet);
+          setCurrentInteractionIndex(messagesToSet.length - 1);
+        }
       } else {
-        throw new Error('Failed to fetch help');
+        throw new Error("Failed to fetch help");
       }
     } catch (error) {
-      console.error('Error fetching help:', error);
-      setHelpText(prev => [...prev, { role: 'system', content: "Failed to fetch help, please try again later." }]);
+      console.error("Error fetching help:", error);
+      setHelpText((prev) => [
+        ...prev,
+        {
+          role: "system",
+          content: "Failed to fetch help, please try again later.",
+          visible: true,
+        },
+      ]);
+      setCurrentInteractionIndex(helpText.length);
+    } finally {
+      if (isInitial) {
+        setInitialLoading(false); // Turn off initial loading
+      }
+      setLoading((prev) => ({ ...prev, [index]: false })); // Turn off loading for the specific index
     }
-    finally {
-        setLoading(false);
-        // Only clear the input field if it's not the initial prompt
-        if (!isInitial) {
-          setUserInput("");
-        }
-    }
+
   };
+  
 
   return (
-    <div className="my-4 p-4 border rounded-md bg-white shadow transition-transform duration-500">
-      {loading ? (
-        <Lottie animationData={loader} loop={true} />
-      ) : (
-        <>
-          {helpText.map((ht, index) => (
-            <p key={index} className={ht.role === "user" ? "font-bold bg-slate-200 rounded-xl  text-right p-4" : "text-left p-4"}>
-              {ht.content}
-            </p>
-          ))}
-          <div className="mt-4 m-4">
-            <input
-              type="text"
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-              placeholder="Type your message..."
-              className="border rounded p-2 w-full"
-            />
-            <Button className="mt-4" onClick={() => fetchHelp(userInput)}>
-              Send
-            </Button>
-          </div>
-        </>
+    <MathJaxContext
+      version={3}
+      config={{
+        loader: { load: ["input/tex", "output/svg", "ui/menu", "[tex]/html"] },
+        tex: { packages: { "[+]": ["html"] } },
+      }}
+    >
+      {initialLoading && (
+        <Lottie
+          animationData={loader}
+          loop={true}
+          style={{ height: 150, width: 150 }}
+        />
       )}
-    </div>
+      
+      <div className="flex flex-col w-full justify-start">
+        {helpText.map(
+          (ht, index) =>
+            ht.visible && (
+              <div
+                key={index}
+                className={`flex flex-col p-4 border rounded-md bg-slate-200 shadow ${
+                  index === currentInteractionIndex ? "mb-0" : "mb-4"
+                }`}
+              >
+               
+                <MathJax className="overflow-hidden">
+                  <p
+                    className={`text-left p-4 ${
+                      ht.role === "system"
+                        ? "font-bold"
+                        : "text-slate-600 bg-slate-200 rounded-xl"
+                    }`}
+                  >
+                    {ht.content}
+                  </p>
+                </MathJax>
+
+                {index === currentInteractionIndex && (
+                  <div className="transition-transform duration-500">
+                    <MathInput
+                      setValue={setLatexInput}
+                      setMathfieldRef={(mathfield) => (mf.current = mathfield)}
+                      placeholder="Type your response..."
+                    />
+                    <Button
+                      type="button"
+                      className="mt-4 m-2 rounded-full"
+                      onClick={() => {
+                        console.log("Current LaTeX value:", mf.current.latex());
+                        fetchHelp(latexInput, index);
+                        setLatexInput("");
+                      }}
+                    >
+                      Submit
+                    </Button>
+                    {loading[index] && (
+                      <div className="flex justify-center items-center h-full w-full">
+                      <Lottie
+                        animationData={loader}
+                        loop={true}
+                        style={{ height:150, width: 150 }}
+                        className="flex justify-center"
+                        
+                      />
+                      </div>
+                    )}
+                    
+                  </div>
+                  
+                  
+                )}
+              </div>
+              
+            )
+        )}
+        <div ref={endOfMessagesRef} />
+      </div>
+    </MathJaxContext>
   );
 }
 

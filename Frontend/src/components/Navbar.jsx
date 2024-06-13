@@ -19,7 +19,7 @@ const Navbar = ({onGetStarted}) => {
   return (
     <nav className="shadow-md fixed top-0 left-0 w-full bg-white backdrop-blur-sm border-b border-gray-300 z-20 px-6 md:py-6 py-6 md:flex justify-between items-center">
       <div className="flex justify-between items-center w-full md:w-auto sm:w-auto sm:h-auto">
-        <img className="h-10 mx-4 cursor-pointer" src={logo} alt="logo" onClick={() => window.location.href = '/'} />
+        <img className="h-6 mx-4 cursor-pointer" src={logo} alt="logo" onClick={() => window.location.href = '/'} />
         <div className="text-3xl cursor-pointer md:hidden " onClick={() => setOpen(!open)}>
           {open ? (
             <img src={close} className="h-[20px] w-[20px]" alt="close" />
@@ -30,7 +30,7 @@ const Navbar = ({onGetStarted}) => {
       </div>
       <div
         className={`md:flex md:items-center md:pb-0 pb-12  absolute md:static bg-white  md:z-auto z-[-1] left-0 w-full md:w-auto transition-all duration-500 ease-in ${
-          open ? 'top-20 opacity-100 ' : 'top-[-490px] opacity-0'
+          open ? 'top-12 opacity-100 ' : 'top-[-490px] opacity-0'
         } md:opacity-100 md:space-x-8 px-8 py-8 md:py-0 md:space-y-0 text-gray-700`}
       >
         {/* <div className='sm:py-8 sm:px-8 flex flex-row'> */}

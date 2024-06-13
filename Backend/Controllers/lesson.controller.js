@@ -1,6 +1,7 @@
 
-
-const processTutoringStep = require("../openai");
+const db = require('../Model/index.js'); // Adjust the path according to your project structure
+const Lesson = db.lesson; 
+const processTutoringStep = require("../openai.js");
 
 // Logout function to end the user session and redirect to home page
 module.exports.lessonai = async (req, res) => {
@@ -35,15 +36,17 @@ let { userInput, sessionMessages } = req.body;
     sessionMessages = [{
       role: "system",
       content: `Give step by step solution to the given
-      "question": "For any θ in (π/4, π/2), the expression 3(sin θ - cos θ)^4 + 6(sin θ + cos θ)^2 + 4 sin^6 θ equals:",
-      "options": {
-        "a": "13 - 4 cos^2 θ + 6 sin^2 θ cos^2 θ",
-        "b": "13 - 4 cos^6 θ",
-        "c": "13 - 4 cos^2 θ + 6 cos^4 θ",
-        "d": "13 - 4 cos^4 θ + 2 sin^2 θ cos^2 θ"
+      . GIVE THE OUTPUT in LATEX so convert the given question to english/maths with proper spacing
+      question: " For any \\(\\theta \\in (\\pi/4, \\pi/2)\\), the expression \\(3(\\sin \\theta - \\cos \\theta)^4 + 6(\\sin \\theta + \\cos \\theta)^2 + 4 \\sin^6 \\theta\\) equals:",
+      options: {
+        a: "13 - 4 \\cos^2 \\theta + 6 \\sin^2 \\theta \\cos^2 \\theta",
+        b: "13 - 4 \\cos^6 \\theta",
+        c: "13 - 4 \\cos^2 \\theta + 6 \\cos^4 \\theta",
+        d:"13 - 4 \\cos^4 \\theta + 2 \\sin^2 \\theta \\cos^2 \\theta"
+      
       },
-      "solution": "b",
-      answer in small steps
+      solution: "b",
+      answer in small steps without revealing the answer to the students. reveal each step in each interaction only ask students questions to answer which lead them to the actual answer. You are a teaching assistant.
       `
     }];
   }
@@ -65,3 +68,34 @@ let { userInput, sessionMessages } = req.body;
 
   };
   
+
+
+
+  module.exports.getLessons = async (req, res) => {
+    try {
+        const lessons = await Lesson.findAll();
+        console.log("these are the lessons   = ",
+          lessons
+         )
+        res.status(200).json(lessons);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+
+module.exports.gtLessonsByType = async (req, res) => {
+  try {
+      const { type } = req.params;
+      console.log("lessons type = ",type)
+      const lessons = await Lesson.findAll({
+          where: {
+              question_type: type
+          }
+      });
+      console.log("lessons found  = ",lessons)
+      res.status(200).json(lessons);
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+}

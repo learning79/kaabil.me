@@ -4,6 +4,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PublicSharpIcon from '@mui/icons-material/PublicSharp';
 import TimelineSharpIcon from '@mui/icons-material/TimelineSharp';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import { Progress } from "@/components/ui/progress"
 import {Button} from '../ui/button';
 import {
   Card,
@@ -53,9 +54,11 @@ const LessonCard = ({
             </p>
           </div>
         </div>
-        <CardFooter>
+        <CardFooter className="flex flex-col ">
+        <Progress value={50} className="mb-4"/>
+
           <Button onClick={onClickStartChapter} className="rounded-full mb-8">
-            <p className='p-4'>Start Now</p>
+            <p className='p-4s'>Start Now</p>
           </Button>
         </CardFooter>
       </div>
