@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Navbar from "../Dashboard/Navbar";
 import QuestionCard from "./QuestionCard";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
 import back from "../../assets/back.png";
 import GPTCard from "./gptCard";
@@ -16,15 +16,18 @@ const Chapter = ({ user }) => {
 
   const navigate = useNavigate();
   const handleGoBack = () => {
-    navigate("/dashboard/Lesson");
+    navigate(-1);
   };
+  const location = useLocation();
+  const subject = location.state?.subject;  // Assuming subject is passed in route state
+
 
   // Fetch questions from the backend
   useEffect(() => {
     const fetchQuestions = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch("http://localhost:3000/api/lessons");
+        const response = await fetch(`http://localhost:3000/api/lessons/subject/${subject}`);
         if (!response.ok) throw new Error("Failed to fetch");
         const data = await response.json();
         setQuestions(data);
@@ -72,11 +75,13 @@ const Chapter = ({ user }) => {
       alert("Please select an option before talking to the interactive assistant");
       return;
     }
+    const inputToOption = ['A', 'B', 'C', 'D'];
+    const userAnswer = inputToOption[userInput];
     const question = questions.find((q) => q.id === id);
     setUserInputs((prev) => ({ ...prev, [id]: userInput }));
-    console.log(question.solution);
+    console.log(question.answer);
     console.log("Solution is:", question.options[userInput])
-    if (userInput.toLowerCase() === question.solution.toLowerCase()) {
+    if (userAnswer.toLowerCase() === question.answer.toLowerCase()) {
       alert("Correct answer!");
       setInteractionHistory((prev) =>
         prev.filter((interaction) => interaction.questionId !== id)
@@ -93,14 +98,27 @@ const Chapter = ({ user }) => {
   
 
   const handleNext = useCallback(() => {
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    }
-  }, [currentQuestionIndex, questions.length]);
+    const currentInput = userInputs[questions[currentQuestionIndex].id];
+  // Explicitly check for undefined or any non-allowed value
+  if (currentInput === undefined || currentInput === null) {
+    alert("Please answer the current question before moving to the next one.");
+    return; // Stop the function if there's no answer
+  }
+  
+  if (currentQuestionIndex < questions.length - 1) {
+    setCurrentQuestionIndex(currentQuestionIndex + 1);
+  } else {
+    // Optional: Handle what happens if it's the last question (e.g., navigate away or show a message)
+    alert("You have reached the end of the questions.");
+  }
+}, [currentQuestionIndex, questions.length, userInputs]);
 
   const handleBack = useCallback(() => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
+    }
+    else{
+      alert("can't navigate");  
     }
   }, [currentQuestionIndex]);
 
@@ -109,14 +127,11 @@ const Chapter = ({ user }) => {
 
   return (
     <div className="flex flex-col min-h-screen w-full text-black bg-slate-100">
-      <Navbar user={user} />
+     
       
       <div className="flex flex-col mt-28 w-full md:w-3/4 md:mx-auto lg:mx-auto">
       <div className="px-2">
-      <Button className="h-12 flex w-36 rounded-full bg-purple hover:bg-blue-700" onClick={handleGoBack}>
-        <img src={back} className="h-[10px] w-[10px] mr-1"></img>
-        Back to Lesson
-      </Button>
+      
       </div>
         <div className="flex flex-col items-center px-2 py-12">
           {questions[currentQuestionIndex] && (
@@ -151,15 +166,25 @@ const Chapter = ({ user }) => {
               ))}
           </div>
         </div>
-        <div className="flex justify-end py-2">
+        <div className="flex justify-start pt-2">
+       
+        </div>
+        <div className="flex justify-between w-full py-2">
+        <Button variant="ghost" onClick={handleGoBack}>
+        <img src={back} className="h-[10px] w-[10px] mr-1"></img>
+        Back to Lesson
+      </Button>
+      <div>
           <Button className="mr-2 rounded-full" onClick={handleBack}>
             Back
           </Button>
-          <Button className="rounded-full mr-1" onClick={handleNext}>
+          <Button className="rounded-full mr-1" onClick={handleNext}   >
             Next
           </Button>
+          </div>
         </div>
       </div>
+      <Navbar user={user} className="" />
     </div>
   );
 };
