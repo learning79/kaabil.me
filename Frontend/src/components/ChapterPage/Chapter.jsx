@@ -27,7 +27,7 @@ const Chapter = ({ user }) => {
         const response = await fetch("http://localhost:3000/api/lessons");
         if (!response.ok) throw new Error("Failed to fetch");
         const data = await response.json();
-        setQuestions(data); // Assuming the data is in the format expected
+        setQuestions(data);
         setIsLoading(false);
       } catch (err) {
         setError(err.message);
@@ -38,7 +38,7 @@ const Chapter = ({ user }) => {
     fetchQuestions();
   }, []);
 
-  // Load stored state from local storage when component mounts
+ 
   useEffect(() => {
     const storedUserInputs = localStorage.getItem('userInputs');
     const storedHistory = localStorage.getItem('interactionHistory');
@@ -69,7 +69,7 @@ const Chapter = ({ user }) => {
   
   const handleCheckAnswer = useCallback((id, userInput) => {
     if (!userInput) {
-      alert("Please select an option before talking to the assistant");
+      alert("Please select an option before talking to the interactive assistant");
       return;
     }
     const question = questions.find((q) => q.id === id);
