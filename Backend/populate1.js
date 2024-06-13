@@ -1,28 +1,5 @@
 
 
-  /*
-
-// Example Usage:
-const questionsJson = parseQuestions(path.join(__dirname, 'demo_questions.txt'));
-console.log(JSON.stringify(questionsJson, null, 2));
-
-
-const insertLessons = async (lessons) => {
-   // await Question.sync(); // Ensure the table exists
-    for (const lesson of lessons) {
-      await Lesson.create(lesson);
-    }
-  };
-  
-  // Insert parsed questions into the database
-  insertLessons(questionsJson).then(() => {
-    console.log('Data inserted successfully.');
-  }).catch(err => {
-    console.error('Failed to insert data:', err);
-  });
-*/
-
-
 require('dotenv').config(); 
 const fs = require('fs');
 const path = require('path');
@@ -55,8 +32,8 @@ db.sequelize = sequelize;
 
 // Import the model
 
-db.lesson = require("./Model/lesson.model.js")(sequelize, Sequelize);
-// db.course = require("./Model/course.model.js")(sequelize, Sequelize);
+// db.lesson = require("./Model/lesson.model.js")(sequelize, Sequelize);
+db.course = require("./Model/course.model.js")(sequelize, Sequelize);
 // Function to seed data
 async function seedData() {
   try {
@@ -65,27 +42,26 @@ async function seedData() {
   //  await sequelize.sync({ force: true }); // This line will drop the table if it already exists
 
   // Read JSON data from file as a string
-   const filePath = path.join(__dirname, 'updated_merged_file_final.json');
-  // const filePath = path.join(__dirname, 'soon_delete.json');
-  let rawData = fs.readFileSync(filePath);
+ // const filePath = path.join(__dirname, 'updated_merged_file_final.json');
+  // let rawData = fs.readFileSync(filePath);
    
-  // const filePath1 = path.join(__dirname, 'courses.json');
- // let rawData1 = fs.readFileSync(filePath1);
+  const filePath1 = path.join(__dirname, 'courses.json');
+  let rawData1 = fs.readFileSync(filePath1);
 
   // Replace single backslashes with double backslashes for JSON compatibility
   //rawData = rawData.replace(/\\(?!\\)/g, '\\\\');
 
   // Parse the JSON
-  const lessons = JSON.parse(rawData);
- // const courses = JSON.parse(rawData1);
+ // const lessons = JSON.parse(rawData);
+  const courses = JSON.parse(rawData1);
  // Database operations
   await sequelize.authenticate();
  console.log('Connection has been established successfully.');
   await sequelize.sync(); // This line will drop the table if it already exists
  // console.log('Data to be inserted:', JSON.stringify(lessons, null, 2));
- // await db.course.bulkCreate(courses);
- console.log('Lessons to be inserted:', JSON.stringify(lessons));
- await db.lesson.bulkCreate(lessons);
+ console.log('Courses to be inserted:', JSON.stringify(courses));
+ await db.course.bulkCreate(courses);
+// await db.lesson.bulkCreate(lessons);
  console.log('Data has been inserted successfully.');
   } catch (error) {
     console.error('Unable to connect to the database or seed data:', error);

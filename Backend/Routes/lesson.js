@@ -9,7 +9,9 @@ router.get('/', ensureGuest ,(req, res) => {
   */
   router.post('/openai', lessonController.lessonai);
   router.get('/lessons/',lessonController.getLessons);
-  router.get('/lessons/type/:type',lessonController.gtLessonsByType);
+  router.get('/lessons/questionType/:type',lessonController.getLessonsByType);
+
+  router.get('/lessons/subject/:subjectName',lessonController.getLessonsBySubjectName);
   
 module.exports=router;
 

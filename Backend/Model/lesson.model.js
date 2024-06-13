@@ -15,6 +15,7 @@ module.exports = (sequelize, Sequelize) => {
       options: {
       //  type: Sequelize.ARRAY(Sequelize.STRING), // Stores an array of strings for multiple choice options
       type: Sequelize.JSONB, 
+
         // some questions might not have options
       },
       solution: {
@@ -30,13 +31,29 @@ module.exports = (sequelize, Sequelize) => {
         defaultValue: "easy", // Sets 'easy' as the default difficulty level
       },
       question_type: {
-        type: Sequelize.ENUM('comprehension', 'list based', 'mcq'), // New field for the type of question
+        type: Sequelize.ENUM('COMPREHENSION', 'LIST BASED', 'MCQ','Numerical'), // New field for the type of question
       },
       comprehension_question: {
         type: Sequelize.TEXT, // New field for comprehension question text
         allowNull: true, // Allows null values as not all questions may be comprehension-based
       },
      
+      question_image: {
+type:Sequelize.STRING,
+allowNull:true,
+      },
+      answer: {
+        type: Sequelize.TEXT,
+        allowNull: false,
+      },
+      CourseSubjectName: {
+        type: Sequelize.TEXT,
+        references: {
+          model: 'courses', // Name of the model to link to, make sure it matches your table name for courses
+          key: 'subjectName', // The column in the 'courses' table that this field refers to
+        }
+      }
+
     }, {
       // Model options
       tableName: 'lessons' 
