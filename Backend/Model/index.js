@@ -27,6 +27,7 @@ db.sequelize = sequelize;
 // Load and initialize models
 db.lesson = require("./lesson.model.js")(sequelize, Sequelize);
 db.user = require("./user.model.js")(sequelize, Sequelize);
+db.Message = require("./messages.model.js")(sequelize, Sequelize);
 db.course = require("./course.model.js")(sequelize, Sequelize);
 
 // one to many (user to course, a user can particiapate in many courses)
@@ -42,5 +43,14 @@ db.course.belongsTo(db.user);
 //one to many (a course can have many lessons )
 db.course.hasMany(db.lesson);
 db.lesson.belongsTo(db.course);
+
+// one to one 
+// a question can have a chat/ messages
+db.lesson.hasOne(db.Message)
+
+// one to many
+// a user can have many chats/messages
+db.user.hasMany(db.Message);
+db.Message.belongsTo(db.user);
 
 module.exports = db;

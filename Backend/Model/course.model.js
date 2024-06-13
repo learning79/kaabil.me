@@ -3,13 +3,20 @@ module.exports = (sequelize, Sequelize) => {
     const Course = sequelize.define('Course', {
       // Define a 'subjectName' field which is used as the primary key
       subjectName: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         primaryKey: true,
         allowNull: false,
       },
       subjectDescription: {
-        type: Sequelize.STRING,
-        allowNull: false,
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
+      UserId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'users', // Name of the model to link to, make sure it matches your table name for courses
+          key: 'id', // The column in the 'courses' table that this field refers to
+        }
       }
      
     }, {

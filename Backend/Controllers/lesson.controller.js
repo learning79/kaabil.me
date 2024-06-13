@@ -84,7 +84,7 @@ let { userInput, sessionMessages } = req.body;
 }
 
 
-module.exports.gtLessonsByType = async (req, res) => {
+module.exports.getLessonsByType = async (req, res) => {
   try {
       const { type } = req.params;
       console.log("lessons type = ",type)
@@ -99,3 +99,32 @@ module.exports.gtLessonsByType = async (req, res) => {
       res.status(500).json({ error: error.message });
   }
 }
+
+
+
+
+module.exports.getLessonsBySubjectName = async (req, res) => {
+  console.log("i am here")
+  try {
+      const { subjectName } = req.params;  // Capture 'subjectName' from the URL parameters
+      console.log("Requested CourseSubjectName = ", subjectName);
+
+      const lessons = await Lesson.findAll({
+          where: {
+              CourseSubjectName: subjectName  // Filter lessons where 'CourseSubjectName' matches 'subjectName'
+          }
+      });
+
+      console.log("Lessons found for subject = ", lessons);
+      res.status(200).json(lessons);
+  } catch (error) {
+      console.log("Error fetching lessons by subject name: ", error);
+      res.status(500).json({ error: error.message });
+  }
+}
+
+
+
+
+
+
