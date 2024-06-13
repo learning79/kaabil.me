@@ -23,7 +23,7 @@ const WhatWeDo = () => {
             <img
               src={what_we_do}
               alt="What We Do"
-              className="relative w-[453px] h-[435.92px] z-10"
+              className=" w-[453px] h-[435.92px] z-10"
             />
           </div>
           <div className="flex flex-col text-white max-w-lg order-1 md:order-2 text-center md:text-left">

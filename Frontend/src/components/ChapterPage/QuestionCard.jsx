@@ -2,26 +2,43 @@ import React, { useEffect } from 'react';
 import { Button } from '../ui/button';
 import { MathJax, MathJaxContext } from 'better-react-mathjax';
 
-const QuestionCard = ({ question, options, userInput, setUserInput, handleCheckAnswer }) => {
+const QuestionCard = ({ questionType, question, options, userInput, setUserInput, handleCheckAnswer }) => {
     const optionKeys = Object.keys(options);
+   // const [buttonDisabled, setButtonDisabled] = useState(false);
 
+
+    console.log("This question type is:",{questionType});
     // UseEffect to re-render MathJax upon option changes
-    // useEffect(() => {
-    //     if (window.MathJax) {
-    //         window.MathJax.typesetPromise();
-    //     }
-    // }, [options, userInput]);
+        
+        // useEffect(() => {
+        //     async function typesetMath() {
+        //         if (window.MathJax) {
+        //             try {
+        //                 await window.MathJax.typesetPromise();
+        //             } catch (error) {
+        //                 console.error('MathJax typesetting failed:', error);
+        //             }
+        //         }
+        //     }
+
+        //     typesetMath();
+        // }, [question, options, userInput]);
+
+
+
 
     return (
         <MathJaxContext version={3} config={{
+    
           loader: { load: ['input/tex', 'output/svg'] },
           tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
         }}>
-            <div className="flex flex-col bg-slate-200 rounded-md justify-start w-full my-4 transition-opacity duration-500 ease-in-out">
-                <div className='px-8 py-4 flex flex-col'>
-                    <h1 className='py-4'>{question}</h1>
+        
+            <div className="flex flex-col  bg-slate-200 rounded-md justify-start w-full my-4 transition-opacity duration-500 ease-in-out">
+                <div className='px-6 py-4 flex flex-col '>
+                    <MathJax><h1 className='py-4 font-bold'>{`Q) `+question}</h1></MathJax>
                     {optionKeys.map((key) => (
-                        <label key={key} className="text-lg mb-2 flex items-center">
+                        <label key={key} className="text-lg mb-2 flex hover:bg-slate-300 rounded-xl lg:w-3/4 w-full md:w-3/4 p-1 px duration-500 items-center">
                             <input
                                 type="radio"
                                 name="option"

@@ -32,7 +32,7 @@ router.get(
     // On successful authentication, redirect to the dashboard
 
    // res.redirect("https://www.kaabil.me/dashboard") // Use for production environment
-     res.redirect("http://localhost:5173/dashboard")
+    
    // res.redirect("https://www.kaabil.me/dashboard") // Use for production environment
     }
   )
