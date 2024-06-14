@@ -129,11 +129,13 @@ module.exports.getQuestionsByLessonId = async (req, res) => {
   console.log("i am here")
   try {
       const { lessonId } = req.params;  // Capture 'subjectName' from the URL parameters
+      const { subjectName } = req.params;
       console.log("Requested CourseSubjectName = ", LessonId);
 
       const questions = await Question.findAll({
           where: {
-                LessonId: lessonId  // Filter lessons where 'CourseSubjectName' matches 'subjectName'
+                LessonId: lessonId,  // Filter questions where 'LessonId' matches 'lessonId'
+                CourseSubjectName: subjectName  // Filter questions where 'CourseSubjectName' matches 'subjectName'
           }
       });
 

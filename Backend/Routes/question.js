@@ -12,7 +12,7 @@ router.get('/', ensureGuest ,(req, res) => {
   router.get('/lessons/questionType/:type',QuestionController.getQuestionsByType);
 
   router.get('/lessons/questions/:subjectName',QuestionController.getQuestionsBySubjectName);
-  router.get('/lessons/questions/:lessonId',QuestionController.getQuestionsByLessonId);
+  router.get('/lessons/questions/:subjectName/:lessonId',QuestionController.getQuestionsByLessonId);
   router.post('/messages/:questionId', ensureAuth,messageController.createMessage);
 
 
