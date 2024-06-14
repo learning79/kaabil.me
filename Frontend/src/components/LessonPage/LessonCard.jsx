@@ -36,7 +36,7 @@ const LessonCard = ({
         <CardDescription className="flex-grow mb-4 text-gray-700 dark:text-gray-400 overflow-auto">
           <p>{description}</p>
         </CardDescription>
-        <div className="flex  md:flex-row mb-4 text-sm">
+        <div className="flex md:flex-row mb-4 text-sm">
           <div className="flex flex-col mr-8 mb-8">
             <p className="flex items-center hover:text-blue-900 duration-500">
               <AccessTimeIcon fontSize="small" className="m-2" />{duration}
@@ -57,7 +57,7 @@ const LessonCard = ({
         <CardFooter className="flex flex-col ">
         <Progress value={50} className="mb-4"/>
 
-          <Button onClick={onClickStartChapter} className="rounded-full mb-8">
+          <Button onClick={onClickStartChapter} className="rounded-full md:mb-8 ">
             <p className='p-4s'>Start Now</p>
           </Button>
         </CardFooter>

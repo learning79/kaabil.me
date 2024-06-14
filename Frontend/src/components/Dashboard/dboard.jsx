@@ -18,7 +18,7 @@ const Dashboard = ({ user }) => {
 
   return (
     <div className="flex flex-col min-h-screen w-full text-black bg-slate-100 font-Space Grotesk">
-      <Navbar user={user} />
+    
       <div className="flex-grow md:text-3xl lg:text-3xl text-xl sm:text-xl flex flex-col text-left px-8 md:px-12 mt-16 md:mt-24">
         <div className="flex md:flex-row lg:flex-row mt-16 sm:flex-col justify-center mb-4 md:w-140">
           <h1 className="bg-gradient-to-r from-indigo-800 to-green-400 inline-block text-transparent bg-clip-text font-bold">
@@ -35,7 +35,9 @@ const Dashboard = ({ user }) => {
           ))}
         </div>
       </div>
+      <Navbar user={user}/>
       <Footer />
+    
       <Outlet />
     </div>
   );
