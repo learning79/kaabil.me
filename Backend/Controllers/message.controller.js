@@ -17,7 +17,7 @@ module.exports.createMessage = async (req, res) => {
       const  {questionId}  = req.params; // Extract LessonId from URL parameters
   
       // Validation logic can be added here
-      if (!userId || !questionId || !chats) {
+      
       if (!userId || !questionId || !chats) {
         return res.status(400).json({ message: "UserId, QuestionId, and chats are required." });
       }
@@ -38,4 +38,5 @@ module.exports.createMessage = async (req, res) => {
       res.status(500).json({ error: error.message });
     }
   }
+
   
