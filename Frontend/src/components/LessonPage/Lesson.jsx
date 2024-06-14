@@ -18,7 +18,7 @@ const Lesson = ({ user }) => {
       case 1:
         return {
           title: "Trigonometry",
-          description: "Embark on a captivating journey through the world of Trigonometry...",
+          description: "Trigonometry forms a major part of the JEE syllabus, with questions appearing consistently each year. Trigonometric principles are essential for solving problems in calculus, complex numbers, mechanics, wave motion and electromagnetism which are heavily tested in JEE.",
           duration: "45 minutes",
           language: "English",
           xp: "100 XP",
@@ -27,7 +27,7 @@ const Lesson = ({ user }) => {
       case 2:
         return {
           title: "Integration",
-          description: "Dive into the essential techniques of Integration...",
+          description: "Dive into the essential techniques of Integration with this course. A strong foundation in integration helps in other sections too such as calculus, mechanics, electromagnetism, and thermodynamics, to name a few.",
           duration: "90 minutes",
           language: "English",
           xp: "150 XP",
