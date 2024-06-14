@@ -6,6 +6,7 @@ const Message = db.Message;
 
 module.exports.createMessage = async (req, res) => {
   console.log("request body =",req.body)
+  console.log("request body =",req.body)
     try {
         console.log("request body =",req.body)
       // Extract chat data and other necessary fields from the request body
@@ -16,6 +17,7 @@ module.exports.createMessage = async (req, res) => {
       const  {questionId}  = req.params; // Extract LessonId from URL parameters
   
       // Validation logic can be added here
+      if (!userId || !questionId || !chats) {
       if (!userId || !questionId || !chats) {
         return res.status(400).json({ message: "UserId, QuestionId, and chats are required." });
       }

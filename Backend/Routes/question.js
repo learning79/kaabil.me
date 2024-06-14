@@ -2,11 +2,14 @@ const router = require('express').Router()
 const QuestionController = require('../Controllers/question.controller');
 const { ensureAuth } = require('../Middleware/auth')
 const messageController = require('../Controllers/message.controller');
+const { ensureAuth } = require('../Middleware/auth');
 /*
 router.get('/', ensureGuest ,(req, res) => {
    // res.render('login')
   })
   */
+ 
+  router.post('/messages/:questionId', ensureAuth,messageController.createMessage);
   router.post('/openai', QuestionController.lessonai);
   router.get('/lessons/questions/',QuestionController.getQuestions);
 

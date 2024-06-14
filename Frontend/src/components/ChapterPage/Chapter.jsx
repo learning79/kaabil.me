@@ -110,7 +110,8 @@ const Chapter = ({ user }) => {
         console.log(question.options);
         console.log(question.answer);
         console.log(question.options[userInput]);
-        const initialPrompt = `The student doesn't know about you so introduce yourself in one sentence (make a mythical identity) and mention that you have selected the wrong option. Here's the question: '${question.question}', here are the options:${question.options} The correct answer was: '${question.answer}'. The user selected the input ${userInput} Please try again, and let's solve it step by step.`;
+        const initialPrompt = `
+        The student doesn't know about you so introduce yourself in one sentence (make a mythical identity) and mention that you have selected the wrong option. Here's the question: '${question.question}', here are the options:${question.options} The correct answer was: '${question.answer}'. The user selected the input ${userInput} Please try again, and let's solve it step by step.`;
         setInteractionHistory((prev) => [
           ...prev,
           { questionId: id, initialPrompt },

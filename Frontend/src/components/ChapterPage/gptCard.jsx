@@ -104,11 +104,16 @@ function GPTCard({ questionId, initialPrompt }) {
         const data = await response.json();
         const messagesToSet = data.updatedMessages.map((message, index) => ({
           ...message,
-          visible: index > 1,
+          visible: index>1,
         }));
         if (JSON.stringify(messagesToSet) !== JSON.stringify(helpText)) {
           setHelpText(messagesToSet);
           setCurrentInteractionIndex(messagesToSet.length - 1);
+          saveInteraction({
+            questionIndex: currentInteractionIndex,
+            chats: messagesToSet,
+            userInput: userMessage
+          });
           saveInteraction({
             questionIndex: currentInteractionIndex,
             chats: messagesToSet,

@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const dbConfig = require("./Config/db.config.js");
 const session = require('express-session');
+// const { ensureAuth, ensureGuest } = require('./Middleware/auth')
 const Sequelize = require('sequelize');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const passport = require('passport');
@@ -75,7 +76,7 @@ db.sequelize.sync()
     });
 
 // API routes
-app.use('/api', require("./Routes/question.js"));
+app.use('/api', require("./Routes/question"));
 app.use('/api/auth', require('./Routes/auth'));
 
 // Health check endpoint

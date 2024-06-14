@@ -7,7 +7,8 @@ module.exports = {
         console.log("user id=",req.user.dataValues.id)
       // req.user.dataValues.id;
           // If the user is authenticated, proceed to the next middleware or route handler
-        return next()
+          console.log("yes the user is authenticated")
+          return next();
       } else {
          // If the user is not authenticated, redirect them to the Home page
        //  res.redirect('http://localhost:5173/')
