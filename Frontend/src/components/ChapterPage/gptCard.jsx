@@ -63,6 +63,28 @@ function GPTCard({ questionId, initialPrompt }) {
     } else {
       setLoading((prev) => ({ ...prev, [index]: true })); // Set loading true for the specific index
     }
+
+    const saveInteraction = async (interactionData) => {
+      try {
+        const url=`http://localhost:3000/api/messages/${questionId}`
+        console.log("uri =", url)
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(interactionData),
+          credentials: 'include'
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const responseData = await response.json();
+        console.log('Interaction saved:', responseData);
+      } catch (error) {
+        console.error('Failed to save interaction:', error);
+      }
+    };
     
 
     try {
@@ -73,7 +95,8 @@ function GPTCard({ questionId, initialPrompt }) {
         },
         body: JSON.stringify({
           userInput: userMessage || "hint",
-          sessionMessages: isInitial ? [] : helpText,
+       //   sessionMessages: isInitial ? [] : helpText,
+       sessionMessages: isInitial ? []: helpText,
         }),
       });
 
@@ -86,6 +109,11 @@ function GPTCard({ questionId, initialPrompt }) {
         if (JSON.stringify(messagesToSet) !== JSON.stringify(helpText)) {
           setHelpText(messagesToSet);
           setCurrentInteractionIndex(messagesToSet.length - 1);
+          saveInteraction({
+            questionIndex: currentInteractionIndex,
+            chats: messagesToSet,
+            userInput: userMessage
+          });
         }
       } else {
         throw new Error("Failed to fetch help");
