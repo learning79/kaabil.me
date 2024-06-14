@@ -2,60 +2,73 @@ import React, { useEffect } from 'react';
 import { Button } from '../ui/button';
 import { MathJax, MathJaxContext } from 'better-react-mathjax';
 
-const QuestionCard = ({ questionType, question, options, userInput, setUserInput, handleCheckAnswer }) => {
-    const optionKeys = Object.keys(options);
-   // const [buttonDisabled, setButtonDisabled] = useState(false);
-   const preprocessLatex = (latexString) => {
-    // Remove unwanted outer braces or adjust based on your specific needs
-    return latexString.replace(/^\{|\}$/g, ''); // This regex removes braces at the start or end of the string
-};
+const QuestionCard = ({ questionType, question, options, userInput, setUserInput, handleCheckAnswer, answer }) => {
+    const handleNumericalInput = (input) => {
+        setUserInput(input);
+    };
 
-    console.log("This question type is:",{questionType});
-    // UseEffect to re-render MathJax upon option changes
-        
-        useEffect(() => {
-            async function typesetMath() {
-                if (window.MathJax) {
-                    try {
-                        await window.MathJax.typesetPromise();
-                    } catch (error) {
-                        console.error('MathJax typesetting failed:', error);
-                    }
-                }
+    const submitNumericalAnswer = () => {
+        // Assuming the correct answer is in the 'answer' prop
+        if (userInput === answer) {
+            alert("Correct answer!");
+            // Possibly update the interaction history or other state to reflect the correct answer
+        } else {
+            alert("Incorrect, try again!");
+            // Update interaction history with an incorrect attempt
+            handleCheckAnswer(userInput); // You can adjust handleCheckAnswer to handle this scenario
+        }
+    };
+
+    useEffect(() => {
+        async function typesetMath() {
+            if (window.MathJax) {
+                await window.MathJax.typesetPromise().catch(error => console.error('MathJax typesetting failed:', error));
             }
-
-            typesetMath();
-        }, [question, options, userInput]);
-
-
-
+        }
+        typesetMath();
+    }, [question, options, userInput]);
 
     return (
         <MathJaxContext version={3} config={{
-    
-          loader: { load: ['input/tex', 'output/svg'] },
-          tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+            loader: { load: ['input/tex', 'output/svg'] },
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
         }}>
-        
-            <div className="flex flex-col  bg-slate-200 rounded-md justify-start w-full my-4 transition-opacity duration-500 ease-in-out">
-                <div className='px-6 py-4 flex flex-col '>
-                    <MathJax><h1 className='py-4 font-bold'>{`Q) `+question}</h1></MathJax>
-                    {optionKeys.map((key) => (
-                        <label key={key} className="text-lg mb-2 flex hover:bg-slate-300 rounded-xl lg:w-3/4 w-full md:w-3/4 p-1 px duration-500 items-center">
+            <div className="flex flex-col bg-slate-200 rounded-md justify-start w-full my-4">
+                <div className='px-6 py-4 flex flex-col'>
+                    <MathJax><h1 className='py-4 font-bold'>{`Q) ${question}`}</h1></MathJax>
+                    {questionType === "Numerical" ? (
+                        <div>
                             <input
-                                type="radio"
-                                name="option"
-                                value={key}
-                                checked={userInput === key}
-                                onChange={() => setUserInput(key)}
-                                className="mr-2"
+                                type="text"
+                                value={userInput}
+                                onChange={e => handleNumericalInput(e.target.value)}
+                                className="border rounded p-2 text-lg w-full"
+                                placeholder="Enter your answer"
                             />
-                           <MathJax>{preprocessLatex(options[key])}</MathJax>
-                        </label>
-                    ))}
-                    <Button onClick={() => handleCheckAnswer(userInput)} className="mt-4 h-10 w-28 rounded-full px-4 py-2">
-                        Check Now
-                    </Button>
+                            <Button onClick={submitNumericalAnswer} className="mt-4 h-10 w-28 rounded-full">
+                                Submit Answer
+                            </Button>
+                        </div>
+                    ) : (
+                        options.map((option, key) => (
+                            <label key={key} className="text-lg mb-2 flex hover:bg-slate-300 rounded-xl p-1 items-center">
+                                <input
+                                    type="radio"
+                                    name="option"
+                                    value={key}
+                                    checked={userInput === key}
+                                    onChange={() => setUserInput(key)}
+                                    className="mr-2"
+                                />
+                                <MathJax>{option}</MathJax>
+                            </label>
+                        ))
+                    )}
+                    {questionType !== "Numerical" && (
+                        <Button onClick={() => handleCheckAnswer(userInput)} className="mt-4 h-10 w-28 rounded-full">
+                            Check Now
+                        </Button>
+                    )}
                 </div>
             </div>
         </MathJaxContext>

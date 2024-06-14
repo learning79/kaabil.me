@@ -65,8 +65,8 @@ async function seedData() {
   //  await sequelize.sync({ force: true }); // This line will drop the table if it already exists
 
   // Read JSON data from file as a string
-  // const filePath = path.join(__dirname, 'updated_merged_file_final.json');
-   const filePath = path.join(__dirname, 'demo_ques.json');
+   const filePath = path.join(__dirname, 'updated_merged_file_final.json');
+  // const filePath = path.join(__dirname, 'demo_ques.json');
   let rawData = fs.readFileSync(filePath);
    
   // const filePath1 = path.join(__dirname, 'courses.json');

@@ -35,17 +35,7 @@ let { userInput, sessionMessages } = req.body;
   if (!sessionMessages || sessionMessages.length === 0) {
     sessionMessages = [{
       role: "system",
-      content: `Give step by step solution to the given
-      . GIVE THE OUTPUT in LATEX so convert the given question to english/maths with proper spacing
-      question: " For any \\(\\theta \\in (\\pi/4, \\pi/2)\\), the expression \\(3(\\sin \\theta - \\cos \\theta)^4 + 6(\\sin \\theta + \\cos \\theta)^2 + 4 \\sin^6 \\theta\\) equals:",
-      options: {
-        a: "13 - 4 \\cos^2 \\theta + 6 \\sin^2 \\theta \\cos^2 \\theta",
-        b: "13 - 4 \\cos^6 \\theta",
-        c: "13 - 4 \\cos^2 \\theta + 6 \\cos^4 \\theta",
-        d:"13 - 4 \\cos^4 \\theta + 2 \\sin^2 \\theta \\cos^2 \\theta"
-      
-      },
-      solution: "b",
+      content: `
       answer in small steps without revealing the answer to the students. reveal each step in each interaction only ask students questions to answer which lead them to the actual answer. You are a teaching assistant.
       `
     }];

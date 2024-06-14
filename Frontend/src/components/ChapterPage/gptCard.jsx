@@ -38,6 +38,9 @@ function GPTCard({ questionId, initialPrompt }) {
     loadData();
   }, [questionId]); // Ensure this only runs when `questionId` changes
   
+  
+
+
   // Save interaction history to local storage
   useEffect(() => {
     // Only save to localStorage if there's meaningful data
@@ -52,6 +55,8 @@ function GPTCard({ questionId, initialPrompt }) {
     }
   }, [helpText]);
 
+  
+    
   const fetchHelp = async (userMessage, index, isInitial = false) => {
     if (isInitial) {
       setInitialLoading(true); // Start initial loading
