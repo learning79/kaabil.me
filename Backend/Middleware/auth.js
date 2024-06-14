@@ -4,7 +4,8 @@ module.exports = {
       // ensureAuth checks if the user is authenticated before proceeding
       if (req.isAuthenticated()) {
           // If the user is authenticated, proceed to the next middleware or route handler
-        return next()
+          console.log("yes the user is authenticated")
+          return next();
       } else {
          // If the user is not authenticated, redirect them to the Home page
          res.redirect('http://localhost:5173/')
