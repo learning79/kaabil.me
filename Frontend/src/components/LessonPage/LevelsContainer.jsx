@@ -6,7 +6,7 @@ const LevelsContainer = ({ levels, onLevelClick }) => {
     
    
     return (
-        <div className="w-48 bg-slate-300 p-4 rounded-lg shadow-md flex flex-col items-stretch">
+        <div className="w-60 bg-slate-200 p-4 rounded-lg shadow-md flex flex-col items-stretch">
             {levels.map((level, index) => (
                 <Level
                     key={index}
