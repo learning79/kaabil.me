@@ -75,7 +75,7 @@ db.sequelize.sync()
     });
 
 // API routes
-app.use('/api', require("./Routes/lesson"));
+app.use('/api', require("./Routes/question.js"));
 app.use('/api/auth', require('./Routes/auth'));
 
 // Health check endpoint

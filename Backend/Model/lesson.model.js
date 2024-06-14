@@ -1,4 +1,5 @@
 // Define a Sequelize model for Lessons
+/*
 module.exports = (sequelize, Sequelize) => {
   const Lesson = sequelize.define(
     "Lesson",
@@ -24,4 +25,4 @@ module.exports = (sequelize, Sequelize) => {
      return Lesson;
     
   };
-  
+  */

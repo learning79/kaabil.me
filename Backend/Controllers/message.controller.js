@@ -9,14 +9,14 @@ module.exports.createMessage = async (req, res) => {
         console.log("request body =",req.body)
       // Extract chat data and other necessary fields from the request body
       const { questionIndex, chats, userInput } = req.body;
-      const UserId = req.user.dataValues.id; // Extract UserId from req.user provided by authentication middleware
-      console.log("user id =",UserId)
-      console.log("lesson id=", req.params)
-      const { LessonId } = req.params; // Extract LessonId from URL parameters
+      const userId = req.user.dataValues.id; // Extract UserId from req.user provided by authentication middleware
+      console.log("user id =",userId)
+      console.log("Question id=", req.params)
+      const { questionId } = req.params; // Extract LessonId from URL parameters
   
       // Validation logic can be added here
-      if (!UserId || !LessonId || !chats) {
-        return res.status(400).json({ message: "UserId, LessonId, and chats are required." });
+      if (!UserId || !questionId || !chats) {
+        return res.status(400).json({ message: "UserId, QuestionId, and chats are required." });
       }
   
       // Create a new message in the database
@@ -24,8 +24,8 @@ module.exports.createMessage = async (req, res) => {
         questionIndex,
         chats,  // Assuming 'chats' is a structured JSON/JSONB that matches your chat format
         userInput,
-        UserId,
-        LessonId
+        userId,
+        questionId
       });
   
       console.log("Message created successfully: ", message);

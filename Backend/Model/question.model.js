@@ -55,10 +55,7 @@ module.exports = (sequelize, Sequelize) => {
         },
         LessonId: {
             type: Sequelize.INTEGER,
-            references: {
-              model: 'lessons', // Name of the model to link to, make sure it matches your table name for courses
-              key: 'id', // The column in the 'courses' table that this field refers to
-            }
+            allowNull: false,
           }
       }, {
         // Model options

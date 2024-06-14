@@ -1,6 +1,6 @@
 
 const db = require('../Model/index.js'); // Adjust the path according to your project structure
-const Lesson = db.lesson; 
+const Question = db.question; 
 const processTutoringStep = require("../openai.js");
 
 // Logout function to end the user session and redirect to home page
@@ -71,30 +71,30 @@ let { userInput, sessionMessages } = req.body;
 
 
 
-  module.exports.getLessons = async (req, res) => {
+  module.exports.getQuestions = async (req, res) => {
     try {
-        const lessons = await Lesson.findAll();
-        console.log("these are the lessons   = ",
-          lessons
+        const questions = await Question.findAll();
+        console.log("these are the questions   = ",
+          questions
          )
-        res.status(200).json(lessons);
+        res.status(200).json(questions);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 }
 
 
-module.exports.getLessonsByType = async (req, res) => {
+module.exports.getQuestionsByType = async (req, res) => {
   try {
       const { type } = req.params;
       console.log("lessons type = ",type)
-      const lessons = await Lesson.findAll({
+      const questions = await Question.findAll({
           where: {
               question_type: type
           }
       });
-      console.log("lessons found  = ",lessons)
-      res.status(200).json(lessons);
+      console.log("questions found  = ",questions)
+      res.status(200).json(questions);
   } catch (error) {
       res.status(500).json({ error: error.message });
   }
@@ -103,19 +103,19 @@ module.exports.getLessonsByType = async (req, res) => {
 
 
 
-module.exports.getLessonsBySubjectName = async (req, res) => {
+module.exports.getQuestionsBySubjectName = async (req, res) => {
   console.log("i am here")
   try {
       const { subjectName } = req.params;  // Capture 'subjectName' from the URL parameters
       console.log("Requested CourseSubjectName = ", subjectName);
 
-      const lessons = await Lesson.findAll({
+      const questions = await Question.findAll({
           where: {
               CourseSubjectName: subjectName  // Filter lessons where 'CourseSubjectName' matches 'subjectName'
           }
       });
 
-      console.log("Lessons found for subject = ", lessons);
+      console.log("Lessons found for subject = ", questions);
       res.status(200).json(lessons);
   } catch (error) {
       console.log("Error fetching lessons by subject name: ", error);
@@ -123,6 +123,27 @@ module.exports.getLessonsBySubjectName = async (req, res) => {
   }
 }
 
+
+
+module.exports.getQuestionsByLessonId = async (req, res) => {
+  console.log("i am here")
+  try {
+      const { lessonId } = req.params;  // Capture 'subjectName' from the URL parameters
+      console.log("Requested CourseSubjectName = ", LessonId);
+
+      const questions = await Question.findAll({
+          where: {
+                LessonId: lessonId  // Filter lessons where 'CourseSubjectName' matches 'subjectName'
+          }
+      });
+
+      console.log(`questions found for LessonID ${lessonId}  and the respective questions are ${questions}`);
+      res.status(200).json(questions);
+  } catch (error) {
+      console.log("Error fetching lessons by question name: ", error);
+      res.status(500).json({ error: error.message });
+  }
+}
 
 
 
