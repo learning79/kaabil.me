@@ -143,7 +143,7 @@ const Chapter = ({ user }) => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
     } else {
-      alert("can't navigate");
+      alert("You are at the first question.");
     }
   }, [currentQuestionIndex]);
 
