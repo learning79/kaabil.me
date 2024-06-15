@@ -117,7 +117,7 @@ const Chapter = ({ user }) => {
         console.log(question.answer);
         console.log(question.options[userInput]);
         const initialPrompt = `
-        The student doesn't know about you so introduce yourself in one sentence (make a mythical identity) and mention that you have selected the wrong option. Here's the question: '${question.question}', here are the options:${question.options} The correct answer was: '${question.answer}'. The user selected the input ${userInput} Please try again, and let's solve it step by step.`;
+        Help the student solve the question step by step. Wait for the user response before moving on to the next step. Do not reveal the answer directly at any cost. Here's the question: '${question.question}', here are the options:${question.options} The correct answer was: '${question.answer}'. The user selected the input ${userInput} Please try again, and let's solve it step by step.`;
         setInteractionHistory((prev) => [
           ...prev,
           { questionId: id, initialPrompt },
@@ -149,7 +149,7 @@ const Chapter = ({ user }) => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
     } else {
-      alert("can't navigate");
+      alert("You are at the first question.");
     }
   }, [currentQuestionIndex]);
 
@@ -171,6 +171,7 @@ const Chapter = ({ user }) => {
         <div className="flex flex-col items-center px-2 py-12">
           {questions[currentQuestionIndex] && (
             <QuestionCard
+              id={questions[currentQuestionIndex].id}
               answer={questions[currentQuestionIndex].answer}
               key={questions[currentQuestionIndex].id}
               questionType={questions[currentQuestionIndex].question_type}
