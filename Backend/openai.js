@@ -1,4 +1,3 @@
-
 const OpenAIApi = require('openai');
 //require('dotenv').config(); // Ensure dotenv is configured to use .env variables
 
@@ -16,7 +15,7 @@ module.exports =async function processTutoringStep(userInput, sessionMessages) {
     });
   }
   const response = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
+    model: "gpt-4",
     messages: sessionMessages,
   });
 
@@ -28,4 +27,3 @@ module.exports =async function processTutoringStep(userInput, sessionMessages) {
 
   return { systemResponse, sessionMessages };
 }
-

@@ -6,21 +6,34 @@ const dbConfig = require("./Config/db.config.js");
 const session = require('express-session');
 // const { ensureAuth, ensureGuest } = require('./Middleware/auth')
 const Sequelize = require('sequelize');
+const path = require('path');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const passport = require('passport');
 const configurePassport = require('./Controllers/user.controller'); // Include the user controller to configure Passport strategies
 const app = express();
 
 // CORS configuration
+app.use(cors())
+/*
 app.use(cors({
     origin: "http://localhost:5173", // Adjust for production if necessary
     methods: "GET,POST,PUT,DELETE",
     credentials: true, // This allows session cookies from the browser to be passed back
 }));
+*/
+
+
+app.use(express.urlencoded({ extended: true }));
+
+// Serve static files from the React app
+//uncomment for production
+app.use(express.static(path.join(__dirname, 'dist')));
+
 
 // Body parser for forms and json data
-app.use(express.urlencoded({ extended: true }));
+
 app.use(express.json());  
+
 
 // Database connection setup
 const db = require("./Model");
@@ -83,6 +96,18 @@ app.use('/api/auth', require('./Routes/auth'));
 app.get("/health", (req, res) => {
     res.status(200).json({ message: "Welcome to Kaabil application." });
 });
+
+
+//uncomment for production
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+// do not delete this part
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/dist/index.html'));
+  });
+  
+  
+
 
 // Set port and start server
 const PORT = process.env.PORT || 8080;
