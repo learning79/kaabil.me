@@ -111,7 +111,7 @@ const Chapter = ({ user }) => {
         console.log(question.answer);
         console.log(question.options[userInput]);
         const initialPrompt = `
-        The student doesn't know about you so introduce yourself in one sentence (make a mythical identity) and mention that you have selected the wrong option. Here's the question: '${question.question}', here are the options:${question.options} The correct answer was: '${question.answer}'. The user selected the input ${userInput} Please try again, and let's solve it step by step.`;
+        Help the student solve the question step by step. Wait for the user response before moving on to the next step. Do not reveal the answer directly at any cost. Here's the question: '${question.question}', here are the options:${question.options} The correct answer was: '${question.answer}'. The user selected the input ${userInput} Please try again, and let's solve it step by step.`;
         setInteractionHistory((prev) => [
           ...prev,
           { questionId: id, initialPrompt },
