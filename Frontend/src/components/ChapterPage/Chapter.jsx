@@ -165,6 +165,7 @@ const Chapter = ({ user }) => {
         <div className="flex flex-col items-center px-2 py-12">
           {questions[currentQuestionIndex] && (
             <QuestionCard
+              id={questions[currentQuestionIndex].id}
               answer={questions[currentQuestionIndex].answer}
               key={questions[currentQuestionIndex].id}
               questionType={questions[currentQuestionIndex].question_type}

@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { Button } from '../ui/button';
 import { MathJax, MathJaxContext } from 'better-react-mathjax';
 
-const QuestionCard = ({ questionType, question, options, userInput, setUserInput, handleCheckAnswer, answer }) => {
+const QuestionCard = ({ id,questionType, question, options, userInput, setUserInput, handleCheckAnswer, answer }) => {
     const handleNumericalInput = (input) => {
         setUserInput(input);
     };
-
+    const specificIds = [258, 259, 260]; 
+ 
     const submitNumericalAnswer = () => {
         // Assuming the correct answer is in the 'answer' prop
         if (userInput === answer) {
@@ -27,7 +28,7 @@ const QuestionCard = ({ questionType, question, options, userInput, setUserInput
         }
         typesetMath();
     }, [question, options, userInput]);
-
+    
     return (
         <MathJaxContext version={3} config={{
             loader: { load: ['input/tex', 'output/svg'] },
@@ -35,7 +36,7 @@ const QuestionCard = ({ questionType, question, options, userInput, setUserInput
         }}>
             <div className="flex flex-col bg-slate-200 rounded-md justify-start w-full my-4">
                 <div className='px-6 py-4 flex flex-col'>
-                    <MathJax><h1 className='py-4 font-bold'>{`Q) ${question}`}</h1></MathJax>
+                    <MathJax><h1 className='py-4 font-bold'>{`Q. ${question}`}</h1></MathJax>
                     {questionType === "Numerical" ? (
                         <div>
                             <input
@@ -50,20 +51,39 @@ const QuestionCard = ({ questionType, question, options, userInput, setUserInput
                             </Button>
                         </div>
                     ) : (
-                        options.map((option, key) => (
-                            <label key={key} className="text-lg mb-2 flex hover:bg-slate-300 rounded-xl p-1 items-center">
+                        options ? (
+                            options.map((option, key) => (
+                              <label key={key} className="text-lg mb-2 flex hover:bg-slate-300 rounded-xl p-1 items-center">
                                 <input
-                                    type="radio"
-                                    name="option"
-                                    value={key}
-                                    checked={userInput === key}
-                                    onChange={() => setUserInput(key)}
-                                    className="mr-2"
+                                  type="radio"
+                                  name={`option-${id}`}
+                                  value={key}
+                                  checked={userInput === key.toString()}
+                                  onChange={() => setUserInput(key.toString())}
+                                  className="mr-2"
                                 />
-                                <MathJax>{option}</MathJax>
-                            </label>
-                        ))
-                    )}
+                                {specificIds.includes(id) ? (
+                                  <MathJax inline>{`$${option}$`}</MathJax>
+                                ) : (
+                                  <MathJax>{option}</MathJax>
+                                )}
+                              </label>
+                            ))
+                          ) : (
+                            <div>
+                            <input
+                                type="text"
+                                value={userInput}
+                                onChange={e => handleNumericalInput(e.target.value)}
+                                className="border rounded p-2 text-lg w-full"
+                                placeholder="Enter your answer"
+                            />
+                            {/* <Button onClick={submitNumericalAnswer} className="mt-4 h-10 w-28 rounded-full">
+                                Submit Answer
+                            </Button> */}
+                        </div>
+                          )
+                        )}
                     {questionType !== "Numerical" && (
                         <Button onClick={() => handleCheckAnswer(userInput)} className="mt-4 h-10 w-28 rounded-full">
                             Check Now
