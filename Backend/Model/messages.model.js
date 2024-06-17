@@ -4,7 +4,7 @@ module.exports = (sequelize, Sequelize) => {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
-            autoIncrement: true,
+            autoIncrement: true,  
           },
       questionIndex: {
         type: Sequelize.INTEGER,
@@ -26,10 +26,10 @@ module.exports = (sequelize, Sequelize) => {
           key: 'id', // The column in the 'courses' table that this field refers to
         }
       },
-      LessonId: {
+      QuestionId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'lessons', // Name of the model to link to, make sure it matches your table name for courses
+          model: 'questions', // Name of the model to link to, make sure it matches your table name for courses
           key: 'id', // The column in the 'courses' table that this field refers to
         }
       }

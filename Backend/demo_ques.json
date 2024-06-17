@@ -12,7 +12,8 @@
         "answer": "B",
         "CourseSubjectName": "Trigonometry",
         "reference": "Main Jan. 9, 2019 (I)",
-        "id": 258
+        "id": 258,
+        "LessonId": 1
     },
     {
         "question": "Let \\(f_k(x) = \\frac{1}{k}(\\sin^k x + \\cos^k x)\\) where \\(x \\in \\mathbb{R}\\) and \\(k \\geq 1\\). Then \\(f_4(x) - f_6(x)\\) equals:",
@@ -27,7 +28,8 @@
         "answer": "B",
         "CourseSubjectName": "Trigonometry",
         "reference": "Main 2014",
-        "id": 259
+        "id": 259,
+        "LessonId": 1
     },
     {
         "question": "If $2 \\cos \\theta + \\sin \\theta = 1 \\left(\\theta \\neq \\frac{\\pi}{2}\\right)$, then $7 \\cos q + 6 \\sin q$ is equal to:",
@@ -42,7 +44,8 @@
         "answer": "D",
         "CourseSubjectName": "Trigonometry",
         "reference": "Main Online April 11, 2014",
-        "id": 260
+        "id": 260,
+        "LessonId": 1
     },
     {
         "question": "The expression $\\frac{\\tan A}{1-\\cot A} + \\frac{\\cot A}{1-\\tan A}$ can be written as:",
@@ -57,7 +60,8 @@
         "answer": "B",
         "CourseSubjectName": "Trigonometry",
         "reference": "Main 2013",
-        "id": 261
+        "id": 261,
+        "LessonId": 1
     },
     {
         "question": "Given both $\\theta$ and $\\varphi$ are acute angles and $\\sin \\theta = \\frac{1}{2}, \\cos \\varphi = \\frac{1}{3}$, then the value of $\\theta + \\varphi$ belongs to",
@@ -72,7 +76,8 @@
         "answer": "B",
         "CourseSubjectName": "Trigonometry",
         "reference": "2004S",
-        "id": 262
+        "id": 262,
+        "LessonId": 1
     },
     {
         "question": "If $\\omega$ is an imaginary cube root of unity then the value of $\\sin \\left\\{\\left(\\omega^{10} + \\omega^{23}\\right) \\pi - \\frac{\\pi}{4}\\right\\}$ is:",
@@ -87,7 +92,8 @@
         "answer": "C",
         "CourseSubjectName": "Trigonometry",
         "reference": "1994",
-        "id": 263
+        "id": 263,
+        "LessonId": 1
     },
     {
         "question": "If $\\tan \\theta = -\\frac{4}{3}$, then $\\sin \\theta$ is:",
@@ -102,7 +108,8 @@
         "answer": "B",
         "CourseSubjectName": "Trigonometry",
         "reference": "NULL",
-        "id": 264
+        "id": 264,
+        "LessonId": 1
     },
     {
         "question": "Which of the following number(s) is/are rational?",
@@ -117,7 +124,8 @@
         "answer": "C",
         "CourseSubjectName": "Trigonometry",
         "reference": "1998 - 2 Marks",
-        "id": 265
+        "id": 265,
+        "LessonId": 1
     },
     {
         "question": "In this questions there are entries in columns 1 and 2. Each entry in column 1 is related to exactly one entry in column 2. Write the correct letter from column 2 against the entry number in column 1 in your answer book. $\\frac{\\sin 3 \\alpha}{\\cos 2 \\alpha}$ is Column I (A) positive (p) $\\left(\\frac{13 \\pi}{48}, \\frac{14 \\pi}{48}\\right)$ (B) negative (q) $\\left(\\frac{14 \\pi}{48}, \\frac{18 \\pi}{48}\\right)$ (r) $\\left(\\frac{18 \\pi}{48}, \\frac{23 \\pi}{48}\\right)$ (s) $\\left(0, \\frac{\\pi}{2}\\right)$",
@@ -126,7 +134,8 @@
         "answer": "A corresponds to r, B corresponds to p",
         "CourseSubjectName": "Trigonometry",
         "reference": "1992 - 2 Marks",
-        "id": 266
+        "id": 266,
+        "LessonId": 1
     },
     {
         "question": "$|\\overrightarrow{\\mathrm{OX}} \\times \\overrightarrow{\\mathrm{OY}}|=$",
@@ -142,7 +151,8 @@
         "comprehension_question": "Let $\\mathrm{O}$ be the origin, and $\\overrightarrow{\\mathrm{OX}}, \\overrightarrow{\\mathrm{OY}}, \\overrightarrow{\\mathrm{OZ}}$ be three unit vectors in the directions of the sides $\\overrightarrow{\\mathrm{QR}}, \\overrightarrow{\\mathrm{RP}}, \\overrightarrow{\\mathrm{PQ}}$ respectively, of a triangle $\\mathrm{PQR}$.",
         "CourseSubjectName": "Trigonometry",
         "reference": "NULL",
-        "id": 267
+        "id": 267,
+        "LessonId": 1
     },
     {
         "question": "If the triangle $PQR$ varies, then the minimum value of $\\cos (\\mathrm{P}+\\mathrm{Q}) + \\cos (\\mathrm{Q}+\\mathrm{R}) + \\cos (\\mathrm{R}+\\mathrm{P})$ is:",
@@ -158,7 +168,8 @@
         "comprehension_question": "Let $\\mathrm{O}$ be the origin, and $\\overrightarrow{\\mathrm{OX}}, \\overrightarrow{\\mathrm{OY}}, \\overrightarrow{\\mathrm{OZ}}$ be three unit vectors in the directions of the sides $\\overrightarrow{\\mathrm{QR}}, \\overrightarrow{\\mathrm{RP}}, \\overrightarrow{\\mathrm{PQ}}$ respectively, of a triangle $\\mathrm{PQR}$.",
         "CourseSubjectName": "Trigonometry",
         "reference": "NULL",
-        "id": 268
+        "id": 268,
+        "LessonId": 2
     },
     {
         "question": "Find the range of values of $t$ for which $2 \\sin t = \\frac{1-2 x + 5 x^2}{3 x^2 - 2 x - 1}, t \\in \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$.",
@@ -169,6 +180,7 @@
         "comprehension_question": "Let $\\mathrm{O}$ be the origin, and $\\overrightarrow{\\mathrm{OX}}, \\overrightarrow{\\mathrm{OY}}, \\overrightarrow{\\mathrm{OZ}}$ be three unit vectors in the directions of the sides $\\overrightarrow{\\mathrm{QR}}, \\overrightarrow{\\mathrm{RP}}, \\overrightarrow{\\mathrm{PQ}}$ respectively, of a triangle $\\mathrm{PQR}$.",
         "CourseSubjectName": "Trigonometry",
         "reference": "NULL",
-        "id": 269
+        "id": 269,
+        "LessonId": 2
     }
 ]

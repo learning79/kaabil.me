@@ -17,6 +17,7 @@ import {
 
 
 const LessonCard = ({
+  levels,
   title = 'UPSC Exam- Complete',
   description = 'The Union Public Service Commission (UPSC) conducts the Civil Services Examination (CSE) in India, which is one of the most prestigious and challenging exams in the country. The Prelims test basic knowledge and aptitude, while the Mains assess in-depth knowledge through descriptive papers in various subjects. The final interview evaluates the candidate\'s personality and suitability for a career in public service. Extensive preparation and a thorough understanding of a wide range of subjects are essential for success in the UPSC CSE.',
   duration = '40 minutes',
@@ -25,6 +26,12 @@ const LessonCard = ({
   level = 'Beginner',
   onClickStartChapter
 }) => {
+  const handleStartNow = () => {
+    console.log('Levels:', levels); // This will show what levels contains
+    const startLevel = levels.find(l => l.isActive) || levels[0];
+    onClickStartChapter(startLevel.number);
+  };
+  console.log(levels.number);
   return (
     <Card className="flex flex-col md:flex-row w-full bg-slate-200 border border-gray-200 rounded-2xl shadow dark:bg-gray-800 dark:border-gray-700">
       <div className="md:flex-1 p-5 flex flex-col justify-between">
@@ -55,9 +62,9 @@ const LessonCard = ({
           </div>
         </div>
         <CardFooter className="flex flex-col ">
-        <Progress value={50} className="mb-4"/>
+       {/*<Progress value={50} className="mb-4"/>*/} 
 
-          <Button onClick={onClickStartChapter} className="rounded-full md:mb-8 ">
+          <Button onClick={handleStartNow} className="rounded-full md:mb-8 ">
             <p className='p-4s'>Start Now</p>
           </Button>
         </CardFooter>

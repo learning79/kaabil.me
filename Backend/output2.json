@@ -1,7 +1,7 @@
 
 
 [
-    {
+    {  "id":"",
         "question": "For any \\(\\theta \\in\\left(\\frac{\\pi}{4}, \\frac{\\pi}{2}\\right)\\) the expression \\(3(\\sin q-\\cos q)^4+6(\\sin q+\\cos q)^2+4 \\sin ^6 q\\) equals:",
         "options": [
             "13-4 \\cos ^2 q+6 \\sin ^2 q \\cos ^2 q",
@@ -11,8 +11,11 @@
         ],
         "solution": "The expression simplifies to \\(13-4 \\cos ^6 \\theta\\).",
         "reference": "Main Jan. 9, 2019 (I)",
-        "question_type": "mcq",
-        "comprehension_question": null
+       
+        "comprehension_question": null,
+        "answer":"",
+        "questionType":"",
+        "CourseSubjectName":""
     },
     {
         "question": "Let \\(f_k(x)=\\frac{1}{k}\\left(\\sin ^k x+\\cos ^k x\\right)\\) where \\(x \\in R\\) and \\(k \\geq 1\\). Then \\(f_4(x)-f_6(x)\\) equals",

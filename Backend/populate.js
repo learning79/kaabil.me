@@ -55,7 +55,7 @@ db.sequelize = sequelize;
 
 // Import the model
 
-db.lesson = require("./Model/lesson.model.js")(sequelize, Sequelize);
+db.question = require("./Model/question.model.js")(sequelize, Sequelize);
 // db.course = require("./Model/course.model.js")(sequelize, Sequelize);
 // Function to seed data
 async function seedData() {
@@ -65,8 +65,8 @@ async function seedData() {
   //  await sequelize.sync({ force: true }); // This line will drop the table if it already exists
 
   // Read JSON data from file as a string
+  // const filePath = path.join(__dirname, 'updated_merged_file_final.json');
    const filePath = path.join(__dirname, 'demo_ques.json');
-  // const filePath = path.join(__dirname, 'soon_delete.json');
   let rawData = fs.readFileSync(filePath);
    
   // const filePath1 = path.join(__dirname, 'courses.json');
@@ -76,7 +76,7 @@ async function seedData() {
   //rawData = rawData.replace(/\\(?!\\)/g, '\\\\');
 
   // Parse the JSON
-  const lessons = JSON.parse(rawData);
+  const questions = JSON.parse(rawData);
  // const courses = JSON.parse(rawData1);
  // Database operations
   await sequelize.authenticate();
@@ -84,8 +84,8 @@ async function seedData() {
   await sequelize.sync(); // This line will drop the table if it already exists
  // console.log('Data to be inserted:', JSON.stringify(lessons, null, 2));
  // await db.course.bulkCreate(courses);
- console.log('Lessons to be inserted:', JSON.stringify(lessons));
- await db.lesson.bulkCreate(lessons);
+ console.log('Questions to be inserted:', JSON.stringify(questions));
+ await db.question.bulkCreate(questions);
  console.log('Data has been inserted successfully.');
   } catch (error) {
     console.error('Unable to connect to the database or seed data:', error);
