@@ -32,6 +32,10 @@ const Chapter = ({ user }) => {
   const handleGoBack = () => {
     navigate(-1);
   };
+  useEffect(() => {
+    setIsCollapsed(false);  // Ensure card is expanded when changing questions
+}, [currentQuestionIndex]);
+
   const toggleCollapse = (e) => {
     // Prevents the event from bubbling up from child elements
     e.stopPropagation();
