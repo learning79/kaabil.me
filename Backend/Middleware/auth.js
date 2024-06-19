@@ -26,7 +26,7 @@ module.exports = {
          // If the user is authenticated, redirect them to the dashboard
       //  res.redirect('/http://localhost:5173/dashboard');
       // uncomment for production
-        res.redirect('https://www.kaabil.me/dashboard')
+       // res.redirect('https://www.kaabil.me/dashboard')
       //  res.redirect('https://www.kaabil.me/dashboard')
       }
     },

@@ -1,44 +1,90 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Navbar from "../Dashboard/Navbar";
 import QuestionCard from "./QuestionCard";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
 import back from "../../assets/back.png";
 import GPTCard from "./gptCard";
+// import debounce from 'lodash/debounce';
 
 const Chapter = ({ user }) => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const [questions, setQuestions] = useState([]);
+  const [userToggled, setUserToggled] = useState(false);
+  const [lastYPos, setLastYPos] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userInputs, setUserInputs] = useState({});
   const [interactionHistory, setInteractionHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isCorrect, setIsCorrect] = useState({});
+  const location = useLocation();
+  const lastScrollY = useRef(window.scrollY);
+
+  const { subject, courseId, lessonId } = location.state; // Assuming subject is passed in route state
+  console.log("Subject:", subject);
+  // const lessonId=1;
+  console.log("Lesson ID:", lessonId);
+
   // const [isCurrentQuestionCorrect, setIsCurrentQuestionCorrect] = useState(false);
 
   const navigate = useNavigate();
   const handleGoBack = () => {
     navigate(-1);
   };
-  const location = useLocation();
-  const { subject, courseId, lessonId } = location.state; // Assuming subject is passed in route state
-  console.log("Subject:", subject);
-  // const lessonId=1;
-  console.log("Lesson ID:", lessonId);
+  useEffect(() => {
+    setIsCollapsed(false);  // Ensure card is expanded when changing questions
+}, [currentQuestionIndex]);
 
-  // Fetch questions from the backend
+  const toggleCollapse = (e) => {
+    // Prevents the event from bubbling up from child elements
+    e.stopPropagation();
+    if (e.target === e.currentTarget) {
+      // This is technically only necessary if there are other potential parent handlers
+      setIsCollapsed((prev) => !prev);
+
+            
+    }
+    setUserToggled(true);
+    setTimeout(() => {
+      setUserToggled(false); // Reset after a certain time if needed, or handle this reset elsewhere
+    }, 3000);
+  };
+
+ 
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (
+        !userToggled &&
+        currentScrollY > lastScrollY.current &&
+        currentScrollY > 100
+      ) {
+        // Only collapse if scrolled more than 300px from the top
+     
+          setIsCollapsed(true);
+        
+      }
+      lastScrollY.current = currentScrollY; // Update the last scroll position
+    };
+
+    useEffect(() => {
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+  }, [userToggled]);
+  console.log("Collapsed:", isCollapsed, "User Toggled:", userToggled);
+
   useEffect(() => {
     const fetchQuestions = async () => {
       setIsLoading(true);
       try {
         //  console.log(`http://localhost:3000/api/lessons/questions/${subject}/${lessonId}`);
         const response = await fetch(
-          //uncomment for local dev 
-         // `http://localhost:3000/api/lessons/questions/${subject}/${lessonId}`
+          //uncomment for local dev
+          `http://localhost:3000/api/lessons/questions/${subject}/${lessonId}`
 
-         //uncomment for production
-         // do not delete
-         `"https://www.kaabil.me/api/lessons/questions/${subject}/${lessonId}`
-          
+          //uncomment for production
+          // do not delete
+          // `https://www.kaabil.me/api/lessons/questions/${subject}/${lessonId}`
         );
         if (!response.ok) throw new Error("Failed to fetch");
         const data = await response.json();
@@ -73,6 +119,7 @@ const Chapter = ({ user }) => {
     }
   }, []);
 
+  console.log("CurrentQuestion:", currentQuestionIndex);
   // Save to local storage on state changes
   useEffect(() => {
     if (Object.keys(userInputs).length > 0 && interactionHistory.length > 0) {
@@ -111,11 +158,13 @@ const Chapter = ({ user }) => {
         setInteractionHistory((prev) =>
           prev.filter((interaction) => interaction.questionId !== id)
         );
+        setIsCorrect((prev) => ({ ...prev, [id]: true }));
       } else {
-        console.log(question.question);
-        console.log(question.options);
-        console.log(question.answer);
-        console.log(question.options[userInput]);
+        // console.log(question.question);
+        // console.log(question.options);
+        // console.log(question.answer);
+        // console.log(question.options[userInput]);
+        setIsCorrect((prev) => ({ ...prev, [id]: false }));
         const initialPrompt = `
         Help the student solve the question step by step. Wait for the user response before moving on to the next step. Do not reveal the answer directly at any cost. Here's the question: '${question.question}', here are the options:${question.options} The correct answer was: '${question.answer}'. The user selected the input ${userInput} Please try again, and let's solve it step by step.`;
         setInteractionHistory((prev) => [
@@ -168,29 +217,41 @@ const Chapter = ({ user }) => {
             Lesson-{lessonId}
           </Button>
         </div>
-        <div className="flex flex-col items-center px-2 py-12">
+        <div className="flex flex-col items-center px-2 py-6">
           {questions[currentQuestionIndex] && (
-            <QuestionCard
-              id={questions[currentQuestionIndex].id}
-              answer={questions[currentQuestionIndex].answer}
-              key={questions[currentQuestionIndex].id}
-              questionType={questions[currentQuestionIndex].question_type}
-              question={questions[currentQuestionIndex].question}
-              options={questions[currentQuestionIndex].options}
-              userInput={userInputs[questions[currentQuestionIndex].id] || ""}
-              setUserInput={(input) =>
-                setUserInputs({
-                  ...userInputs,
-                  [questions[currentQuestionIndex].id]: input,
-                })
-              }
-              handleCheckAnswer={() =>
-                handleCheckAnswer(
-                  questions[currentQuestionIndex].id,
-                  userInputs[questions[currentQuestionIndex].id] || ""
-                )
-              }
-            />
+            <div
+              className={`sticky top-10 transition-height duration-500 ease-in-out ${
+                isCollapsed
+                  ? "h-20 cursor-pointer duration-500 ease-in-out  mb-4 "
+                  : "h-auto cursor-pointer duration-500 ease-in-out py-2"
+              } w-full my-1 z-10`}
+              onClick={toggleCollapse}
+            >
+              <QuestionCard
+                isCollapsed={isCollapsed}
+                setIsCollapse={setIsCollapsed}
+                isCorrect={isCorrect[questions[currentQuestionIndex].id]}
+                id={questions[currentQuestionIndex].id}
+                answer={questions[currentQuestionIndex].answer}
+                key={questions[currentQuestionIndex].id}
+                questionType={questions[currentQuestionIndex].question_type}
+                question={questions[currentQuestionIndex].question}
+                options={questions[currentQuestionIndex].options}
+                userInput={userInputs[questions[currentQuestionIndex].id] || ""}
+                setUserInput={(input) =>
+                  setUserInputs({
+                    ...userInputs,
+                    [questions[currentQuestionIndex].id]: input,
+                  })
+                }
+                handleCheckAnswer={() =>
+                  handleCheckAnswer(
+                    questions[currentQuestionIndex].id,
+                    userInputs[questions[currentQuestionIndex].id] || ""
+                  )
+                }
+              />
+            </div>
           )}
           <div className="flex flex-col items-center">
             {interactionHistory

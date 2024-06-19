@@ -12,22 +12,24 @@ const passport = require('passport');
 const configurePassport = require('./Controllers/user.controller'); // Include the user controller to configure Passport strategies
 const app = express();
 
-// CORS configuration
-app.use(cors())
-/*
+// CORS configuration for production
+// app.use(cors())
+
+// for local dev
+
 app.use(cors({
     origin: "http://localhost:5173", // Adjust for production if necessary
     methods: "GET,POST,PUT,DELETE",
     credentials: true, // This allows session cookies from the browser to be passed back
 }));
-*/
+
 
 
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static files from the React app
 //uncomment for production
-app.use(express.static(path.join(__dirname, 'dist')));
+// app.use(express.static(path.join(__dirname, 'dist')));
 
 
 // Body parser for forms and json data
@@ -37,6 +39,8 @@ app.use(express.json());
 
 // Database connection setup
 const db = require("./Model");
+
+configurePassport(passport);
 
 // Sequelize instance configuration
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
@@ -74,10 +78,6 @@ app.use(session({
 // Ensure the session store is ready
 sessionStore.sync();
 
-// Passport configuration
-configurePassport(passport);
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Synchronize the Sequelize models with the database
 db.sequelize.sync()
@@ -87,6 +87,14 @@ db.sequelize.sync()
     .catch((error) => {
         console.error("Error connecting to database:", error);
     });
+
+
+
+    
+// Passport configuration
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // API routes
 app.use('/api', require("./Routes/question"));
@@ -102,10 +110,11 @@ app.get("/health", (req, res) => {
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
 // do not delete this part
+/*
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/dist/index.html'));
   });
-  
+  */
   
 
 

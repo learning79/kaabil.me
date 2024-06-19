@@ -66,8 +66,8 @@ function GPTCard({ questionId, initialPrompt }) {
 
     const saveInteraction = async (interactionData) => {
       try {
-      //  const url=`http://localhost:3000/api/messages/${questionId}`
-      const url=`https://www.kaabil.me/api/messages/${questionId}`
+        const url=`http://localhost:3000/api/messages/${questionId}`
+   //  const url=`https://www.kaabil.me/api/messages/${questionId}`
         
         console.log("uri =", url)
         const response = await fetch(url, {
@@ -91,10 +91,10 @@ function GPTCard({ questionId, initialPrompt }) {
 
     try {
       //uncomment for local
-    //  const response = await fetch("http://localhost:3000/api/openai", {
+      const response = await fetch("http://localhost:3000/api/openai", {
 
     // for production
-    const response = await fetch("https://www.kaabil.me/api/openai", {
+   // const response = await fetch("https://www.kaabil.me/api/openai", {
         // https://www.kaabil.me/
         method: "POST",
         headers: {
