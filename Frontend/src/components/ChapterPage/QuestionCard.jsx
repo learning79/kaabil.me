@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 import { MathJax, MathJaxContext } from "better-react-mathjax";
 
 const QuestionCard = ({
+ 
   isCollapsed,
   setIsCollapse,
   isCorrect,
@@ -10,8 +11,10 @@ const QuestionCard = ({
   questionType,
   question,
   options,
+  attempts,
   userInput,
   setUserInput,
+  incorrectOptions,
   handleCheckAnswer,
   answer,
 }) => {
@@ -19,7 +22,7 @@ const QuestionCard = ({
     setUserInput(input);
   };
 
-  const cardClass = isCollapsed ? "max-h-20 overflow-hidden" : "max-h-full";
+  // const cardClass = isCollapsed ? "max-h-20 overflow-hidden" : "max-h-full";
   // const toggleText = isCollapsed ? 'Expand' : 'Collapse';
 
   const specificIds = [258, 259, 260];
@@ -36,7 +39,7 @@ const QuestionCard = ({
       handleCheckAnswer(userInput); // You can adjust handleCheckAnswer to handle this scenario
     }
   };
-
+  
   useEffect(() => {
     async function typesetMath() {
       if (window.MathJax) {
@@ -98,6 +101,7 @@ const QuestionCard = ({
                 <Button
                   onClick={submitNumericalAnswer}
                   className="mt-4 h-10 w-28 rounded-full"
+                  disabled={attempts >= 1}
                 >
                   Check Now
                 </Button>
@@ -106,7 +110,7 @@ const QuestionCard = ({
               options.map((option, key) => (
                 <label
                   key={key}
-                  className="text-lg mb-2 flex hover:bg-slate-300 rounded-xl p-1 items-center"
+                  className={`text-lg mb-2 flex hover:bg-slate-300 rounded-xl p-1 items-center ${incorrectOptions.includes(key.toString()) ? "line-through text-red-900" : ""}`}
                 >
                   <input
                     type="radio"
@@ -144,15 +148,22 @@ const QuestionCard = ({
               </div>
             )}
             {questionType !== "Numerical" && (
+              <div>
+                {attempts>=2?(
+                  <p className="font-bold bg-red-500 p-2 rounded-md">You have reached the maximum attempt limit.</p>
+                ):(
               <Button
                 onClick={(e) => {
                   e.stopPropagation();
                   handleCheckAnswer(userInput, e);
                 }}
                 className="mt-4 h-10 w-28 rounded-full"
+                disabled={attempts >= 2}
               >
                 Check Now
               </Button>
+              )}
+              </div>
             )}
           </div>
         </div>
