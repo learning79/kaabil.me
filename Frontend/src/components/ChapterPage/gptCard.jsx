@@ -6,7 +6,7 @@ import loader from "../../assets/loader.json";
 import { MathJax, MathJaxContext } from "better-react-mathjax";
 import MathInput from "react-math-keyboard";
 
-function GPTCard({ questionId, initialPrompt }) {
+function GPTCard({ questionId, initialPrompt ,isCurrentInteraction, userAnswer}) {
   
   const [IsButtonDisabled,setIsButtonDisabled]=useState(false);
   const [helpText, setHelpText] = useState([]);
@@ -14,6 +14,7 @@ function GPTCard({ questionId, initialPrompt }) {
   const [initialLoading, setInitialLoading] = useState(false); // Specific state for initial loading
   const [latexInput, setLatexInput] = useState("");
   const [currentInteractionIndex, setCurrentInteractionIndex] = useState(-1);
+  const [messageCount, setMessageCount] = useState(0); // Track the number of messages sent
   const endOfMessagesRef = useRef(null);
   const mf = useRef(null);
 
@@ -31,6 +32,8 @@ function GPTCard({ questionId, initialPrompt }) {
         if (history.length > 0 && helpText.length === 0) {
           setHelpText(history);
           setCurrentInteractionIndex(history.length - 1);
+          setMessageCount(history.length); // Set initial message count based on history
+
         }
       }
     };
@@ -38,7 +41,15 @@ function GPTCard({ questionId, initialPrompt }) {
     loadData();
   }, [questionId]); // Ensure this only runs when `questionId` changes
   
-  
+  useEffect(() => {
+    // If userAnswer is provided and it's a subsequent attempt, use it to initiate help
+    if (userAnswer && helpText.length === 0) {
+      fetchHelp(userAnswer, 0, true);  // Pass userAnswer directly
+    } else if (initialPrompt) {
+      fetchHelp(initialPrompt, -1, true);
+    }
+  }, [initialPrompt, userAnswer]);
+
 
 
   // Save interaction history to local storage
@@ -116,17 +127,18 @@ function GPTCard({ questionId, initialPrompt }) {
         }));
         if (JSON.stringify(messagesToSet) !== JSON.stringify(helpText)) {
           setHelpText(messagesToSet);
+          setMessageCount(prev => prev + 1);
           setCurrentInteractionIndex(messagesToSet.length - 1);
           saveInteraction({
             questionIndex: currentInteractionIndex,
             chats: messagesToSet,
             userInput: userMessage
           });
-          saveInteraction({
-            questionIndex: currentInteractionIndex,
-            chats: messagesToSet,
-            userInput: userMessage
-          });
+          // saveInteraction({
+          //   questionIndex: currentInteractionIndex,
+          //   chats: messagesToSet,
+          //   userInput: userMessage
+          // });
         }
       } else {
         throw new Error("Failed to fetch help");
@@ -151,6 +163,9 @@ function GPTCard({ questionId, initialPrompt }) {
     }
 
   };
+  // const MathKeyboard=()=>{
+  //   switch the input keyboard to math keyboard
+  // }
   
 
   return (
@@ -194,23 +209,32 @@ function GPTCard({ questionId, initialPrompt }) {
 
                 {index === currentInteractionIndex && (
                   <div className="transition-transform duration-500">
+                    
                     <MathInput
                       setValue={setLatexInput}
                       setMathfieldRef={(mathfield) => (mf.current = mathfield)}
                       placeholder="Type your response..."
                     />
-                    <Button
-                      type="button"
-                      className="mt-4 m-2 rounded-full"
-                      onClick={() => {
-                        console.log("Current LaTeX value:", mf.current.latex());
-                        fetchHelp(latexInput, index);
-                        setLatexInput("");
-                      }}
-                      disabled={IsButtonDisabled}
-                    >
-                      Submit
-                    </Button>
+                   <div className="tooltip">
+  <Button
+    type="button"
+    className="mt-4 m-2 rounded-full"
+    onClick={() => {
+      console.log("Current LaTeX value:", mf.current.latex());
+      fetchHelp(latexInput, index);
+      setLatexInput("");
+    }}
+    disabled={IsButtonDisabled || messageCount >= 13}
+  >
+    Submit
+  </Button>
+  { messageCount >= 13 ? (
+    <span className="tooltiptext">You have reached the maximum of 10 messages.</span>
+  ) : null}
+</div>
+                    {/* <Button  onClick={handleMathKeyboard}>
+                      Math Keyboard
+                      </Button> */}
                     {loading[index] && (
                       <div className="flex justify-center items-center h-full w-full">
                       <Lottie

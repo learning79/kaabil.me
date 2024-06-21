@@ -10,6 +10,8 @@ import GPTCard from "./gptCard";
 const Chapter = ({ user }) => {
   const [attempts, setAttempts] = useState({});
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [currentActiveInteractionId, setCurrentActiveInteractionId] =
+    useState(null);
   const [questions, setQuestions] = useState([]);
   const [userToggled, setUserToggled] = useState(false);
   const [incorrectOptions, setIncorrectOptions] = useState({});
@@ -18,6 +20,7 @@ const Chapter = ({ user }) => {
   const [interactionHistory, setInteractionHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [currentActiveInteraction, setCurrentActiveInteraction] = useState([]);
   const [isCorrect, setIsCorrect] = useState({});
   const location = useLocation();
   const lastScrollY = useRef(window.scrollY);
@@ -34,17 +37,15 @@ const Chapter = ({ user }) => {
     navigate(-1);
   };
   useEffect(() => {
-    setIsCollapsed(false);  // Ensure card is expanded when changing questions
-}, [currentQuestionIndex]);
+    setIsCollapsed(false); // Ensure card is expanded when changing questions
+  }, [currentQuestionIndex]);
 
   const toggleCollapse = (e) => {
     // Prevents the event from bubbling up from child elements
-     e.stopPropagation();
+    e.stopPropagation();
     if (e.target === e.currentTarget) {
       // This is technically only necessary if there are other potential parent handlers
       setIsCollapsed((prev) => !prev);
-
-            
     }
     setUserToggled(true);
     setTimeout(() => {
@@ -52,28 +53,26 @@ const Chapter = ({ user }) => {
     }, 1000);
   };
 
- 
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (
-        !userToggled &&
-        currentScrollY > lastScrollY.current &&
-        currentScrollY > 75
-      ) {
-        // Only collapse if scrolled more than 300px from the top
-     
-          setIsCollapsed(true);
-        
-      }
-      // else{
-      //   setIsCollapsed(false);
-      // }
-      lastScrollY.current = currentScrollY; // Update the last scroll position
-    };
+  const handleScroll = () => {
+    const currentScrollY = window.scrollY;
+    if (
+      !userToggled &&
+      currentScrollY > lastScrollY.current &&
+      currentScrollY > 75
+    ) {
+      // Only collapse if scrolled more than 300px from the top
 
-    useEffect(() => {
-      window.addEventListener('scroll', handleScroll);
-      return () => window.removeEventListener('scroll', handleScroll);
+      setIsCollapsed(true);
+    }
+    // else{
+    //   setIsCollapsed(false);
+    // }
+    lastScrollY.current = currentScrollY; // Update the last scroll position
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [userToggled]);
   console.log("Collapsed:", isCollapsed, "User Toggled:", userToggled);
 
@@ -102,17 +101,14 @@ const Chapter = ({ user }) => {
 
     fetchQuestions();
   }, []);
- 
-  
-  
 
   useEffect(() => {
     const storedUserInputs = localStorage.getItem("userInputs");
     const storedHistory = localStorage.getItem("interactionHistory");
     const storedAttempts = localStorage.getItem("attempts");
     const storedIsCorrect = localStorage.getItem("isCorrect");
-    const storedIncorrect= localStorage.getItem("incorrectOptions");
-    if(storedIncorrect){
+    const storedIncorrect = localStorage.getItem("incorrectOptions");
+    if (storedIncorrect) {
       setIncorrectOptions(JSON.parse(storedIncorrect));
     }
     if (storedIsCorrect) {
@@ -147,7 +143,10 @@ const Chapter = ({ user }) => {
         `currentQuestionIndex-${lessonId}`,
         JSON.stringify(currentQuestionIndex)
       );
-      localStorage.setItem("incorrectOptions",JSON.stringify(incorrectOptions))
+      localStorage.setItem(
+        "incorrectOptions",
+        JSON.stringify(incorrectOptions)
+      );
       localStorage.setItem("userInputs", JSON.stringify(userInputs));
       localStorage.setItem(
         "interactionHistory",
@@ -161,71 +160,102 @@ const Chapter = ({ user }) => {
 
       localStorage.setItem("attempts", JSON.stringify(attempts));
     }
-  }, [currentQuestionIndex, userInputs, incorrectOptions,isCorrect,interactionHistory,attempts]);
+  }, [
+    currentQuestionIndex,
+    userInputs,
+    incorrectOptions,
+    isCorrect,
+    interactionHistory,
+    attempts,
+  ]);
+
+  
+
 
   const handleCheckAnswer = useCallback(
     (id, userInput) => {
       if (!userInput) {
-        alert("Please select an option before talking to the interactive assistant");
+        alert(
+          "Please select an option before talking to the interactive assistant"
+        );
         return;
       }
-  
+
       // Update attempts
-      setAttempts(prev => ({
+      setAttempts((prev) => ({
         ...prev,
-        [id]: (prev[id] || 0) + 1
+        [id]: (prev[id] || 0) + 1,
       }));
-  
+
       const inputToOption = ["A", "B", "C", "D"];
       const userAnswer = inputToOption[userInput];
-      const question = questions.find(q => q.id === id);
-      setUserInputs(prev => ({ ...prev, [id]: userInput }));
-  
+      const question = questions.find((q) => q.id === id);
+
+      // Ensure userInputs[id] is always an array
+      setUserInputs((prev) => ({
+        ...prev,
+        [id]: [...(prev[id] || []), userInput],
+      }));
+
       if (userAnswer.toLowerCase() === question.answer.toLowerCase()) {
         alert("Correct answer!");
-        setIsCorrect(prev => ({ ...prev, [id]: true }));
-        setIncorrectOptions(prev => ({ ...prev, [id]: [] }));
-        // Remove all interactions related to this question on correct answer
-        setInteractionHistory(prev => prev.filter(interaction => interaction.questionId !== id));
+        setIsCorrect((prev) => ({ ...prev, [id]: true }));
+        setIncorrectOptions((prev) => ({ ...prev, [id]: [] }));
+        setInteractionHistory((prev) =>
+          prev.filter((interaction) => interaction.questionId !== id)
+        );
+
       } else {
-        setIsCorrect(prev => ({ ...prev, [id]: false }));
-        setIncorrectOptions(prev => ({
+        setIsCorrect((prev) => ({ ...prev, [id]: false }));
+        setIncorrectOptions((prev) => ({
           ...prev,
-          [id]: [...(prev[id] || []), userInput]
+          [id]: [...(prev[id] || []), userInput],
         }));
-  
-        // Determine the appropriate prompt based on attempts
+
         const currentAttempts = attempts[id] || 0;
+        const allUserInputs = Array.isArray(userInputs[id])
+          ? userInput[id]
+          : [];
+
+        // Dynamic prompt generation
         let prompt;
         if (currentAttempts === 0) {
-          prompt = `Help the student solve the question step by step. Do not reveal the answer directly at any cost. Here's the question: '${question.question}', here are the options: ${question.options} The correct answer was: '${question.answer}'. The user selected the input ${userInput}. Please try again, and let's solve it step by step.`;
+          // If it's the first attempt, use a specific prompt
+          prompt = `Help the student solve the question step by step. Do not reveal the answer directly at any cost. Here's the question: '${question.question}', here are the options: ${question.options}. The correct answer was: '${question.answer}'. The user selected the input ${userAnswer}. Please try again, and let's solve it step by step.`;
         } else {
-          prompt = `Help the student solve the question step by step. Do not reveal the answer directly at any cost. Here's the question: '${question.question}', here are the options: ${question.options} The correct answer was: '${question.answer}'. The user selected the input ${userInput}. Please try again, and let's solve it step by step.`;
+          // Otherwise, list all attempts
+          prompt =
+            allUserInputs
+              .map(
+                (input, index) =>
+                  `Attempt ${index + 1}: You selected ${inputToOption[input]}`
+              )
+              .join("\n") +
+            `\nHere's the question again: '${question.question}', with options: ${question.options}. Please try again!`;
         }
-  
-        // Update or add new interaction
-        const existingIndex = interactionHistory.findIndex(interaction => interaction.questionId === id);
+        console.log("prompt", prompt);
+        const existingIndex = interactionHistory.findIndex(
+          (interaction) => interaction.questionId === id
+        );
         if (existingIndex !== -1) {
-          // Update existing interaction
-          setInteractionHistory(prev => prev.map((interaction, index) => {
-            if (index === existingIndex) {
-              return { ...interaction, initialPrompt: prompt };
-            }
-            return interaction;
-          }));
+          setInteractionHistory((prev) =>
+            prev.map((interaction, index) => {
+              if (index === existingIndex) {
+                return { ...interaction, initialPrompt: prompt };
+              }
+              return interaction;
+            })
+          );
         } else {
-          // Add new interaction if none exists
-          setInteractionHistory(prev => [
+          setInteractionHistory((prev) => [
             ...prev,
-            { questionId: id, initialPrompt: prompt }
+            { questionId: id, initialPrompt: prompt },
           ]);
         }
       }
     },
-    [questions, attempts, interactionHistory]
+    [questions, attempts, interactionHistory, userInputs]
   );
-  
-  
 
   const handleNext = useCallback(() => {
     const currentInput = userInputs[questions[currentQuestionIndex].id];
@@ -285,7 +315,9 @@ const Chapter = ({ user }) => {
                 id={questions[currentQuestionIndex].id}
                 answer={questions[currentQuestionIndex].answer}
                 key={questions[currentQuestionIndex].id}
-                incorrectOptions={incorrectOptions[questions[currentQuestionIndex].id] || []}
+                incorrectOptions={
+                  incorrectOptions[questions[currentQuestionIndex].id] || []
+                }
                 questionType={questions[currentQuestionIndex].question_type}
                 question={questions[currentQuestionIndex].question}
                 options={questions[currentQuestionIndex].options}
@@ -317,6 +349,10 @@ const Chapter = ({ user }) => {
                   key={`gpt-${interaction.questionId}`}
                   questionId={interaction.questionId}
                   initialPrompt={interaction.initialPrompt}
+                  userAnswer={interaction.userAnswer} // Pass the userAnswer here
+                  isCurrentInteraction={
+                    currentActiveInteractionId === interaction.questionId
+                  }
                 />
               ))}
           </div>
