@@ -40,3 +40,36 @@ module.exports.createMessage = async (req, res) => {
   }
 
   
+
+
+
+
+
+  
+module.exports.getMessagesById = async (req, res) => {
+//  console.log("i am here")
+  try {
+      const { questionId } = req.params;  // Capture 'questionId' from the URL parameters
+      const userId = req.user.dataValues.id;
+      console.log("Question Id = ", questionId);
+      console.log("User Id = ", userId);
+
+      const messages = await Message.findAll({
+          where: {
+            QuestionId: questionId,  // Filter messages where QuestionId matches questionId
+                UserId: userId  // Filter messages where UserId matches userId
+          }
+      });
+
+      console.log(`messages found for QuestionId ${questionId}  and the respective UserId are ${userId}`);
+      res.status(200).json(messages);
+  } catch (error) {
+      console.log("Error fetching messages : ", error);
+      res.status(500).json({ error: error.message });
+  }
+}
+
+
+  
+
+  

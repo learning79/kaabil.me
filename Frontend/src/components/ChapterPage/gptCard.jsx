@@ -1,37 +1,50 @@
+
+
+
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
-
+import ReactGA from 'react-ga4';
 import Lottie from "lottie-react";
 import loader from "../../assets/loader.json";
 import { MathJax, MathJaxContext } from "better-react-mathjax";
 import MathInput from "react-math-keyboard";
 
+
+
 function GPTCard({ questionId, initialPrompt }) {
   
-  
+  const [IsButtonDisabled,setIsButtonDisabled]=useState(false);
   const [helpText, setHelpText] = useState([]);
   const [loading, setLoading] = useState(true); // General loading state
   const [initialLoading, setInitialLoading] = useState(false); // Specific state for initial loading
   const [latexInput, setLatexInput] = useState("");
   const [currentInteractionIndex, setCurrentInteractionIndex] = useState(-1);
+  const [useMathKeyboard, setUseMathKeyboard] = useState(false);
+  // const [isInitialCalled, setIsInitialCalled] = useState(false);
+
   const endOfMessagesRef = useRef(null);
   const mf = useRef(null);
 
+  
   useEffect(() => {
     if (initialPrompt) {
       fetchHelp(initialPrompt, -1,true);
     }
   }, [initialPrompt]);
+
+
   
   useEffect(() => {
     const loadData = async () => {
       const storedData = localStorage.getItem(`interactionHistory-${questionId}`);
       if (storedData) {
         const history = JSON.parse(storedData);
-        if (history.length > 0 && helpText.length === 0) {
+        console.log("Loaded History:", history); 
+     //   if (history.length > 0 && helpText.length === 0) {
+          console.log("Loaded History second time:", history); 
           setHelpText(history);
           setCurrentInteractionIndex(history.length - 1);
-        }
+      //  }
       }
     };
   
@@ -56,8 +69,11 @@ function GPTCard({ questionId, initialPrompt }) {
   }, [helpText]);
 
   
-    
+  
+
+  
   const fetchHelp = async (userMessage, index, isInitial = false) => {
+    setIsButtonDisabled(true);
     if (isInitial) {
       setInitialLoading(true); // Start initial loading
     } else {
@@ -67,7 +83,7 @@ function GPTCard({ questionId, initialPrompt }) {
     const saveInteraction = async (interactionData) => {
       try {
         const url=`http://localhost:3000/api/messages/${questionId}`
-   //  const url=`https://www.kaabil.me/api/messages/${questionId}`
+    // const url=`https://www.kaabil.me/api/messages/${questionId}`
         
         console.log("uri =", url)
         const response = await fetch(url, {
@@ -145,11 +161,27 @@ function GPTCard({ questionId, initialPrompt }) {
       if (isInitial) {
         setInitialLoading(false); // Turn off initial loading
       }
+      setIsButtonDisabled(false); // Re-enable the button regardless of request success or failure
       setLoading((prev) => ({ ...prev, [index]: false })); // Turn off loading for the specific index
     }
 
   };
-  
+
+
+
+
+
+  const toggleMathKeyboard = () => setUseMathKeyboard(!useMathKeyboard);
+
+
+
+
+
+
+
+
+
+
 
   return (
     <MathJaxContext
@@ -167,7 +199,8 @@ function GPTCard({ questionId, initialPrompt }) {
         />
       )}
       
-      <div className="flex flex-col w-full justify-start">
+      
+      <div className="flex flex-col w-full mb-4 justify-start">
         {helpText.map(
           (ht, index) =>
             ht.visible && (
@@ -177,7 +210,6 @@ function GPTCard({ questionId, initialPrompt }) {
                   index === currentInteractionIndex ? "mb-0" : "mb-4"
                 }`}
               >
-               
                 <MathJax className="overflow-hidden">
                   <p
                     className={`text-left p-4 ${
@@ -192,40 +224,70 @@ function GPTCard({ questionId, initialPrompt }) {
 
                 {index === currentInteractionIndex && (
                   <div className="transition-transform duration-500">
-                    <MathInput
-                      setValue={setLatexInput}
-                      setMathfieldRef={(mathfield) => (mf.current = mathfield)}
-                      placeholder="Type your response..."
-                    />
+                    {useMathKeyboard ? (
+                      <MathInput
+                        setValue={setLatexInput}
+                        setMathfieldRef={(mathfield) => (mf.current = mathfield)}
+                        placeholder="Type your response..."
+                      />
+                    ) : (
+                      <input
+                        type="text"
+                        value={latexInput}
+                        onChange={(e) => setLatexInput(e.target.value)}
+                        placeholder="Type your response..."
+                        style={{
+                          width: '100%', // Makes the input field take the full width of its container
+                          padding: '10px', // Adds more padding inside the input field
+                          fontSize: '16px', // Increases the font size for better readability
+                        }}
+                      />
+                    )}
+
                     <Button
                       type="button"
                       className="mt-4 m-2 rounded-full"
                       onClick={() => {
-                        console.log("Current LaTeX value:", mf.current.latex());
-                        fetchHelp(latexInput, index);
+                        ReactGA.event({
+                          category: 'User',
+                          action: 'Clicked a button'
+                        });
+
+                         // Check if using Math Keyboard and mf.current is initialized
+    if (useMathKeyboard && mf.current) {
+      console.log("Current LaTeX value:", mf.current.latex());
+      fetchHelp(mf.current.latex(), index); // Use LaTeX input if Math Keyboard is active
+    } else {
+      console.log("Current input value:", latexInput);
+      fetchHelp(latexInput, index); // Use regular input if standard keyboard is used
+    }
                         setLatexInput("");
                       }}
+                      disabled={IsButtonDisabled}
                     >
                       Submit
                     </Button>
+
+                    <Button
+                      type="button"
+                      className="mt-4 m-2 rounded-full"
+                      onClick={toggleMathKeyboard}
+                    >
+                      {useMathKeyboard ? 'Use Standard Keyboard' : 'Use Math Keyboard'}
+                    </Button>
                     {loading[index] && (
                       <div className="flex justify-center items-center h-full w-full">
-                      <Lottie
-                        animationData={loader}
-                        loop={true}
-                        style={{ height:150, width: 150 }}
-                        className="flex justify-center"
-                        
-                      />
+                        <Lottie
+                          animationData={loader}
+                          loop={true}
+                          style={{ height: 150, width: 150 }}
+                          className="flex justify-center"
+                        />
                       </div>
                     )}
-                    
                   </div>
-                  
-                  
                 )}
               </div>
-              
             )
         )}
         <div ref={endOfMessagesRef} />
