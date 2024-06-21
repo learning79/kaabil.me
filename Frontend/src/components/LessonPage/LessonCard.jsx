@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactGA from 'react-ga4';
 import cover from '../../assets/Dashboard/courseCover.png';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PublicSharpIcon from '@mui/icons-material/PublicSharp';
@@ -28,6 +29,11 @@ const LessonCard = ({
 }) => {
   const handleStartNow = () => {
     console.log('Levels:', levels); // This will show what levels contains
+    ReactGA.event({
+      category: 'User',
+      action: 'Clicked a button'
+    });
+
     const startLevel = levels.find(l => l.isActive) || levels[0];
     onClickStartChapter(startLevel.number);
   };

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
+import ReactGA from 'react-ga4';
 import wave from "/src/assets/Dashboard/wave.png";
 import CourseCard from "@/components/CourseCard";
 import Footer from "@/components/Footer";
@@ -13,6 +14,11 @@ const Dashboard = ({ user }) => {
   const navigate = useNavigate();
 
   const handleStartNewLesson = (courseId) => {
+    ReactGA.event({
+      category: 'User',
+      action: 'Clicked a button'
+    });
+
     navigate("/dashboard/lesson",{state:{courseId} });
   };
 
