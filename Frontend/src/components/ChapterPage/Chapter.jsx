@@ -1,23 +1,36 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Navbar from "../Dashboard/Navbar";
 import QuestionCard from "./QuestionCard";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
 import back from "../../assets/back.png";
 import GPTCard from "./gptCard";
-// import debounce from 'lodash/debounce';
+import ReactGA from 'react-ga4';
 
-const Chapter = ({ user }) => {
+
+ // const Chapter = ({ user, interactionHistory, currentQuestionIndex, setUserInputs , userInputs, setInteractionHistory, setCurrentQuestionIndex }) => {
+ const Chapter = ({ user }) => {
+
+
+  useEffect(() => {
+    ReactGA.send({ hitType: "pageview", page: window.location.pathname });
+  }, []);
   const [attempts, setAttempts] = useState({});
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [currentActiveInteractionId, setCurrentActiveInteractionId] =
+    useState(null);
   const [questions, setQuestions] = useState([]);
   const [userToggled, setUserToggled] = useState(false);
   const [incorrectOptions, setIncorrectOptions] = useState({});
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+//  const [questions, setQuestions] = useState([]);
+   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userInputs, setUserInputs] = useState({});
-  const [interactionHistory, setInteractionHistory] = useState([]);
+    const [interactionHistory, setInteractionHistory] = useState([]);
+ // const [chatHistory, setChatHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [currentActiveInteraction, setCurrentActiveInteraction] = useState([]);
   const [isCorrect, setIsCorrect] = useState({});
   const location = useLocation();
   const lastScrollY = useRef(window.scrollY);
@@ -40,57 +53,121 @@ const Chapter = ({ user }) => {
   console.log("Subject:", subject);
   // const lessonId=1;
   console.log("Lesson ID:", lessonId);
-
   // const [isCurrentQuestionCorrect, setIsCurrentQuestionCorrect] = useState(false);
 
   const navigate = useNavigate();
   const handleGoBack = () => {
+    ReactGA.event({
+      category: 'User',
+      action: 'Clicked a button'
+    });
     navigate(-1);
   };
+<<<<<<< HEAD
   useEffect(() => {
-    setIsCollapsed(false);  // Ensure card is expanded when changing questions
-}, [currentQuestionIndex]);
+    setIsCollapsed(false); // Ensure card is expanded when changing questions
+  }, [currentQuestionIndex]);
 
   const toggleCollapse = (e) => {
     // Prevents the event from bubbling up from child elements
-     e.stopPropagation();
+    e.stopPropagation();
     if (e.target === e.currentTarget) {
       // This is technically only necessary if there are other potential parent handlers
       setIsCollapsed((prev) => !prev);
+=======
 
-            
+  /*
+  const location = useLocation();
+  const { subject, courseId, lessonId } = location.state; // Assuming subject is passed in route state
+  console.log("Subject:", subject);
+  // const lessonId=1;
+  console.log("Lesson ID:", lessonId);
+*/
+
+
+
+
+
+
+
+
+
+
+useEffect(() => {
+  setIsCollapsed(false);  // Ensure card is expanded when changing questions
+}, [currentQuestionIndex]);
+
+const toggleCollapse = (e) => {
+  // Prevents the event from bubbling up from child elements
+   e.stopPropagation();
+  if (e.target === e.currentTarget) {
+    // This is technically only necessary if there are other potential parent handlers
+    setIsCollapsed((prev) => !prev);
+
+          
+  }
+  setUserToggled(true);
+  setTimeout(() => {
+    setUserToggled(false); // Reset after a certain time if needed, or handle this reset elsewhere
+  }, 1000);
+};
+
+
+  const handleScroll = () => {
+    const currentScrollY = window.scrollY;
+    if (
+      !userToggled &&
+      currentScrollY > lastScrollY.current &&
+      currentScrollY > 75
+    ) {
+      // Only collapse if scrolled more than 300px from the top
+   
+        setIsCollapsed(true);
+      
+>>>>>>> 53b44642a1435cd3999ac93fa68437228fd2ab66
     }
-    setUserToggled(true);
-    setTimeout(() => {
-      setUserToggled(false); // Reset after a certain time if needed, or handle this reset elsewhere
-    }, 1000);
+    // else{
+    //   setIsCollapsed(false);
+    // }
+    lastScrollY.current = currentScrollY; // Update the last scroll position
   };
 
- 
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (
-        !userToggled &&
-        currentScrollY > lastScrollY.current &&
-        currentScrollY > 75
-      ) {
-        // Only collapse if scrolled more than 300px from the top
-     
-          setIsCollapsed(true);
-        
-      }
-      // else{
-      //   setIsCollapsed(false);
-      // }
-      lastScrollY.current = currentScrollY; // Update the last scroll position
-    };
+<<<<<<< HEAD
+  const handleScroll = () => {
+    const currentScrollY = window.scrollY;
+    if (
+      !userToggled &&
+      currentScrollY > lastScrollY.current &&
+      currentScrollY > 75
+    ) {
+      // Only collapse if scrolled more than 300px from the top
 
-    useEffect(() => {
-      window.addEventListener('scroll', handleScroll);
-      return () => window.removeEventListener('scroll', handleScroll);
+      setIsCollapsed(true);
+    }
+    // else{
+    //   setIsCollapsed(false);
+    // }
+    lastScrollY.current = currentScrollY; // Update the last scroll position
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [userToggled]);
   console.log("Collapsed:", isCollapsed, "User Toggled:", userToggled);
+=======
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+}, [userToggled]);
+console.log("Collapsed:", isCollapsed, "User Toggled:", userToggled);
 
+>>>>>>> 53b44642a1435cd3999ac93fa68437228fd2ab66
+
+
+
+
+  // Fetch questions from the backend
   useEffect(() => {
     const fetchQuestions = async () => {
       setIsLoading(true);
@@ -106,6 +183,7 @@ const Chapter = ({ user }) => {
         );
         if (!response.ok) throw new Error("Failed to fetch");
         const data = await response.json();
+        console.log("questions =", data)
         setQuestions(data);
         setIsLoading(false);
       } catch (err) {
@@ -116,13 +194,26 @@ const Chapter = ({ user }) => {
 
     fetchQuestions();
   }, []);
- 
-  
-  
 
+  
+  
   useEffect(() => {
     const storedUserInputs = localStorage.getItem("userInputs");
     const storedHistory = localStorage.getItem("interactionHistory");
+    const storedAttempts = localStorage.getItem("attempts");
+    const storedIsCorrect = localStorage.getItem("isCorrect");
+    const storedIncorrect = localStorage.getItem("incorrectOptions");
+    if (storedIncorrect) {
+      setIncorrectOptions(JSON.parse(storedIncorrect));
+    }
+    if (storedIsCorrect) {
+      setIsCorrect(JSON.parse(storedIsCorrect));
+    }
+
+    if (storedAttempts) {
+      setAttempts(JSON.parse(storedAttempts));
+    }
+    //    const storedQuestionIndex = localStorage.getItem('currentQuestionIndex');
     const storedAttempts = localStorage.getItem("attempts");
     const storedIsCorrect = localStorage.getItem("isCorrect");
     const storedIncorrect= localStorage.getItem("incorrectOptions");
@@ -136,13 +227,18 @@ const Chapter = ({ user }) => {
     if (storedAttempts) {
       setAttempts(JSON.parse(storedAttempts));
     }
-    //    const storedQuestionIndex = localStorage.getItem('currentQuestionIndex');
+
+
+
+
+
     const storedIndex = localStorage.getItem(
       `currentQuestionIndex-${lessonId}`
     );
     if (storedUserInputs) {
       setUserInputs(JSON.parse(storedUserInputs));
     }
+
     if (storedHistory) {
       setInteractionHistory(JSON.parse(storedHistory));
     }
@@ -154,14 +250,59 @@ const Chapter = ({ user }) => {
   }, []);
 
   console.log("CurrentQuestion:", currentQuestionIndex);
+
+
+console.log("currnt question index = ", currentQuestionIndex)
+console.log("question with id =",questions[currentQuestionIndex])
+
+/*
+useEffect(() => {
+  const fetchChats = async () => {
+    setIsLoading(true);
+    try {
+      //  console.log(`http://localhost:3000/api/lessons/questions/${subject}/${lessonId}`);
+      const response = await fetch(
+        //uncomment for local dev 
+        `http://localhost:3000/api/messages/${currentQuestionIndex}`
+
+       //uncomment for production
+       // do not delete
+      // `https://www.kaabil.me/api/lessons/questions/${subject}/${lessonId}`
+        
+      );
+      if (!response.ok) throw new Error("Failed to fetch");
+      const data = await response.json();
+      setChatHistory(response.chats)
+      setIsLoading(false);
+    } catch (err) {
+      setError(err.message);
+      setIsLoading(false);
+    }
+  };
+
+  fetchChats();
+}, []);
+*/
+
+
   // Save to local storage on state changes
+  //&& interactionHistory.length > 0
+  
   useEffect(() => {
-    if (Object.keys(userInputs).length > 0 && interactionHistory.length > 0) {
+    if (Object.keys(userInputs).length > 0 && interactionHistory.length > 0 ) {
       localStorage.setItem(
         `currentQuestionIndex-${lessonId}`,
         JSON.stringify(currentQuestionIndex)
       );
+<<<<<<< HEAD
+      localStorage.setItem(
+        "incorrectOptions",
+        JSON.stringify(incorrectOptions)
+      );
+=======
       localStorage.setItem("incorrectOptions",JSON.stringify(incorrectOptions))
+      localStorage.setItem("incorrectOptions",JSON.stringify(incorrectOptions))
+>>>>>>> 53b44642a1435cd3999ac93fa68437228fd2ab66
       localStorage.setItem("userInputs", JSON.stringify(userInputs));
       localStorage.setItem(
         "interactionHistory",
@@ -171,40 +312,150 @@ const Chapter = ({ user }) => {
         "currentQuestionIndex",
         currentQuestionIndex.toString()
       );
+
       localStorage.setItem("isCorrect", JSON.stringify(isCorrect));
 
       localStorage.setItem("attempts", JSON.stringify(attempts));
     }
-  }, [currentQuestionIndex, userInputs, incorrectOptions,isCorrect,interactionHistory,attempts]);
+  }, [
+    currentQuestionIndex,
+    userInputs,
+    incorrectOptions,
+    isCorrect,
+    interactionHistory,
+    attempts,
+  ]);
+
+  
+
+
+
+
 
   const handleCheckAnswer = useCallback(
+   
+    
+
     (id, userInput) => {
+      console.log("getting clicked again");
       if (!userInput) {
+<<<<<<< HEAD
+        alert(
+          "Please select an option before talking to the interactive assistant"
+        );
+        return;
+      }
+
+=======
+        alert("Please select an option before talking to the interactive assistant");
         alert("Please select an option before talking to the interactive assistant");
         return;
       }
-  
+
+
+>>>>>>> 53b44642a1435cd3999ac93fa68437228fd2ab66
       // Update attempts
-      setAttempts(prev => ({
+      setAttempts((prev) => ({
         ...prev,
-        [id]: (prev[id] || 0) + 1
+        [id]: (prev[id] || 0) + 1,
       }));
-  
+
+<<<<<<< HEAD
       const inputToOption = ["A", "B", "C", "D"];
       const userAnswer = inputToOption[userInput];
+      const question = questions.find((q) => q.id === id);
+
+      // Ensure userInputs[id] is always an array
+      setUserInputs((prev) => ({
+        ...prev,
+        [id]: [...(prev[id] || []), userInput],
+      }));
+
+      if (userAnswer.toLowerCase() === question.answer.toLowerCase()) {
+        alert("Correct answer!");
+        setIsCorrect((prev) => ({ ...prev, [id]: true }));
+        setIncorrectOptions((prev) => ({ ...prev, [id]: [] }));
+        setInteractionHistory((prev) =>
+          prev.filter((interaction) => interaction.questionId !== id)
+        );
+
+      } else {
+        setIsCorrect((prev) => ({ ...prev, [id]: false }));
+        setIncorrectOptions((prev) => ({
+=======
+
+      const inputToOption = ["A", "B", "C", "D"];
+      const userAnswer = inputToOption[userInput];
+
       const question = questions.find(q => q.id === id);
       setUserInputs(prev => ({ ...prev, [id]: userInput }));
-  
+
+
+    //  const question = questions.find((q) => q.id === id);
+      setUserInputs((prev) => ({ ...prev, [id]: userInput }));
+      console.log(question.answer);
+      console.log("Solution is:", question.options[userInput]);
       if (userAnswer.toLowerCase() === question.answer.toLowerCase()) {
         alert("Correct answer!");
         setIsCorrect(prev => ({ ...prev, [id]: true }));
         setIncorrectOptions(prev => ({ ...prev, [id]: [] }));
         // Remove all interactions related to this question on correct answer
         setInteractionHistory(prev => prev.filter(interaction => interaction.questionId !== id));
+
+
+        setInteractionHistory((prev) =>
+          prev.filter((interaction) => interaction.questionId !== id)
+        );
       } else {
         setIsCorrect(prev => ({ ...prev, [id]: false }));
         setIncorrectOptions(prev => ({
+        setIsCorrect(prev => ({ ...prev, [id]: false }));
+        setIncorrectOptions(prev => ({
+>>>>>>> 53b44642a1435cd3999ac93fa68437228fd2ab66
           ...prev,
+          [id]: [...(prev[id] || []), userInput],
+        }));
+
+        const currentAttempts = attempts[id] || 0;
+        const allUserInputs = Array.isArray(userInputs[id])
+          ? userInput[id]
+          : [];
+
+        // Dynamic prompt generation
+        let prompt;
+        if (currentAttempts === 0) {
+          // If it's the first attempt, use a specific prompt
+          prompt = `Help the student solve the question step by step. Do not reveal the answer directly at any cost. Here's the question: '${question.question}', here are the options: ${question.options}. The correct answer was: '${question.answer}'. The user selected the input ${userAnswer}. Please try again, and let's solve it step by step.`;
+        } else {
+          // Otherwise, list all attempts
+          prompt =
+            allUserInputs
+              .map(
+                (input, index) =>
+                  `Attempt ${index + 1}: You selected ${inputToOption[input]}`
+              )
+              .join("\n") +
+            `\nHere's the question again: '${question.question}', with options: ${question.options}. Please try again!`;
+        }
+        console.log("prompt", prompt);
+        const existingIndex = interactionHistory.findIndex(
+          (interaction) => interaction.questionId === id
+        );
+        if (existingIndex !== -1) {
+          setInteractionHistory((prev) =>
+            prev.map((interaction, index) => {
+              if (index === existingIndex) {
+                return { ...interaction, initialPrompt: prompt };
+              }
+              return interaction;
+            })
+          );
+        } else {
+          setInteractionHistory((prev) => [
+            ...prev,
+            { questionId: id, initialPrompt: prompt },
+          ]);
+        }
           [id]: [...(prev[id] || []), userInput]
         }));
   
@@ -236,12 +487,31 @@ const Chapter = ({ user }) => {
         }
       }
     },
+<<<<<<< HEAD
+    [questions, attempts, interactionHistory, userInputs]
+  );
+=======
+    [questions, attempts, interactionHistory]
     [questions, attempts, interactionHistory]
   );
+
+
+  useEffect(() => {
+    console.log("Current question index:", currentQuestionIndex);
+    console.log("Question with ID:", questions[currentQuestionIndex]);
+    console.log("Filtered Interaction History:", interactionHistory.filter(
+      (interaction) => interaction.questionId === questions[currentQuestionIndex]?.id
+    ));
+  }, [currentQuestionIndex, questions, interactionHistory]);
   
-  
+>>>>>>> 53b44642a1435cd3999ac93fa68437228fd2ab66
 
   const handleNext = useCallback(() => {
+    ReactGA.event({
+      category: 'User',
+      action: 'Clicked a button'
+    });
+
     const currentInput = userInputs[questions[currentQuestionIndex].id];
     // Explicitly check for undefined or any non-allowed value
     if (currentInput === undefined || currentInput === null) {
@@ -260,6 +530,11 @@ const Chapter = ({ user }) => {
   }, [currentQuestionIndex, questions.length, userInputs]);
 
   const handleBack = useCallback(() => {
+
+    ReactGA.event({
+      category: 'User',
+      action: 'Clicked a button'
+    });
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
     } else {
@@ -284,6 +559,7 @@ const Chapter = ({ user }) => {
         </div>
         <div className="flex flex-col items-center px-2 py-6">
           {questions[currentQuestionIndex] && (
+<<<<<<< HEAD
             <div
               className={`sticky top-10 transition-height duration-500 ease-in-out ${
                 isCollapsed
@@ -299,7 +575,9 @@ const Chapter = ({ user }) => {
                 id={questions[currentQuestionIndex].id}
                 answer={questions[currentQuestionIndex].answer}
                 key={questions[currentQuestionIndex].id}
-                incorrectOptions={incorrectOptions[questions[currentQuestionIndex].id] || []}
+                incorrectOptions={
+                  incorrectOptions[questions[currentQuestionIndex].id] || []
+                }
                 questionType={questions[currentQuestionIndex].question_type}
                 question={questions[currentQuestionIndex].question}
                 options={questions[currentQuestionIndex].options}
@@ -331,7 +609,64 @@ const Chapter = ({ user }) => {
                   key={`gpt-${interaction.questionId}`}
                   questionId={interaction.questionId}
                   initialPrompt={interaction.initialPrompt}
+                  userAnswer={interaction.userAnswer} // Pass the userAnswer here
+                  isCurrentInteraction={
+                    currentActiveInteractionId === interaction.questionId
+                  }
                 />
+=======
+
+<div
+className={`sticky top-10 transition-height duration-500 ease-in-out ${
+  isCollapsed
+    ? "h-20 cursor-pointer duration-500 ease-in-out  mb-4 "
+    : "h-auto cursor-pointer duration-500 ease-in-out py-2"
+} w-full my-1 z-10`}
+onClick={toggleCollapse}
+>
+            <QuestionCard
+             isCollapsed={isCollapsed}
+             setIsCollapse={setIsCollapsed}
+             isCorrect={isCorrect[questions[currentQuestionIndex].id]}
+              id={questions[currentQuestionIndex].id}
+              answer={questions[currentQuestionIndex].answer}
+              key={questions[currentQuestionIndex].id}
+              incorrectOptions={incorrectOptions[questions[currentQuestionIndex].id] || []}
+              questionType={questions[currentQuestionIndex].question_type}
+              question={questions[currentQuestionIndex].question}
+              options={questions[currentQuestionIndex].options}
+              attempts={attempts[questions[currentQuestionIndex].id] || 0}
+              userInput={userInputs[questions[currentQuestionIndex].id] || ""}
+              setUserInput={(input) =>
+                setUserInputs({
+                  ...userInputs,
+                  [questions[currentQuestionIndex].id]: input,
+                })
+              }
+              handleCheckAnswer={() =>
+                
+
+                handleCheckAnswer(
+                  questions[currentQuestionIndex].id,
+                  userInputs[questions[currentQuestionIndex].id] || ""
+                )
+                
+              }
+            />
+             </div>
+          )}
+          <div className="flex flex-col items-center">
+          {interactionHistory
+            .filter((interaction) => interaction.questionId === questions[currentQuestionIndex].id)
+            .map((interaction, index) => (
+            //  console.log("Rendering GPTCard with ID:", interaction.questionId);
+           
+           <GPTCard
+            key={`gpt-${interaction.questionId}-${index}`}  // Unique key using index
+            questionId={interaction.questionId}
+            initialPrompt={interaction.initialPrompt}
+              />
+>>>>>>> 53b44642a1435cd3999ac93fa68437228fd2ab66
               ))}
           </div>
         </div>

@@ -27,11 +27,11 @@ router.get(
   
 
    //uncomment for production
- //   passport.authenticate('google', { failureRedirect: 'https://www.kaabil.me/' }),
+  //  passport.authenticate('google', { failureRedirect: 'https://www.kaabil.me/' }),
     (req, res) => {
     // On successful authentication, redirect to the dashboard
 
-   // res.redirect("https://www.kaabil.me/dashboard") // Use for production environment
+  //  res.redirect("https://www.kaabil.me/dashboard") // Use for production environment
     
     res.redirect("http://localhost:5173/dashboard") // Use for local environment
     }

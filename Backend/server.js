@@ -13,7 +13,7 @@ const configurePassport = require('./Controllers/user.controller'); // Include t
 const app = express();
 
 // CORS configuration for production
-// app.use(cors())
+ // app.use(cors())
 
 // for local dev
 

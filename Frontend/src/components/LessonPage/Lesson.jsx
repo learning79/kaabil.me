@@ -1,13 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../Dashboard/Navbar";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import LessonCard from "./LessonCard";
 import LevelsContainer from "./LevelsContainer";
+import ReactGA from 'react-ga4';
+
 
 const Lesson = ({ user }) => {
   const location = useLocation();
   const courseId = location.state?.courseId;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    ReactGA.send({ hitType: "pageview", page: window.location.pathname });
+  }, []);
 
   // Function to generate levels dynamically
   const generateLevels = (courseId) => {

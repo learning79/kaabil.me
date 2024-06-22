@@ -18,7 +18,7 @@ router.get('/', ensureGuest ,(req, res) => {
   router.get('/lessons/questions/:subjectName',QuestionController.getQuestionsBySubjectName);
   router.get('/lessons/questions/:subjectName/:lessonId',QuestionController.getQuestionsByLessonId);
   router.post('/messages/:questionId', ensureAuth, messageController.createMessage);
-
+  router.get('/messages/:questionId', ensureAuth, messageController.getMessagesById);
 
 
 module.exports=router;
